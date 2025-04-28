@@ -15,7 +15,7 @@
   }
 
   a {
-    @apply text-primary-800 font-medium no-underline hover:underline;
+    @apply text-primary-800 font-medium no-underline;
   }
 
   h1 {
@@ -28,9 +28,5 @@
 
   button {
     @apply bg-primary-500 text-white rounded-md border border-transparent px-4 py-2 text-sm font-medium transition-colors;
-  }
-
-  button:hover {
-    @apply bg-primary-800;
   }
 }
