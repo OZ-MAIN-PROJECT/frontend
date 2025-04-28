@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply font-['Pretendard'] text-primary-800 bg-gray-100;
+    @apply font-['Pretendard'];
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
