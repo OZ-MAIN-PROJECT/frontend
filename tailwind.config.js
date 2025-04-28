@@ -9,50 +9,35 @@ export default {
     extend: {
       colors: {
         // Primary Colors
-        primary: {
-          800: '#343C6A',
-          500: '#868AA3',
-          300: '#DFEAF2',
-        },
+        'primary-800': '#343C6A',
+        'primary-500': '#868AA3',
+        'primary-300': '#DFEAF2',
 
         // Accent Colors
-        accent: {
-          red: '#FF4B4A',
-          blue: '#2D60FF',
-        },
+        'accent-red': '#FF4B4A',
+        'accent-blue': '#2D60FF',
 
         // Gray Scale
-        gray: {
-          600: '#888888',
-          500: '#C3C3C3',
-          400: '#DEDEDE',
-          300: '#E8E9EF',
-          200: '#F5F7FA',
-          100: '#FAFBFC',
-        },
+        'gray-600': '#888888',
+        'gray-500': '#C3C3C3',
+        'gray-400': '#DEDEDE',
+        'gray-300': '#E8E9EF',
+        'gray-200': '#F5F7FA',
+        'gray-100': '#FAFBFC',
 
         // Emotion Colors
-        emotion: {
-          happiness: '#FFCB24',
-          sadness: '#2092F4',
-          anger: '#FD3D3D',
-          anxiety: '#5544FC',
-          comfort: '#FC1B7E',
-          satisfaction: '#16DBCC',
-          exhaustion: '#686C80',
-          anticipation: '#FF9243',
-        },
+        'emotion-happiness': '#FFCB24',
+        'emotion-sadness': '#2092F4',
+        'emotion-anger': '#FD3D3D',
+        'emotion-anxiety': '#5544FC',
+        'emotion-comfort': '#FC1B7E',
+        'emotion-satisfaction': '#16DBCC',
+        'emotion-exhaustion': '#686C80',
+        'emotion-anticipation': '#FF9243',
       },
       fontFamily: {
         pretendard: ['Pretendard', 'sans-serif'],
       },
-      fontWeight : {
-        light: 300,
-        normal: 400,
-        medium: 500,
-        semibold: 600,
-        bold: 700, 
-      }
     },
   },
   plugins: [],
