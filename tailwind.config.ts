@@ -1,26 +1,37 @@
-import type { Config } from 'tailwindcss';
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+export default {
   content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
       colors: {
+        // Primary Colors
+        'primary-900': '#151D4A',
         'primary-800': '#343C6A',
         'primary-500': '#868AA3',
         'primary-300': '#DFEAF2',
+
+        // Accent Colors
         'accent-red': '#FF4B4A',
         'accent-blue': '#2D60FF',
+        'accent-deepblue': '#002DBA',
+
+
+        // Gray Scale
+        'gray-800': '#222222',
+        'gray-700': '#555555',
         'gray-600': '#888888',
         'gray-500': '#C3C3C3',
         'gray-400': '#DEDEDE',
         'gray-300': '#E8E9EF',
         'gray-200': '#F5F7FA',
         'gray-100': '#FAFBFC',
+
+        // Emotion Colors
         'emotion-happiness': '#FFCB24',
         'emotion-sadness': '#2092F4',
         'emotion-anger': '#FD3D3D',
@@ -37,5 +48,3 @@ const config: Config = {
   },
   plugins: [],
 };
-
-export default config;
