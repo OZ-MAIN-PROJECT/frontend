@@ -12,7 +12,7 @@ type ButtonProps = {
 
 const colorMap = {
   'blue': {
-    fill: 'bg-accent-blue text-white hover:bg-accent-blue active:bg-[#002DBA]',
+    fill: 'bg-accent-blue text-white hover:bg-accent-blue active:bg-accent-deepblue',
     outline: 'bg-transparent border border-accent-blue text-accent-blue hover:bg-transparent active:text-white active:bg-accent-blue',
   },
   'gray': {
@@ -20,7 +20,7 @@ const colorMap = {
     outline: 'bg-transparent border border-gray-400 text-gray-400 hover:bg-transparent active:text-white active:bg-gray-500',
   },
   'primary': {
-    fill: 'bg-primary-800 text-white hover:bg-primary-800 active:bg-[#151D4A]',
+    fill: 'bg-primary-800 text-white hover:bg-primary-800 active:bg-primary-900',
     outline: 'bg-transparent border border-primary-800 text-primary-800 hover:bg-transparent active:text-white active:bg-primary-800',
   },
 };

@@ -4,11 +4,13 @@ export default {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
       colors: {
         // Primary Colors
+        'primary-900': '#151D4A',
         'primary-800': '#343C6A',
         'primary-500': '#868AA3',
         'primary-300': '#DFEAF2',
@@ -16,8 +18,12 @@ export default {
         // Accent Colors
         'accent-red': '#FF4B4A',
         'accent-blue': '#2D60FF',
+        'accent-deepblue': '#002DBA',
+
 
         // Gray Scale
+        'gray-800': '#222222',
+        'gray-700': '#555555',
         'gray-600': '#888888',
         'gray-500': '#C3C3C3',
         'gray-400': '#DEDEDE',
