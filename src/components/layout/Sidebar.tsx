@@ -50,7 +50,7 @@ const Sidebar = ({ isVisible, toggleSidebar }: { isVisible: boolean, toggleSideb
         <div className="flex-1">
           <ul className="flex flex-col gap-2">
             <li><NavItem to="/" icon={House} text="Home" /></li>
-            <li><NavItem to="/expense" icon={Banknote} text="수입/지출 내역" /></li>
+            <li><NavItem to="/wallet" icon={Banknote} text="수입/지출 내역" /></li>
             <li><NavItem to="/statistic" icon={ChartPie} text="통계 그래프" /></li>
           </ul>
 
