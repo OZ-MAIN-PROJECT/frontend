@@ -2,9 +2,19 @@ import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import Sidebar from "../components/layout/Sidebar";
 import { useEffect, useState } from "react";
+import IconButton from "../components/common/IconButton";
+import { BanknoteArrowDown, BanknoteArrowUp, Plus } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import SelectLayer from "../components/common/SelectLayer";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
+  const [layerOpen, setLayerOpen] = useState(false);
+
+  const location = useLocation();
+
+  const currentPath = location.pathname;
+  const showWalletButton = !currentPath.includes("/community");
 
   // 화면 크기에 따라 사이드바의 초기 상태 설정
   useEffect(() => {
@@ -35,7 +45,30 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <Header toggleSidebar={toggleSidebar} />
         <main className="flex-1 py-5 lg:py-10">{children}</main>
         <Footer />
-      </div>\
+      </div>
+      {showWalletButton && (
+        <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3">
+          {layerOpen && (
+            <SelectLayer
+              options={[
+                { icon: BanknoteArrowUp, label: "수입 추가", onClick: () => console.log("수입 추가 모달") },
+                { icon: BanknoteArrowDown, label: "지출 추가", onClick: () => console.log("지출 추가 모달") },
+              ]}
+              onSelect={(option) => {
+                option.onClick();
+                setLayerOpen(false);
+              }}
+            />
+          )}
+          <IconButton
+            icon={Plus}
+            onClick={() => setLayerOpen(!layerOpen)}
+            className="bg-accent-blue hover:bg-primary-800"
+          />
+        </div>
+      )}
+
+
     </div>
   );
 };

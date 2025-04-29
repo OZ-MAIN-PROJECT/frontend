@@ -10,7 +10,7 @@ interface IconButtonProps {
       <button
         onClick={onClick}
         aria-label={ariaLabel}
-        className={`fixed right-10 bottom-10 w-12 h-12 p-0 rounded-full flex items-center justify-center shadow-md bg-accent-blue hover:bg-primary-800 text-white transition-colors ${className}`}
+        className={`w-12 h-12 p-0 rounded-full flex items-center justify-center shadow-md bg-accent-blue hover:bg-primary-800 text-white transition-colors ${className}`}
       >
         <Icon size={20} />
       </button>
