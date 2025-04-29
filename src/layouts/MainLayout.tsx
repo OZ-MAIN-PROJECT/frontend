@@ -51,8 +51,8 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           {layerOpen && (
             <SelectLayer
               options={[
-                { icon: BanknoteArrowUp, label: "수입 추가", onClick: () => console.log("수입 추가 모달") },
-                { icon: BanknoteArrowDown, label: "지출 추가", onClick: () => console.log("지출 추가 모달") },
+                { icon: BanknoteArrowUp, label: "수입 추가", onClick: () => console.log("수입 추가 모달"), className: "text-primary-500 hover:text-accent-blue" },
+                { icon: BanknoteArrowDown, label: "지출 추가", onClick: () => console.log("지출 추가 모달"), className: "text-primary-500 hover:text-accent-red" },
               ]}
               onSelect={(option) => {
                 option.onClick();
