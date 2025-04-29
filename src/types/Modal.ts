@@ -13,9 +13,7 @@ export interface AlertModalProps extends BaseModalProps {
   onConfirm?: () => void;
 }
 
-export interface BlankModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+export interface BlankModalProps extends BaseModalProps {
   width?: string;
   height?: string;
   children?: React.ReactNode;
