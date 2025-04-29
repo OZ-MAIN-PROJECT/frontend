@@ -23,7 +23,7 @@ export type MonthlyStatistics = {
     expenseAmount: number;
 }
 
-export type emotionStatistics = {
+export type EmotionStatistics = {
     emotion: Emotion;
     rate: number;
     amount: number;
