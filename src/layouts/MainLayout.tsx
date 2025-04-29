@@ -30,7 +30,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex bg-gray-200">
-      {/* 사이드바가 열리고 닫히는 부분 */}
       <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col h-screen">
         <Header toggleSidebar={toggleSidebar} />

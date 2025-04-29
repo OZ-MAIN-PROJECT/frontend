@@ -30,7 +30,7 @@ type IncomeCategory =
   | '환급';
 
 // Expense 타입 정의
-export type Expense = {
+export type Wallet = {
   type: 'expense' | 'income';
   amount: number; // 금액
   balance: number; // 잔액

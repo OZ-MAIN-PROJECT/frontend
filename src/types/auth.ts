@@ -5,5 +5,5 @@ export type User = {
     email: string; // 이메일
     phone: string; // 휴대전화번호
     gender: 'male' | 'female'; // 성별
-
+    profileImage: string;
 }
