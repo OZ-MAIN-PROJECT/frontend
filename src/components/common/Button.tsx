@@ -29,8 +29,8 @@ const Button = ({
   color = 'blue',
   variant = 'fill',
   fontSize = 'large',
-  width = 'w-40',
-  height = 'h-12',
+  width = 'w-[200px]',
+  height = 'h-[60px]',
   children,
   onClick,
 }: ButtonProps) => {
