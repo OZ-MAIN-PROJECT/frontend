@@ -18,6 +18,8 @@ export default {
         'accent-blue': '#2D60FF',
 
         // Gray Scale
+        'gray-800': '#222222',
+        'gray-700': '#555555',
         'gray-600': '#888888',
         'gray-500': '#C3C3C3',
         'gray-400': '#DEDEDE',
