@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
+import { isValidEmail } from '@/utils/validators';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -12,12 +13,14 @@ const LoginForm = () => {
 
     if (!email || !password) {
       setError('이메일과 비밀번호를 모두 입력해주세요.');
-      return;
     }
 
+    if (!isValidEmail(email)) {
+      setError('이메일 형식')
+    }
+    
     // TODO: 서버 로그인 요청 처리
     console.log('로그인 시도:', { email, password });
-    setError('');
   };
 
   return (
@@ -42,7 +45,7 @@ const LoginForm = () => {
 
       {error && <p className="text-sm text-red-500">{error}</p>}
 
-      <Button width="w-full" height="h-[50px]" color="blue">
+      <Button width="w-full" height="h-[50px]" color="blue" type='submit'>
         로그인
       </Button>
     </form>

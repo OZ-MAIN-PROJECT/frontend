@@ -9,6 +9,7 @@ type ButtonProps = {
   height?: string;
   children: React.ReactNode;
   onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 const colorMap = {
@@ -38,6 +39,7 @@ const Button = ({
   height = 'h-[60px]',
   children,
   onClick,
+  type = 'button'
 }: ButtonProps) => {
   const baseStyle = 'rounded-[6px] font-medium flex justify-center items-center';
 
@@ -47,7 +49,7 @@ const Button = ({
   const sizeStyle = `${width} ${height}`;
 
   return (
-    <button type="button" onClick={onClick} className={`${className} ${baseStyle} ${variantStyle} ${fontStyle} ${sizeStyle}`}>
+    <button type={type} onClick={onClick} className={`${className} ${baseStyle} ${variantStyle} ${fontStyle} ${sizeStyle}`}>
       {children}
     </button>
   );
