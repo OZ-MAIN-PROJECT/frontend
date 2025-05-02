@@ -1,4 +1,5 @@
 import logo from '@/assets/logo.png';
+import SignupForm from './components/SignupForm';
 
 const SignupPage = () => {
   return (
@@ -8,6 +9,7 @@ const SignupPage = () => {
         <h2 className='text-center font-semibold text-3xl'>회원가입</h2>
       </div>
       <div className="felx felx-col h-full justify-center">
+        <SignupForm />
       </div>
     </div>
   );
