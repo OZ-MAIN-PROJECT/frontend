@@ -25,7 +25,7 @@ const DropdownInput = ({ items, selected, onSelect }: DropdownProps) => {
     <div ref={ref} className="relative inline-block mb-4">
       <div className="flex items-center bg-white h-[60px] w-[500px] border border-gray-300 rounded-md px-3 py-2 text-sm">
         <span className="text-sm flex-grow text-gray-900">
-          {selected || <span className="text-gray-400">질문을 선택하세요.</span>}
+          {selected || <span className="text-gray-500">질문을 선택하세요.</span>}
         </span>
         <button type="button" onClick={() => setIsOpen(prev => !prev)} className="ml-2">
           <ChevronDown />
