@@ -1,6 +1,7 @@
 import React from 'react';
 
 type ButtonProps = {
+  className?: ''
   color?: 'blue' | 'gray' | 'primary';
   variant?: 'fill' | 'outline';
   fontSize?: 'small' | 'large';
@@ -29,6 +30,7 @@ const colorMap = {
 };
 
 const Button = ({
+  className='',
   color = 'blue',
   variant = 'fill',
   fontSize = 'large',
@@ -45,7 +47,7 @@ const Button = ({
   const sizeStyle = `${width} ${height}`;
 
   return (
-    <button type="button" onClick={onClick} className={`${baseStyle} ${variantStyle} ${fontStyle} ${sizeStyle}`}>
+    <button type="button" onClick={onClick} className={`${className} ${baseStyle} ${variantStyle} ${fontStyle} ${sizeStyle}`}>
       {children}
     </button>
   );
