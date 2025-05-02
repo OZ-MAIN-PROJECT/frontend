@@ -6,31 +6,11 @@
 
 @layer base {
   body {
-    @apply font-['Pretendard'] text-primary-800 bg-gray-100;
+    @apply font-['Pretendard'];
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-  }
-
-  a {
-    @apply text-primary-800 font-medium no-underline hover:underline;
-  }
-
-  h1 {
-    @apply text-3xl font-bold;
-  }
-
-  h2 {
-    @apply text-2xl font-semibold;
-  }
-
-  button {
-    @apply bg-primary-500 text-white rounded-md border border-transparent px-4 py-2 text-sm font-medium transition-colors;
-  }
-
-  button:hover {
-    @apply bg-primary-800;
   }
 }

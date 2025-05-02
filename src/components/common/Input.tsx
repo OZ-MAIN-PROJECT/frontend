@@ -17,7 +17,7 @@ const Input: React.FC<InputProps> = ({
   value,
   placeholder,
   onChange,
-  type = "text",
+  type = 'text',
   label,
   error,
   helperText,
