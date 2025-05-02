@@ -1,14 +1,20 @@
-
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // BrowserRouter를 import
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import HomePage from './pages/Home/HomePage';
 import MainLayout from './layouts/MainLayout';
+import TestPostCard from './pages/TestPostCard';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
-      </Routes>
+      <Route
+        path="/"
+        element={
+          <MainLayout>
+            <HomePage />
+            <TestPostCard />
+          </MainLayout>
+        }
+      />
     </Router>
   );
 }
