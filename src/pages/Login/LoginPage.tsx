@@ -27,7 +27,7 @@ const LoginPage = () => {
             <SocialLoginButton type='google' onClick={handleSocialLogin}/>
             </div>
           </div>
-          <div className='flex gap-3 w-full'>
+          <div className='flex gap-3 w-full my-4 text-gray-600'>
                 <p>회원이 아니신가요?</p>
                 <Link to='/signup' className='underline'>회원가입</Link>
                 <Link to='/find-password' className='underline'>비밀번호 찾기</Link>
