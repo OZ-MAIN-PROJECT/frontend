@@ -1,6 +1,7 @@
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import { SECURITY_QUESTIONS } from '@/constants/questions';
+import { users } from '@/data/users';
 import SecurityQuestion from '@/pages/Signup/components/SecurityQuestion';
 import { isValidEmail } from '@/utils/validators';
 import { useState } from 'react';
@@ -10,6 +11,7 @@ const FindPasswordForm = () => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [formError, setFormError] = useState('');
 
   // 이메일 유효성 검사
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +24,18 @@ const FindPasswordForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({ email, question, answer });
+
+    const isFormValid = email && question && answer && !emailError;
+    if (!isFormValid) {
+      setFormError('모든 필드를 입력해주세요.');
+    }
     // TODO 서버에 검증 요청
+    const foundUser = users.find(u => u.email === email && u.question === question && u.answer === answer);
+    if (foundUser) {
+      console.log('본인확인 성공');
+    } else {
+      console.log('본인확인 실패');
+    }
   };
 
   return (
@@ -39,6 +52,9 @@ const FindPasswordForm = () => {
           if (field === 'answer') setAnswer(value);
         }}
       />
+      
+      {/* 모든 입력필드 작성 및 유효성 검사 확인 */}
+      {formError && <p className="text-sm text-accent-red text-center mt-1 mb-4">{formError}</p>}
       <Button type="submit" width="w-full">
         비밀번호 찾기
       </Button>
