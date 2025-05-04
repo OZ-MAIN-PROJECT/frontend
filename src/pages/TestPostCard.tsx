@@ -3,7 +3,7 @@ import PostCard from '../components/community/PostCard';
 
 const TestPostCard = () => {
   return (
-    <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6 space-y-6 py-8">
+    <div className="w-full mx-auto px-4 sm:px-6 space-y-6 py-8">
       {dummyPosts.map(post => (
         <PostCard
           post={post}
