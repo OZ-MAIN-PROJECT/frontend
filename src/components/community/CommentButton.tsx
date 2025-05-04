@@ -4,16 +4,15 @@ import IconWrapper from './IconWrapper';
 interface CommentButtonProps {
   onClick?: () => void;
   size?: number;
-  color?: string;
   className?: string;
 }
 
-const CommentButton = ({ onClick, size = 20, color = '#9ca3af', className }: CommentButtonProps) => {
+const CommentButton = ({ onClick, size = 20, className }: CommentButtonProps) => {
   return (
     <IconWrapper
       icon={MessageSquare}
       size={size}
-      color={color}
+      fill={'#9ca3af'}
       onClick={onClick}
       className={className}
       ariaLabel="댓글"
