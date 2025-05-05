@@ -6,6 +6,7 @@ import AuthorInfo from './AuthorInfo';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
 import IconWrapper from './IconWrapper';
+import CommentList from './CommentList';
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -63,8 +64,8 @@ const PostDetail = () => {
           </div>
 
           {/* 댓글 영역 */}
-          <div className="mt-6 border-t pt-4">
-            <p className="text-sm text-gray-600">💬 댓글 영역</p>
+          <div className="pt-4">
+            <CommentList />
           </div>
         </div>
       </div>

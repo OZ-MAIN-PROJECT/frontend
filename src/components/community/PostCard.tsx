@@ -69,13 +69,6 @@ const PostCard = ({ post, onLikeToggle, onCommentClick }: ExtendedProps) => {
             <div className="w-[40px]" />
           )}
         </div>
-
-        {/* 댓글 영역 */}
-        {isInDetailPage && (
-          <div className="mt-6 border-t pt-4">
-            <p className="text-sm text-gray-500">💬 댓글 영역입니다.</p>
-          </div>
-        )}
       </div>
     </div>
   );
