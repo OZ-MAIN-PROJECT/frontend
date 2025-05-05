@@ -22,6 +22,14 @@ export interface Post {
   comments?: number; // 댓글
   views?: number; // 조회
 }
+// 댓글 데이터 구조 정의
+export interface Comment {
+  id: string; // 댓글 고유 ID
+  content: string; // 댓글 내용
+  createdAt: string; // 작성일
+  author: Author; // 작성자
+  isMine?: boolean; // 본인이 작성한 댓글인지 여부 (옵션)
+}
 
 // PostCard 컴포넌트에 전달할 props 타입
 export interface PostCardProps {
