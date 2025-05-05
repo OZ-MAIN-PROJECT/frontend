@@ -11,14 +11,14 @@ interface ChangePasswordModalProps {
   onSubmit: (pw: string) => void;
 }
 
-const ChangePasswordModal = ({ isOpen, onClose, onSubmit }: ChangePasswordModalProps) => {
+const ChangePasswordModal = ({ onClose, onSubmit }: ChangePasswordModalProps) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState('');
 
-  // 회원가입 완료 안내 모달
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(true);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  
   const { passwordError, validatePassword } = usePasswordValidation();
 
   useEffect(() => {
@@ -43,14 +43,15 @@ const ChangePasswordModal = ({ isOpen, onClose, onSubmit }: ChangePasswordModalP
     setError('');
 
     console.log('비밀번호 변경 시도:', password);
-    setIsModalOpen(true);
+    setIsPasswordModalOpen(false);
+    setIsSuccessModalOpen(true);
   };
 
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleCloseModal = () => setIsPasswordModalOpen(false);
 
   return (
     <>
-      <BaseModal isOpen={isOpen} onClose={onClose}>
+      <BaseModal isOpen={isPasswordModalOpen} onClose={onClose}>
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 w-[500px] mb-10">
           <h2 className="text-2xl mb-10">변경할 비밀번호를 입력해주세요</h2>
           <div className="w-full">
@@ -70,10 +71,10 @@ const ChangePasswordModal = ({ isOpen, onClose, onSubmit }: ChangePasswordModalP
 
       {/* 비밀번호 수정 결과 모달 */}
       <AlertModal
-        isOpen={isModalOpen}
+        isOpen={isSuccessModalOpen}
         onClose={handleCloseModal}
         onConfirm={() => {
-            setIsModalOpen(false);
+            setIsPasswordModalOpen(false);
             onSubmit(password);
         }}
         status="success"
