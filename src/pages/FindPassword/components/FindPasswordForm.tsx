@@ -5,6 +5,7 @@ import { users } from '@/data/users';
 import SecurityQuestion from '@/pages/Signup/components/SecurityQuestion';
 import { isValidEmail } from '@/utils/validators';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FindPasswordForm = () => {
   const [email, setEmail] = useState('');
@@ -12,6 +13,8 @@ const FindPasswordForm = () => {
   const [answer, setAnswer] = useState('');
   const [emailError, setEmailError] = useState('');
   const [formError, setFormError] = useState('');
+
+  const navigate = useNavigate();
 
   // 이메일 유효성 검사
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +36,10 @@ const FindPasswordForm = () => {
     const foundUser = users.find(u => u.email === email && u.question === question && u.answer === answer);
     if (foundUser) {
       console.log('본인확인 성공');
+      navigate('/change-password', { state: { fromFindPassword: true } });
     } else {
       console.log('본인확인 실패');
+      setFormError('등록된 회원 정보를 찾을 수 없습니다.')
     }
   };
 
@@ -52,7 +57,7 @@ const FindPasswordForm = () => {
           if (field === 'answer') setAnswer(value);
         }}
       />
-      
+
       {/* 모든 입력필드 작성 및 유효성 검사 확인 */}
       {formError && <p className="text-sm text-accent-red text-center mt-1 mb-4">{formError}</p>}
       <Button type="submit" width="w-full">
