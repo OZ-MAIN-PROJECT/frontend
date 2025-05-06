@@ -27,7 +27,7 @@ const Input: React.FC<InputProps> = ({
   const inputId = `input-${label?.toLowerCase().replace(/\s+/g, '-') || Math.random().toString(36).substring(2, 9)}`;
 
   return (
-    <div className={`${containerBaseStyles} w-full`}>
+    <div className="mb-4">
       {label && (
         <label htmlFor={inputId} className="block text-sm font-medium mb-1">
           {label} {required && <span className="text-red-500">*</span>}
@@ -36,7 +36,7 @@ const Input: React.FC<InputProps> = ({
       <input
         id={inputId}
         type={type}
-        className={`${inputBaseStyles} ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''} ${className}`}
+        className={`border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-accent-blue ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''} ${className}`}
         value={value}
         placeholder={placeholder}
         onChange={onChange}
@@ -48,9 +48,5 @@ const Input: React.FC<InputProps> = ({
     </div>
   );
 };
-
-const inputBaseStyles =
-  'border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-accent-blue disabled:opacity-50 disabled:cursor-not-allowed w-full';
-const containerBaseStyles = 'mb-4';
 
 export default Input;
