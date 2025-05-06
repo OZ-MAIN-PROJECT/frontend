@@ -1,12 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { dummyPosts } from '../../constants/dummyPosts';
 import { format } from 'date-fns';
-import { Eye, EllipsisVertical } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import AuthorInfo from './AuthorInfo';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
 import IconWrapper from './IconWrapper';
 import CommentList from './CommentList';
+import PostMoreButton from './PostMoreButton';
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -14,8 +15,16 @@ const PostDetail = () => {
 
   if (!post) return <div>게시글을 찾을 수 없습니다.</div>;
 
-  const { title, imageUrl, content, createdAt, likes, comments, views, author } = post;
+  const { title, imageUrl, content, createdAt, likes, comments, views, author, isMine } = post;
   const formattedDate = format(new Date(createdAt), 'yyyy.MM.dd HH:mm');
+
+  const handleEdit = () => {
+    console.log('게시글 수정');
+  };
+
+  const handleDelete = () => {
+    console.log('게시글 삭제');
+  };
 
   return (
     <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6 py-8">
@@ -27,9 +36,11 @@ const PostDetail = () => {
               <AuthorInfo author={author} />
               <span className="text-xs text-primary-500 ml-2">{formattedDate}</span>
             </div>
-            <div className="relative">
-              <IconWrapper icon={EllipsisVertical} size={20} color="#9ca3af" ariaLabel="더보기 메뉴 열기" />
-            </div>
+            {isMine && (
+              <div className="relative">
+                <PostMoreButton onEdit={handleEdit} onDelete={handleDelete} />
+              </div>
+            )}
           </div>
 
           {/* 제목 */}
