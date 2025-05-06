@@ -1,20 +1,17 @@
-import { Ellipsis } from 'lucide-react';
+import MoreDropdown from './MoreDropdown';
 
 interface CommentMoreButtonProps {
-  onClick?: () => void;
-  className?: string;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-const CommentMoreButton = ({ onClick, className }: CommentMoreButtonProps) => {
-  return (
-    <button
-      onClick={onClick}
-      aria-label="댓글 옵션 더보기"
-      className={`p-1 rounded-md hover:bg-gray-100 transition ${className}`}
-    >
-      <Ellipsis size={14} color="#9ca3af" />
-    </button>
-  );
+const CommentMoreButton = ({ onEdit, onDelete }: CommentMoreButtonProps) => {
+  const menuItems = [
+    { label: '수정', onClick: onEdit },
+    { label: '삭제', onClick: onDelete, color: 'text-red-400' },
+  ];
+
+  return <MoreDropdown menuItems={menuItems} hasIcon={false} type="comment" />;
 };
 
 export default CommentMoreButton;

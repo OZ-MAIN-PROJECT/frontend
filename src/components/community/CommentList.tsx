@@ -66,6 +66,13 @@ const CommentList = () => {
     setEditingCommentId(null);
   };
 
+  const handleDeleteComment = (commentId: string) => {
+    const confirmed = window.confirm('정말로 이 댓글을 삭제하시겠어요?');
+    if (!confirmed) return;
+
+    setComments(prev => prev.filter(comment => comment.id !== commentId));
+  };
+
   return (
     <div>
       {/* 댓글 입력창 */}
@@ -76,13 +83,16 @@ const CommentList = () => {
         <div key={comment.id} className="relative group mt-2 mb-4">
           <div className="flex items-start justify-between gap-2 border-t pt-3">
             <div className="flex items-center gap-2">
-              <AuthorInfo author={comment.author} size={24} fontSize="text-xs" />
-              <span className="text-[11px] text-primary-500">{comment.createdAt}</span>
+              <AuthorInfo author={comment.author} size={24} fontSize="text-xs" textColor="text-gray-800" />
+              <span className="text-[11px] text-gray-400">{comment.createdAt}</span>
             </div>
 
             {comment.isMine && (
               <div className="relative ml-auto mt-1">
-                <CommentMoreButton onEdit={() => setEditingCommentId(comment.id)} />
+                <CommentMoreButton
+                  onEdit={() => setEditingCommentId(comment.id)}
+                  onDelete={() => handleDeleteComment(comment.id)}
+                />
               </div>
             )}
           </div>
