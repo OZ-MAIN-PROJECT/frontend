@@ -18,6 +18,7 @@ export interface Post {
   createdAt: string; // 생성일
   updatedAt: string; // 수정일
   author: Author; // 작성자 정보
+  isMine: boolean; // '내가 쓴 글' 여부
   likes?: number; // 좋아요
   comments?: number; // 댓글
   views?: number; // 조회
