@@ -43,8 +43,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col h-screen">
         <Header toggleSidebar={toggleSidebar} />
-        {/* <main className="flex-1 py-5 lg:py-10">{children}</main> */}
-        <main className={`flex-1 py-5 lg:py-10 ${isSidebarVisible ? 'lg:pl-[250px]' : ''}`}>{children}</main>
+        <main className="flex-1 py-5 lg:py-10">{children}</main>
         <Footer />
       </div>
       {showWalletButton && (
