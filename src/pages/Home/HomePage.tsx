@@ -71,7 +71,7 @@ const HomePage = () => {
             )}
 
             {/* 달력 or 리스트 뷰 */}
-            <div className="mt-10">
+            <div className="my-10">
                 {viewMode === "calendar" ? (
                 <CalendarView
                     year={selectedYear}

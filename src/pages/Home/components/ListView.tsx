@@ -21,7 +21,7 @@ const ListView = ({ onDateSelect }: ListViewProps) => {
 
         const expense = transactions
           .filter((e) => e.type === "expense")
-          .reduce((sum, e) => sum + Math.abs(e.amount), 0);
+          .reduce((sum, e) => sum + e.amount, 0);
 
         // 가장 큰 금액의 감정 추출
         const maxEntry = transactions.reduce((prev, curr) =>
