@@ -51,29 +51,30 @@ const HomePage = () => {
         </div>
         <div className="w-3/4 mx-auto">
             <div className="relative w-fit mx-auto">
-            <div
-                className="flex gap-2 items-center text-3xl font-bold cursor-pointer justify-center text-primary-800"
-                onClick={() => setPickerOpen(!pickerOpen)}
-            >
-                {selectedYear}.{(selectedMonth + 1).toString().padStart(2, "0")}{" "}
-                <Triangle className="transform rotate-180 fill-current text-primary-800" size={20} />
-            </div>
-
-            {pickerOpen && (
-                <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-10">
-                <YearMonthDropdown
-                    year={selectedYear}
-                    month={selectedMonth}
-                    onChange={(y, m) => {
-                    setSelectedYear(y);
-                    setSelectedMonth(m);
-                    setPickerOpen(false);
-                    }}
-                    showYear={true}
-                    showMonth={true}
-                />
+                <div
+                    className="flex gap-2 items-center text-4xl font-bold cursor-pointer justify-center text-primary-800"
+                    onClick={() => setPickerOpen(!pickerOpen)}
+                >
+                    {selectedYear}.{(selectedMonth + 1).toString().padStart(2, "0")}{" "}
+                    <Triangle className="transform rotate-180 fill-current text-primary-800" size={20} />
                 </div>
-            )}
+
+                {pickerOpen && (
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-10">
+                    <YearMonthDropdown
+                        year={selectedYear}
+                        month={selectedMonth}
+                        onChange={(y, m) => {
+                        setSelectedYear(y);
+                        setSelectedMonth(m);
+                        setPickerOpen(false);
+                        }}
+                        showYear={true}
+                        showMonth={true}
+                        className="bg-white p-4 shadow-md text-xl rounded-md border"
+                    />
+                    </div>
+                )}
             </div>
 
 
