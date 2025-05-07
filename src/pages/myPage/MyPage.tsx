@@ -1,6 +1,6 @@
 import MainLayout from '@/layouts/MainLayout';
 import InformationCard from './components/InformationCard';
-import MyPostCard from './components/MyPostsCard';
+import PostCard from './components/PostsCard';
 import UserMenu from './components/UserMenu';
 
 const MyPage = () => {
@@ -11,7 +11,7 @@ const MyPage = () => {
           <div>
             <h2 className="text-2xl font-bold mb-6">내정보</h2>
             <InformationCard />
-            <MyPostCard />
+            <PostCard />
             <UserMenu />
           </div>
         </div>
