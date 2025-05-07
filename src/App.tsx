@@ -3,7 +3,6 @@ import HomePage from './pages/Home/HomePage';
 import MainLayout from './layouts/MainLayout';
 import TestPostCard from './pages/TestPostCard';
 import PostDetail from './components/community/PostDetail';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // BrowserRouter를 import
 import LoginPage from './pages/Login/LoginPage';
 import SignupPage from './pages/Signup/SignupPage';
 import FindPasswordPage from './pages/FindPassword/FindPasswordPage';
