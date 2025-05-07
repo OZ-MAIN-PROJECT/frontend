@@ -6,7 +6,6 @@ import AuthorInfo from './AuthorInfo';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
 import IconWrapper from './IconWrapper';
-
 interface ExtendedProps extends PostCardProps {
   onLikeToggle?: () => void;
   onCommentClick?: () => void;
@@ -25,8 +24,8 @@ const PostCard = ({ post, onLikeToggle, onCommentClick }: ExtendedProps) => {
   const formattedDate = format(new Date(createdAt), 'yyyy.MM.dd HH:mm');
 
   return (
-    <div onClick={handleCardClick} className="w-full max-w-[800px] mx-auto px-4 sm:px-6 py-8 cursor-pointer">
-      <div className="border bg-white rounded-lg p-[30px] shadow-sm">
+    <div onClick={handleCardClick} className="w-full mx-auto cursor-pointer">
+      <div className="border bg-white rounded-lg p-[30px] shadow-sm mb-7">
         {/* 작성자/작성일 */}
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
