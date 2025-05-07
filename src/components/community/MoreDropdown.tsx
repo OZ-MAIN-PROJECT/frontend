@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import IconWrapper from './IconWrapper';
-import { Ellipsis, EllipsisVertical } from 'lucide-react';
+import { EllipsisVertical } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -13,7 +13,7 @@ interface MoreDropdownProps {
   menuItems: MenuItem[];
   hasIcon?: boolean;
   align?: 'left' | 'right';
-  type?: 'comment' | 'post'; // 버튼 구분용
+  type?: 'comment' | 'post';
 }
 
 const MoreDropdown = ({ menuItems, hasIcon = true, align = 'right', type = 'post' }: MoreDropdownProps) => {
@@ -30,19 +30,23 @@ const MoreDropdown = ({ menuItems, hasIcon = true, align = 'right', type = 'post
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const trigger =
+    type === 'comment' ? (
+      <span className="text-gray-600 text-[18px] leading-none">⋯</span>
+    ) : (
+      <IconWrapper icon={EllipsisVertical} size={20} color="#9ca3af" />
+    );
+
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <button
+      <div
         onClick={() => setIsOpen(!isOpen)}
-        className="p-1 rounded-md hover:bg-gray-100 transition"
+        role="button"
         aria-label="더보기"
+        className="p-1 rounded-md hover:bg-gray-100 transition cursor-pointer"
       >
-        {type === 'comment' ? (
-          <span className="text-gray-600 text-[18px] leading-none">⋯</span>
-        ) : (
-          <IconWrapper icon={EllipsisVertical} size={20} color="#9ca3af" />
-        )}
-      </button>
+        {trigger}
+      </div>
 
       {isOpen && (
         <div
