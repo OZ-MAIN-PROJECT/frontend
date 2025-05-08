@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // BrowserRouter를 import
 import HomePage from './pages/Home/HomePage';
 import MainLayout from './layouts/MainLayout';
 import TestPostCard from './pages/TestPostCard';
 import PostDetail from './components/community/PostDetail';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // BrowserRouter를 import
+import PostWrite from './pages/Community/PostWrite';
 import LoginPage from './pages/Login/LoginPage';
 import SignupPage from './pages/Signup/SignupPage';
 import FindPasswordPage from './pages/FindPassword/FindPasswordPage';
@@ -33,10 +33,26 @@ function App() {
           }
         />
         <Route path="/login" element={<LoginPage />} />
-        <Route path='/signup' element={<SignupPage />} />
-        <Route path='/find-password' element={<FindPasswordPage />} />
-        <Route path='/change-password' element={<ChangePasswordPage />} />
-        <Route path='/community-test' element={<TestPostCard />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/find-password" element={<FindPasswordPage />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
+        <Route
+          path="/community-test"
+          element={
+            <MainLayout>
+              <TestPostCard />{' '}
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/community/write"
+          element={
+            <MainLayout>
+              <PostWrite />
+            </MainLayout>
+          }
+        />
       </Routes>
     </Router>
   );
