@@ -7,6 +7,7 @@ import LoginPage from './pages/Login/LoginPage';
 import SignupPage from './pages/Signup/SignupPage';
 import FindPasswordPage from './pages/FindPassword/FindPasswordPage';
 import ChangePasswordPage from './pages/ChangePassword/ChangePasswordPage';
+import MyPage from './pages/myPage/MyPage';
 
 function App() {
   return (
@@ -21,7 +22,11 @@ function App() {
             </MainLayout>
           }
         />
-
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/find-password" element={<FindPasswordPage />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
+        <Route path="/mypage" element={<MyPage />} />
         {/* PostDetail도 따로 MainLayout으로 감싸줌 */}
         <Route
           path="/community/:id"
