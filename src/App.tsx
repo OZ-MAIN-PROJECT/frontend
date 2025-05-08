@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/Home/HomePage';
 import MainLayout from './layouts/MainLayout';
+import StatisticsPage from './pages/Statistic/StatisticPage';
 import TestPostCard from './pages/TestPostCard';
 import PostDetail from './components/community/PostDetail';
 import LoginPage from './pages/Login/LoginPage';
@@ -13,6 +14,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/statistic" element={<MainLayout><StatisticsPage /></MainLayout>} />
         {/* 홈 + 테스트 페이지는 한꺼번에 묶어서 렌더링 */}
         <Route
           path="/"
