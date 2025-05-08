@@ -39,11 +39,11 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="flex bg-gray-200">
+    <div className="flex bg-gray-200 justify-end">
       <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
-      <div className="flex-1 flex flex-col h-screen">
+      <div className="w-full lg:w-[calc(100%-250px)] flex flex-col min-h-screen">
         <Header toggleSidebar={toggleSidebar} />
-        <main className="flex-1 py-5 lg:py-10">{children}</main>
+        <main className="flex-1 p-5 lg:p-10">{children}</main>
         <Footer />
       </div>
       {showWalletButton && (
