@@ -60,15 +60,9 @@ const Sidebar = ({ isVisible, toggleSidebar }: { isVisible: boolean; toggleSideb
       <nav className="flex-1 flex flex-col justify-between mt-5">
         <div className="flex-1">
           <ul className="flex flex-col gap-2">
-            <li>
-              <NavItem to="/" icon={House} text="Home" />
-            </li>
-            <li>
-              <NavItem to="/wallet" icon={Banknote} text="수입/지출 내역" />
-            </li>
-            <li>
-              <NavItem to="/statistic" icon={ChartPie} text="통계 그래프" />
-            </li>
+            <li><NavItem to="/" icon={House} text="Home" /></li>
+            <li><NavItem to="/wallet" icon={Banknote} text="수입/지출 내역" /></li>
+            <li><NavItem to="/statistic" icon={ChartPie} text="통계 그래프" /></li>
           </ul>
 
           <div className="mt-10">
