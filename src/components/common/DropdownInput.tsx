@@ -4,10 +4,18 @@ import { useEffect, useRef, useState } from 'react';
 interface DropdownProps {
   items: string[];
   selected: string;
+  style: 'outline' | 'underline';
+  placeholder?: string;
   onSelect: (item: string) => void;
 }
 
-const DropdownInput = ({ items, selected, onSelect }: DropdownProps) => {
+const getWrapperClass = (style: 'outline' | 'underline') => {
+  return style === 'underline'
+    ? 'border-b-2 border-primary-800 rounded-none bg-transparent'
+    : 'border border-gray-300 rounded-md bg-white';
+};
+
+const DropdownInput = ({ items, selected, style, placeholder, onSelect }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -22,18 +30,17 @@ const DropdownInput = ({ items, selected, onSelect }: DropdownProps) => {
   }, []);
 
   return (
-    <div ref={ref} className="relative inline-block mb-4">
-      <div className="flex items-center bg-white h-[60px] w-[500px] border border-gray-300 rounded-md px-3 py-2 text-sm">
-        <span className="text-sm flex-grow text-gray-900">
-          {selected || <span className="text-gray-500">질문을 선택하세요.</span>}
-        </span>
-        <button type="button" onClick={() => setIsOpen(prev => !prev)} className="ml-2">
-          <ChevronDown />
-        </button>
+    <div ref={ref} className="relative inline-block mb-4 w-[500px]">
+      <div
+        className={`flex items-center h-[60px] px-3 py-2 text-sm cursor-pointer ${getWrapperClass(style)}`}
+        onClick={() => setIsOpen(prev => !prev)}
+      >
+        <span className={`flex-grow ${selected ? 'text-gray-900' : 'text-gray-500'}`}>{selected || placeholder}</span>
+        <ChevronDown />
       </div>
 
       {isOpen && (
-        <ul className="absolute left-0 w-[500px] border rounded bg-white shadow z-10 text-gray-600">
+        <ul className="absolute left-0 w-full border rounded bg-white shadow z-10 text-gray-600 max-h-[200px] overflow-auto">
           {items.map(item => (
             <li
               key={item}
@@ -41,7 +48,7 @@ const DropdownInput = ({ items, selected, onSelect }: DropdownProps) => {
                 onSelect(item);
                 setIsOpen(false);
               }}
-              className="border-b-[1px] px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="border-b px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
               {item}
             </li>
