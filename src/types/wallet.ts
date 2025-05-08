@@ -5,7 +5,7 @@ export type Emotion =  '행복' | '슬픔' | '분노' | '불안' | '위로' | '�
 export type ExpenseCategory = '식비' | '생활' | '교통/차량' | '건강' | '교육' | '쇼핑' | '여가/문화' | '금융';
 
 // IncomeCategory 타입
-export type IncomeCategory =  '급여' | '상여/보너스' | '용돈' | '부수입' | '투자 수익' | '환급';
+export type IncomeCategory =  '급여' | '상여/보너스' | '용돈' | '부수입' | '투자수익' | '환급';
 
 export type Category = ExpenseCategory | IncomeCategory;
 
