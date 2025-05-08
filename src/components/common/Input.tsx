@@ -5,11 +5,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  type?: string;
+  type?: string; 
   label?: string;
-  error?: string;
-  helperText?: string;
-  required?: boolean;
+  error?: string; 
+  required?: boolean; 
 }
 
 const Input: React.FC<InputProps> = ({
@@ -17,15 +16,14 @@ const Input: React.FC<InputProps> = ({
   value,
   placeholder,
   onChange,
-  type = "text",
+  type = "text", 
   label,
   error,
-  helperText,
   required,
   ...props
 }) => {
   const inputId = `input-${label?.toLowerCase().replace(/\s+/g, '-') || Math.random().toString(36).substring(2, 9)}`;
-
+  
   return (
     <div className="mb-4">
       {label && (
@@ -44,7 +42,6 @@ const Input: React.FC<InputProps> = ({
         {...props}
       />
       {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
-      {helperText && !error && <p className="mt-1 text-sm text-gray-500">{helperText}</p>}
     </div>
   );
 };
