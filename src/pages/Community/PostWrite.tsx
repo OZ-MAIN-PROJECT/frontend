@@ -1,12 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '@/components/common/Button';
 import CommunityTitle from '@/components/community/CommunityTitle';
 import { Image } from 'lucide-react';
+import { Post } from '@/types/Post';
 
 const PostWrite = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const existingPost = location.state as Post | undefined; // 수정 모드인지 판단
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
+
+  const isEdit = !!existingPost;
+
+  useEffect(() => {
+    if (isEdit && existingPost) {
+      setTitle(existingPost.title);
+      setContent(existingPost.content);
+      // 이미지 초기화는 제외 (API 연동 시 처리)
+    }
+  }, [isEdit, existingPost]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -14,9 +30,14 @@ const PostWrite = () => {
   };
 
   const handleSubmit = () => {
-    const confirmed = window.confirm('게시글을 등록하시겠습니까?');
+    const confirmed = window.confirm(`게시글을 ${isEdit ? '수정' : '등록'}하시겠습니까?`);
     if (!confirmed) return;
-    // 등록 로직 추가 예정
+
+    // 등록/수정 API 로직 작성 예정
+    // ...
+
+    // 완료 후 이동
+    navigate('/community/1'); // 추후 수정 필요 (예: 등록된 postId 활용)
   };
 
   return (
@@ -50,7 +71,7 @@ const PostWrite = () => {
 
       <div className="mt-6">
         <Button width="w-full" onClick={handleSubmit}>
-          등록
+          {isEdit ? '수정' : '등록'}
         </Button>
       </div>
     </div>
