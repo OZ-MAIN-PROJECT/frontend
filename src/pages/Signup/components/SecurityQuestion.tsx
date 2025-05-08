@@ -15,7 +15,7 @@ const SecurityQuestion = ({questions, question, answer, onChange} : SecurityQues
       <DropdownInput
         items={questions}
         selected={question}
-        style="outline"
+        style="underline"
         placeholder="질문을 선택하세요."
         onSelect={value => onChange('question', value)}
       />
