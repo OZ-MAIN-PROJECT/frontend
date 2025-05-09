@@ -1,3 +1,5 @@
+export const BASE_URL = '/api';
+
 /**
  * @example
  * axios.get(END_POINT.WALLET);
