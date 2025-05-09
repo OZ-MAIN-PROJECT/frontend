@@ -1,6 +1,5 @@
-
-import DropdownInput from "@/components/common/DropdownInput";
 import Input from "@/components/common/Input";
+import DropdownInput from "@/components/common/DropdownInput";
 
 interface SecurityQuestionProps {
   question: string;
