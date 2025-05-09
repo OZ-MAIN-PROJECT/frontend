@@ -61,6 +61,32 @@ const PostDetail = () => {
         {/* 제목 */}
         <h2 className="text-xl font-semibold text-gray-800 mb-3">{title}</h2>
 
+    console.log('게시글 수정');
+  };
+
+  const handleDelete = () => {
+    console.log('게시글 삭제');
+  };
+
+  return (
+    <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6">
+      <CommunityTitle title="감정 소비 이야기" />
+
+      <div className="border bg-white rounded-lg p-[30px] shadow-sm">
+        {/* 작성자/작성일/더보기 */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <AuthorInfo author={author} />
+            <span className="text-xs text-primary-500 ml-2">{formattedDate}</span>
+          </div>
+          {isMine && (
+            <div className="relative">
+              <PostMoreButton onEdit={handleEdit} onDelete={handleDelete} />
+            </div>
+          )}
+        </div>
+        {/* 제목 */}
+        <h2 className="text-xl font-semibold text-gray-800 mb-3">{title}</h2>
         {/* 이미지 */}
         {imageUrl && (
           <div className="relative flex items-center justify-center w-full bg-gray-200 rounded mb-6 h-auto sm:h-[400px]">
@@ -70,7 +96,6 @@ const PostDetail = () => {
 
         {/* 내용 */}
         <p className="text-gray-700 mb-6 whitespace-pre-line">{content}</p>
-
         {/* 좋아요/댓글/조회수 */}
         <div className="flex items-center justify-between text-gray-400 text-xs mt-4">
           <div className="flex items-center gap-4">
