@@ -4,7 +4,7 @@ import {
   } from "lucide-react";
   import { ExpenseCategory, IncomeCategory } from "../types/wallet";
   
-  export const categoryIcons: Record<ExpenseCategory | IncomeCategory, React.ElementType> = {
+  export const getCategoryIcons: Record<ExpenseCategory | IncomeCategory, React.ElementType> = {
     // Expense
     식비: Utensils,
     생활: Home,

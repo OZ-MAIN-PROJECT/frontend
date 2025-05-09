@@ -4,16 +4,20 @@ import YearMonthDropdown from "../Home/components/YearMonthDropdown";
 import YearlyLineChart from "./components/YearlyLineChart";
 import EmotionCategoryPieChart from "./components/EmotionCategoryPieChart";
 import SummarySwiper from "./components/SummarySwiper";
+import WalletList from "../Wallet/components/WalletList";
+import { sampleListData } from "@/types/statistic";
 
 const StatisticsPage = () => {
 
   const today = new Date();
-  
-    const [selectedYear, setSelectedYear] = useState(today.getFullYear());
-    const [selectedMonth, setSelectedMonth] = useState(today.getMonth()); // 0-based
+
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth()); // 0-based
+
+  const monthLabel = `${selectedMonth + 1}`.padStart(2, "0");
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       <div className="flex items-center text-2xl text-primary-900 font-bold">
       <YearMonthDropdown
         year={selectedYear}
@@ -30,24 +34,29 @@ const StatisticsPage = () => {
       </div>
       {/* 상단 요약 영역 */}
       <div className="w-full">
-        <SummarySwiper />
+        <SummarySwiper
+          month={selectedMonth}
+        />
       </div>
 
       {/* 중단 차트 영역 */}
-      <div className="grid grid-cols-[3fr_2fr] gap-6">
-        <Frame>
-          <h2 className="text-lg font-semibold mb-4">2025년 월별 소비</h2>
+      <div className="grid gap-4 2xl:grid-cols-[3fr_2fr]">
+        <Frame className="bg-white px-0">
+          <h2 className="text-lg font-semibold mb-4 mx-7">{selectedYear}년 월별 소비</h2>
           <YearlyLineChart />
         </Frame>
-        <Frame>
+        <Frame className="bg-white px-0">
           <EmotionCategoryPieChart />
         </Frame>
       </div>
 
       {/* 하단 리스트 영역 */}
       <Frame>
-        <h2 className="text-lg font-semibold mb-4">00월 소비 내역</h2>
+        <h2 className="text-lg font-semibold mb-4">{monthLabel}월 소비 내역</h2>
         <div className="overflow-x-auto">
+          <WalletList
+            data={sampleListData}
+          />
         </div>
       </Frame>
     </div>

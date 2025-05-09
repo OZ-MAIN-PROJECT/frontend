@@ -27,7 +27,7 @@ const HomePage = () => {
     )?.entries || [];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
+    <div className="grid grid-cols-1 gap-4 xl:grid-cols-[3fr_1fr] lg:items-start">
       <Frame>
         {/* 보기 모드 전환 버튼 */}
         <div className="flex gap-2 items-center mb-2 justify-end">
@@ -49,14 +49,14 @@ const HomePage = () => {
             <ListTodo />
           </button>
         </div>
-        <div className="w-3/4 mx-auto">
+        <div className="mx-auto w-full sm:w-3/4">
             <div className="relative w-fit mx-auto">
                 <div
-                    className="flex gap-2 items-center text-4xl font-bold cursor-pointer justify-center text-primary-800"
+                    className="flex gap-2 items-center text-2xl sm:text-4xl font-bold cursor-pointer justify-center text-primary-800"
                     onClick={() => setPickerOpen(!pickerOpen)}
                 >
                     {selectedYear}.{(selectedMonth + 1).toString().padStart(2, "0")}{" "}
-                    <Triangle className="transform rotate-180 fill-current text-primary-800" size={20} />
+                    <Triangle className="transform rotate-180 fill-current text-primary-800 w-4 h-4 sm:w-6 sm:h-6" />
                 </div>
 
                 {pickerOpen && (
@@ -98,14 +98,15 @@ const HomePage = () => {
       {/* 오른쪽 사이드 */}
       <aside className="flex flex-col gap-4">
         {/* 해당 월 총 수입/지출 */}
-        <Frame>
-            <div className="flex justify-between border-b pb-4">
-                <h3 className="flex"><BanknoteArrowUp />총 수입</h3>
-                <p className="text-accent-blue">4,000,000원</p>
+        <Frame className="bg-white space-y-5">
+            <div className="flex justify-between">
+                <h3 className="flex gap-1"><BanknoteArrowUp />총 수입</h3>
+                <p className="text-accent-blue text-lg font-medium">4,000,000원</p>
             </div>
-            <div className="flex justify-between pt-4">
-                <h3 className="flex"><BanknoteArrowDown />총 지출</h3>
-                <p className="text-accent-red">4,000,000원</p>
+            <div className="border-b"></div>
+            <div className="flex justify-between">
+                <h3 className="flex gap-1"><BanknoteArrowDown />총 지출</h3>
+                <p className="text-accent-red text-lg font-medium">4,000,000원</p>
             </div>
         </Frame>
 

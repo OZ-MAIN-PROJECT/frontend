@@ -29,3 +29,15 @@ export const getEmotionTextClass = (emotion: Emotion): string => {
 
   return emotionClassMap[emotion];
 };
+
+
+export const getEmotionColorMap: Record<string, string> = {
+  행복: "#FFCB24",
+  슬픔: "#2092F4",
+  분노: "#FD3D3D",
+  불안: "#5544FC",
+  위로: "#FC1B7E",
+  만족: "#16DBCC",
+  지침: "#686C80",
+  기대: "#FF9243",
+};
