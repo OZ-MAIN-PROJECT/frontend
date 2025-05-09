@@ -1,5 +1,7 @@
 import Input from "@/components/common/Input";
 import DropdownInput from "./DropdownInput";
+import DropdownInput from "@/components/common/DropdownInput";
+import Input from "@/components/common/Input";
 
 interface SecurityQuestionProps {
   question: string;
@@ -15,6 +17,8 @@ const SecurityQuestion = ({questions, question, answer, onChange} : SecurityQues
       <DropdownInput
         items={questions}
         selected={question}
+        style="underline"
+        placeholder="질문을 선택하세요."
         onSelect={value => onChange('question', value)}
       />
       <Input
