@@ -36,7 +36,7 @@ const ListView = ({ onDateSelect }: ListViewProps) => {
             onClick={() => onDateSelect(new Date(date))}
             className={`w-full h-16 p-0 flex items-center rounded-lg bg-gray-200`}
           >
-            <button className={`${bgClass} w-16 h-16 text-2xl font-semibold text-white rounded-r-none`}>{day}</button>
+            <button className={`${bgClass} w-16 h-16 text-2xl font-semibold text-white rounded-l-lg`}>{day}</button>
             <div className="flex items-center justify-around text-sm text-primary-500 px-5 flex-1">
               <div className="w-1/3">Income<span className="text-lg text-primary-800 ml-2 font-medium">{income.toLocaleString()}원</span></div>
               <div className="w-1/3">Expense<span className="text-lg text-primary-800 ml-2 font-medium">{expense.toLocaleString()}원</span></div>

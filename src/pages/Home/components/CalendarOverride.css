@@ -18,6 +18,7 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 1rem;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .react-calendar__month-view__weekdays__weekday abbr {
@@ -30,4 +31,15 @@
 
 .react-calendar__month-view__days__day--neighboringMonth > * {
   display: none;
+}
+
+.react-calendar__tile {
+  border-radius: 0.75rem;
+}
+
+
+@media (max-width: 620px) {
+  .react-calendar__month-view__days {
+    gap: 0.5rem;
+  }
 }

@@ -1,56 +1,85 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import Frame from "../../../components/common/Frame";
 import "swiper/css";
+import "swiper/css/pagination"; 
+import { sampleStatistic } from "@/types/statistic";
+import { getEmotionBgClass, getEmotionTextClass } from "@/utils/emotionColor";
+import { getCategoryIcons } from "@/utils/categoryIcons";
+import { Autoplay, Pagination } from "swiper/modules";
 
-const SummarySwiper = () => {
+interface SummarySwiperProps {
+  month: number;
+}
+
+const SummarySwiper = ({ month }:SummarySwiperProps) => {
+  const stat = sampleStatistic;
+  const monthLabel = `${month + 1}`.padStart(2, "0");
+
+  const CategoryIcon = getCategoryIcons[stat.mainCategory];
+  const formatAmount = (value: number) => `${value.toLocaleString()}원`;
+
   return (
     
     <Swiper
         className="w-full h-[160px]"
         spaceBetween={16}
-        slidesPerView={1.2}
-        breakpoints={{ 
-            640: { slidesPerView: 2 }, 
-            1280: { slidesPerView: 4 } 
+        slidesPerView={1}
+        modules={[Autoplay, Pagination]}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
+        breakpoints={{
+          680: { slidesPerView: 2 },
+          1280: {
+            slidesPerView: 3,
+            autoplay: { delay: 3000, disableOnInteraction: false }, 
+          },
+          1536: {
+            slidesPerView: 4,
+            autoplay: { delay: 3000, disableOnInteraction: false },
+          },
         }}
     >
       <SwiperSlide>
         <Frame className="bg-accent-blue space-y-3 text-white h-full">
-          <h2 className="text-lg font-medium">00월 소비 금액</h2>
-          <p className="text-2xl font-semibold">총 000,000,000원</p>
+          <h2 className="text-lg font-medium">{monthLabel}월 소비 금액</h2>
+          <p className="text-2xl font-semibold">총 {formatAmount(stat.totalConsumptionAmount)}</p>
           <p className="opacity-50 text-sm">저번달보다 0% 늘었어요!</p>
         </Frame>
       </SwiperSlide>
       <SwiperSlide>
-        <Frame className="bg-white space-y-3 h-full text-gray-800">
-            <div className="flex items-center justify-between border-b pb-4">
-          <h2 className="text-base font-normal">00월 총 수입</h2>
-          <p className="text-accent-blue font-bold text-xl">000,000,000원</p>
+        <Frame className="bg-white space-y-6 h-full text-gray-800">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-normal">{monthLabel}월 총 수입</h2>
+              <p className="text-accent-blue font-semibold text-xl">{formatAmount(stat.totalIncomeAmount)}</p>
           </div>
-          <div className="flex items-center justify-between pt-4">
-          <h2 className="text-base font-normal">00월 총 지출</h2>
-          <p className="text-accent-red text-xl">000,000,000원</p>
+          <div className="border-b"></div>
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-normal">{monthLabel}월 총 지출</h2>
+            <p className="text-accent-red font-semibold text-xl">{formatAmount(stat.totalExpenseAmount)}</p>
           </div>
         </Frame>
       </SwiperSlide>
       <SwiperSlide>
         <Frame className="bg-white space-y-3 text-gray-800 h-full">
-          <h2 className="text-lg font-medium">00월 주요 감정 소비</h2>
+          <h2 className="text-lg font-medium">{monthLabel}월 주요 감정 소비</h2>
           <div className="flex justify-between items-center">
-            <p className="text-2xl font-semibold"><span className="w-5 h-5 rounded-full"></span>행복 20%</p>
-            <span className="text-sm text-gray-600">총 000,000,000원</span>
+            <p className="flex items-center gap-1 text-2xl font-semibold"><span  className={`inline-block w-6 h-6 rounded-full ${getEmotionBgClass(stat.mainEmotion)}`}></span>{stat.mainEmotion} {stat.mainEmotionRate}%</p>
+            <span className="text-xs text-gray-600">총 {formatAmount(stat.mainEmotionAmount)}</span>
         </div>
-          <p className="opacity-50 text-sm">소비의 <span>20%</span>를 <span>행복</span>했을 때 사용했어요!</p>
+          <p className="text-gray-600 text-sm">소비의 <span className={`${getEmotionTextClass(stat.mainEmotion)}`}>{stat.mainEmotionRate}%</span>를 <span className={`${getEmotionTextClass(stat.mainEmotion)}`}>{stat.mainEmotion}</span>했을 때 사용했어요!</p>
         </Frame>
       </SwiperSlide>
       <SwiperSlide>
         <Frame className="bg-white space-y-3 text-gray-800 h-full">
-        <h2 className="text-lg font-medium">00월 주요 카테고리 소비</h2>
+        <h2 className="text-lg font-medium">{monthLabel}월 주요 카테고리 소비</h2>
           <div className="flex justify-between items-center">
-            <p className="text-2xl font-semibold text-accent-blue">식비 20%</p>
-            <span className="text-sm text-gray-600">총 000,000,000원</span>
+            <p className="flex items-center text-2xl font-semibold text-accent-blue">{CategoryIcon && <CategoryIcon size={24} className="mr-1" />} {stat.mainCategory} {stat.mainCategoryRate}%</p>
+            <span className="text-xs text-gray-600">총 {formatAmount(stat.mainCategoryAmount)}</span>
         </div>
-          <p className="opacity-50 text-sm">소비의 <span className="text-primary-900 font-semibold">20%</span>를 <span className="text-primary-900 font-semibold">식비</span>했을 때 사용했어요!</p>
+          <p className="text-gray-600 text-sm">소비의 <span className="text-primary-900 font-semibold">{stat.mainCategoryRate}%</span>를 <span className="text-primary-900 font-semibold">{stat.mainCategory}</span>에 사용했어요!</p>
         </Frame>
       </SwiperSlide>
     </Swiper>
