@@ -1,4 +1,4 @@
-import { Category, Emotion } from "./wallet";
+import { Category, Emotion, Wallet } from "./wallet";
 
 export type Statistic = {
     year: number;
@@ -94,4 +94,25 @@ export const sampleCategoryStatistics: categoryStatistics[] = [
     { category: "쇼핑", rate: 7.0, amount: 180000 },
     { category: "여가/문화", rate: 6.0, amount: 150000 },
     { category: "금융", rate: 4.0, amount: 100000 },
+];
+
+export const sampleListData: Wallet[] = [
+  {
+    id: 1,
+    type: "expense",
+    amount: 4800,
+    title: "스타벅스 아메리카노",
+    category: "식비",
+    emotion: "슬픔",
+    date: new Date("2025-04-23"),
+  },
+  {
+    id: 2,
+    type: "income",
+    amount: 100000,
+    title: "급여 입금",
+    category: "급여",
+    emotion: "행복",
+    date: new Date("2025-04-23"),
+  },
 ];

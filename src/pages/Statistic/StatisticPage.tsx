@@ -4,6 +4,8 @@ import YearMonthDropdown from "../Home/components/YearMonthDropdown";
 import YearlyLineChart from "./components/YearlyLineChart";
 import EmotionCategoryPieChart from "./components/EmotionCategoryPieChart";
 import SummarySwiper from "./components/SummarySwiper";
+import WalletList from "../Wallet/components/WalletList";
+import { sampleListData } from "@/types/statistic";
 
 const StatisticsPage = () => {
 
@@ -52,6 +54,9 @@ const StatisticsPage = () => {
       <Frame>
         <h2 className="text-lg font-semibold mb-4">{monthLabel}월 소비 내역</h2>
         <div className="overflow-x-auto">
+          <WalletList
+            data={sampleListData}
+          />
         </div>
       </Frame>
     </div>
