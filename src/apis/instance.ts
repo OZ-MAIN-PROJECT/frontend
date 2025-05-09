@@ -6,6 +6,7 @@ const api = axios.create({
   baseURL: BASE_URL,
 });
 
+// 모든 요청의 헤더에 토큰 포함할 수 있도록
 api.interceptors.request.use(config => {
   const token = useAuthStore.getState().token;
   if (token) config.headers.Authorization = `Bearer ${token}`;
