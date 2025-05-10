@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import CommunityTitle from '@/components/community/CommunityTitle';
 import CommunityNewPostButton from '@/components/community/CommunityNewPostButton';
 import ViewToggleButton from '@/components/community/ViewToggleButton';
-import PostCard from '@/components/community/PostCard';
+import PostList from '@/components/community/PostList';
 import { dummyPosts } from '@/constants/dummyPosts';
+import { PostType } from '@/types/Post';
 
 const CommunityList = () => {
-  const { type } = useParams();
+  const { type } = useParams<{ type: PostType }>();
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [sortType, setSortType] = useState<'recent' | 'popular'>('recent');
 
@@ -30,6 +31,8 @@ const CommunityList = () => {
     }
     return '/community/write';
   };
+
+  const filteredPosts = dummyPosts.filter((post) => post.type === type);
 
   return (
     <div className="relative w-full max-w-[800px] mx-auto px-4 sm:px-6">
@@ -57,22 +60,12 @@ const CommunityList = () => {
       </div>
 
       {/* 게시글 목록 */}
-    <div className={viewType === 'grid' ? 'grid grid-cols-1 gap-3' : 'flex flex-col gap-5'}>
-        {dummyPosts.map((post) => (
-          <PostCard
-            key={post.id}
-            post={post}
-            viewType={viewType}
-            onLikeToggle={() => console.log('좋아요')}
-            onCommentClick={() => console.log('댓글')}
-          />
-        ))}
-      </div>
+      <PostList posts={filteredPosts} viewType={viewType} />
 
       {/* 글쓰기 버튼 */}
       {type !== 'notice' && type && (
         <div className="fixed bottom-8 right-8 z-50">
-          <CommunityNewPostButton to={getWritePageLink()} postType={type as 'emotion' | 'question' | 'notice'} />
+          <CommunityNewPostButton to={getWritePageLink()} postType={type} />
         </div>
       )}
     </div>
