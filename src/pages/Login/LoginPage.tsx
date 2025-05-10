@@ -1,11 +1,9 @@
 import logo from '@/assets/logo.png';
 import Welcome from '@/assets/images/welcome.png';
-import SocialLoginButton from './components/SocialLoginButton';
 import LoginForm from './components/LoginForm';
 import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
-    const handleSocialLogin = () => {}
   return (
     <>
       <div className="flex justify-center items-center h-screen gap-20">
@@ -16,17 +14,6 @@ const LoginPage = () => {
             <img className='w-[290px]' src={logo} />
           </div>
           <LoginForm />
-          <div className="flex gap-[10px]">
-            <div>
-              <SocialLoginButton type='kakao' onClick={handleSocialLogin}/>
-            </div>
-            <div>
-            <SocialLoginButton type='naver' onClick={handleSocialLogin}/>
-            </div>
-            <div>
-            <SocialLoginButton type='google' onClick={handleSocialLogin}/>
-            </div>
-          </div>
           <div className='flex gap-3 w-full my-4 text-gray-600'>
                 <p>회원이 아니신가요?</p>
                 <Link to='/signup' className='underline'>회원가입</Link>
