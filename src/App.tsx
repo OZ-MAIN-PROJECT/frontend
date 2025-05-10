@@ -32,9 +32,10 @@ function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
 
         {/* 게시글 관련 페이지 */}
-        <Route path="/community/:type" element={<MainLayout><CommunityList /></MainLayout>} />
-        <Route path="/community/:id" element={<MainLayout><PostDetail /></MainLayout>} />
+        <Route path="/community/:type/:postId" element={<MainLayout><PostDetail /></MainLayout>} /> {/* 게시글 상세 먼저! */}
+        <Route path="/community/:type" element={<MainLayout><CommunityList /></MainLayout>} /> {/* 게시판 리스트 */}
         <Route path="/community/write" element={<MainLayout><PostWrite /></MainLayout>} />
+
         {/* 테스트용 페이지 (개발 완료 후 제거 예정) */}
         <Route path="/community-test" element={<MainLayout><TestPostCard /></MainLayout>} />
       </Routes>
