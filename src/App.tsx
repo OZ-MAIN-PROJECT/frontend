@@ -10,6 +10,7 @@ import SignupPage from './pages/Signup/SignupPage';
 import FindPasswordPage from './pages/FindPassword/FindPasswordPage';
 import ChangePasswordPage from './pages/ChangePassword/ChangePasswordPage';
 import MyPage from './pages/myPage/MyPage';
+import TestPage from './components/wallet/TestPage';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
 
         {/* 테스트용 페이지 (개발 완료 후 제거 예정) */}
         <Route path="/community-test" element={<MainLayout><TestPostCard /></MainLayout>} />
+        <Route path='/test' element={<TestPage />} />
       </Routes>
     </Router>
   );
