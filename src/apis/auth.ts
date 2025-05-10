@@ -1,3 +1,4 @@
+import { END_POINT } from '@/constants/route';
 import axios from 'axios';
 
 interface LoginPayload {
@@ -11,6 +12,6 @@ interface LoginResponse {
 }
 
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
-  const response = await axios.post('/users/login', payload);
+  const response = await axios.post(END_POINT.USERS_LOGIN, payload);
   return response.data;
 };
