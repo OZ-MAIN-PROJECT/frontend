@@ -22,7 +22,7 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
   const isInDetailPage = location.pathname.startsWith('/community/') && location.pathname !== '/community/emotion' && location.pathname !== '/community/question';
 
   const handleClick = () => {
-    if (!isInDetailPage) navigate(`/community/${id}`);
+      if (!isInDetailPage) navigate(`/community/${post.type}/${post.id}`);
   };
 
   if (viewType === 'list') {
