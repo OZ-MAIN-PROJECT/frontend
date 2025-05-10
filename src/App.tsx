@@ -10,6 +10,7 @@ import SignupPage from './pages/Signup/SignupPage';
 import FindPasswordPage from './pages/FindPassword/FindPasswordPage';
 import ChangePasswordPage from './pages/ChangePassword/ChangePasswordPage';
 import MyPage from './pages/myPage/MyPage';
+import CommunityList from './pages/Community/CommunityList';
 
 function App() {
   return (
@@ -31,9 +32,9 @@ function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
 
         {/* 게시글 관련 페이지 */}
+        <Route path="/community/:type" element={<MainLayout><CommunityList /></MainLayout>} />
         <Route path="/community/:id" element={<MainLayout><PostDetail /></MainLayout>} />
         <Route path="/community/write" element={<MainLayout><PostWrite /></MainLayout>} />
-
         {/* 테스트용 페이지 (개발 완료 후 제거 예정) */}
         <Route path="/community-test" element={<MainLayout><TestPostCard /></MainLayout>} />
       </Routes>
