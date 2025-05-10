@@ -4,8 +4,9 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    // 로그인 상태는 전역으로 관리
     const setAuth = useAuthStore(state => state.setAuth);
     const navigate = useNavigate();
 

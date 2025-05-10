@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from '@/components/common/Input';
 import InputWithCheckButton from './InputWithCheckbox';
 import Button from '@/components/common/Button';
@@ -8,6 +8,7 @@ import AlertModal from '@/components/common/Modal/AlertModal';
 import SecurityQuestion from './SecurityQuestion';
 import PasswordConfirm from './PasswordConfirm';
 import { usePasswordValidation } from '@/hooks/usePasswordValidation';
+import { useSignup } from '@/hooks/useSignup';
 
 const SignupForm = () => {
   const [userInfo, setUserInfo] = useState({
@@ -30,18 +31,21 @@ const SignupForm = () => {
   // 회원가입 완료 안내 모달
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const { signup, loading, error: signupError, success } = useSignup();
+
   // 입력값 userInfo와 매칭
   const handleChange = (field: keyof typeof userInfo) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInfo(prev => ({ ...prev, [field]: e.target.value }));
   };
 
   // 비밀번호 유효성 검사 및 비밀번호 일치 확인
-  const {passwordError, validatePassword} = usePasswordValidation();
+  const { passwordError, validatePassword } = usePasswordValidation();
 
-  const handlePasswordChange = (field : string, value : string) => {
-    setUserInfo(prev => ({...prev, [field] : value}));
-    validatePassword(userInfo.password, userInfo.passwordConfirm)
-  }
+  const handlePasswordChange = (field: string, value: string) => {
+    const updated = { ...userInfo, [field]: value };
+    setUserInfo(updated);
+    validatePassword(updated.password, updated.passwordConfirm);
+  };
 
   // 이메일 유효성 검사
   const handleEmailChange = (value: string) => {
@@ -50,14 +54,20 @@ const SignupForm = () => {
 
   // 이메일 중복검사
   const checkEmailAvailability = async (email: string) => {
-    if (email === 'test@mail.com') return '이미 사용 중인 이메일입니다.';
+    if (email === 'test@mail.com') {
+      setIsEmailChecked(false);
+      return '이미 사용 중인 이메일입니다.';
+    }
     setIsEmailChecked(true);
     return null;
   };
 
   // 닉네임 중복검사
   const checkNicknameAvailability = async (nickname: string) => {
-    if (nickname === 'test') return '이미 사용 중인 닉네임입니다.';
+    if (nickname === 'test') {
+      SetIsNicknameChecked(false);
+      return '이미 사용 중인 닉네임입니다.';
+    }
     SetIsNicknameChecked(true);
     return null;
   };
@@ -65,6 +75,7 @@ const SignupForm = () => {
   // 제출 전 검사
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFormError('');
 
     const isEmpty = Object.values(userInfo).some(v => !v.trim());
     if (isEmpty) return setFormError('모든 필드를 입력해주세요.');
@@ -74,14 +85,18 @@ const SignupForm = () => {
 
     if (!isEmailChecked) return setFormError('이메일 중복 확인을 완료해주세요.');
     if (!isNicknameChecked) return setFormError('닉네임 중복 확인을 완료해주세요.');
+    if (userInfo.password !== userInfo.passwordConfirm) return setFormError('비밀번호가 일치하지 않습니다.');
+    if (passwordError) return setFormError(passwordError)
 
-    if (userInfo.password !== userInfo.passwordConfirm) {
-      return setFormError('비밀번호가 일치하지 않습니다.');
-    }
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { passwordConfirm: _omit, ...signupPayload } = userInfo;
+    signup(signupPayload);
     console.log('회원가입 시도:', userInfo);
-    setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    if (success) setIsModalOpen(true);
+  }, [success])
 
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -131,9 +146,10 @@ const SignupForm = () => {
 
         {/* 모든 입력필드 작성 및 유효성 검사 확인 */}
         {formError && <p className="text-sm text-accent-red text-center mt-1 mb-4">{formError}</p>}
+        {signupError && <p className="text-sm text-accent-red text-center mt-1 mb-4">{signupError}</p>}
 
         <Button width="w-full" height="h-[50px]" color="blue" type="submit">
-          회원가입
+          {loading ? '회원가입 중...' : '회원가입'}
         </Button>
       </form>
 

@@ -1,17 +1,36 @@
 import { END_POINT } from '@/constants/route';
-import axios from 'axios';
+import api from './instance';
 
-interface LoginPayload {
+export interface LoginPayload {
   email: string;
   password: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   access_token: string;
   nickname: string;
 }
 
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
-  const response = await axios.post(END_POINT.USERS_LOGIN, payload);
+  const response = await api.post(END_POINT.USERS_LOGIN, payload);
   return response.data;
 };
+
+export interface SignupPayload {
+    name : string;
+    email : string;
+    password : string;
+    nickname : string;
+    question : string;
+    answer : string;
+};
+
+export interface SignupResponse {
+    code : string | number;
+    message : string;
+}
+
+export const signup = async (payload : SignupPayload) : Promise<SignupResponse> => {
+    const response = await api.post(END_POINT.USERS_SIGNUP, payload);
+    return response.data;
+}
