@@ -14,7 +14,7 @@ const LoginPage = () => {
             <img className='w-[290px]' src={logo} />
           </div>
           <LoginForm />
-          <div className='flex gap-3 w-full my-4 text-gray-600'>
+          <div className='flex gap-3 w-[500px] my-4 text-gray-600'>
                 <p>회원이 아니신가요?</p>
                 <Link to='/signup' className='underline'>회원가입</Link>
                 <Link to='/find-password' className='underline'>비밀번호 찾기</Link>
