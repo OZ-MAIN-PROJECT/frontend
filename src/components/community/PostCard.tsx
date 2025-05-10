@@ -19,17 +19,20 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
   const { id, title, imageUrl, content, createdAt, likes, comments, views, author } = post;
   const formattedDate = format(new Date(createdAt), 'yyyy.MM.dd HH:mm');
 
-  const isInDetailPage = location.pathname.startsWith('/community/') && location.pathname !== '/community/emotion' && location.pathname !== '/community/question';
+  const isInDetailPage =
+    location.pathname.startsWith('/community/') &&
+    location.pathname !== '/community/emotion' &&
+    location.pathname !== '/community/question';
 
   const handleClick = () => {
-      if (!isInDetailPage) navigate(`/community/${post.type}/${post.id}`);
+    if (!isInDetailPage) navigate(`/community/${post.type}/${post.id}`);
   };
 
   if (viewType === 'list') {
     // 리스트 뷰
     return (
       <div
-        className="w-full bg-white rounded-lg border p-5 shadow-sm flex justify-between items-center gap-4 mb-5 cursor-pointer"
+        className="w-full bg-white rounded-lg border p-5 shadow-sm flex justify-between items-center gap-4 cursor-pointer"
         onClick={handleClick}
       >
         {/* 왼쪽 텍스트 */}
@@ -68,7 +71,7 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
   // 피드 뷰
   return (
     <div
-      className="w-full bg-white rounded-lg border p-5 shadow-sm flex flex-col gap-4 mb-5 cursor-pointer"
+      className="w-full bg-white rounded-lg border p-5 shadow-sm flex flex-col gap-4 cursor-pointer"
       onClick={handleClick}
     >
       {/* 작성자/작성일 */}
@@ -82,7 +85,10 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
 
       {/* 이미지 */}
       {imageUrl && (
-        <div className="w-full bg-gray-300 flex items-center justify-center rounded-md overflow-hidden" style={{ maxHeight: '400px' }}>
+        <div
+          className="w-full bg-gray-300 flex items-center justify-center rounded-md overflow-hidden"
+          style={{ maxHeight: '400px' }}
+        >
           <img
             src={imageUrl}
             alt="본문 이미지"

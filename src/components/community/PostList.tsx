@@ -11,8 +11,13 @@ const PostList = ({ posts, viewType }: PostListProps) => {
     return <p className="text-center text-[16px] text-gray-600 pt-10">게시글이 없습니다.</p>;
   }
 
+  const isGrid = viewType === 'grid';
+  const containerClass = isGrid
+    ? 'grid grid-cols-1 gap-4'
+    : 'flex flex-col gap-3';
+
   return (
-    <div className={`grid ${viewType === 'grid' ? 'grid-cols-1 gap-2' : 'flex flex-col gap-6'}`}>
+    <div className={containerClass}>
       {posts.map((post) => (
         <PostCard
           key={post.id}
