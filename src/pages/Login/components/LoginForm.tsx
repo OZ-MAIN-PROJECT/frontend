@@ -7,6 +7,7 @@ import { useLogin } from '@/hooks/useLogin';
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [error, setError] = useState('');
   const { login, error: loginError, loading } = useLogin();
 
@@ -23,7 +24,6 @@ const LoginForm = () => {
       return;
     }
 
-    // TODO: 서버 로그인 요청 처리
     setError('');
     await login(email, password);
     console.log('로그인 시도:', { email, password });

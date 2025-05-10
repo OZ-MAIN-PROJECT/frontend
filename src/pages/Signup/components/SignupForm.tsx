@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Input from '@/components/common/Input';
-import InputWithCheckButton from './InputWithCheckbox';
+import InputWithCheckButton from '@/components/common/InputWithCheckbox';
 import Button from '@/components/common/Button';
 import { isValidEmail } from '@/utils/validators';
 import { SECURITY_QUESTIONS } from '@/constants/questions';
