@@ -16,30 +16,7 @@ interface Comment {
 }
 
 const CommentList = () => {
-    const [comments, setComments] = useState<Comment[]>([
-    {
-      id: '1',
-      content: '오 어디카페예요? 너무 맛있겠네요!',
-      createdAt: '2025.04.23 10:00',
-      isMine: true,
-      author: {
-        id: 'user1',
-        nickname: '유저1',
-        profileImageUrl: '',
-      },
-    },
-    {
-      id: '2',
-      content: '칭찬이 빵보다 달다구리합니다 ☕️',
-      createdAt: '2025.04.23 10:03',
-      isMine: false,
-      author: {
-        id: 'user2',
-        nickname: '유저2',
-        profileImageUrl: '',
-      },
-    },
-  ]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
   const handleAddComment = (newContent: string) => {
@@ -87,14 +64,14 @@ const CommentList = () => {
               <span className="text-[11px] text-gray-400">{comment.createdAt}</span>
             </div>
 
-            {comment.isMine && (
-              <div className="relative ml-auto mt-1">
+            <div className="relative ml-auto mt-1 w-[24px] h-[24px] flex items-center justify-center">
+              {comment.isMine && (
                 <CommentMoreButton
                   onEdit={() => setEditingCommentId(comment.id)}
                   onDelete={() => handleDeleteComment(comment.id)}
                 />
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* 댓글 내용 or 수정 input */}
