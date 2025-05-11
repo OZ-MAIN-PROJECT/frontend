@@ -16,7 +16,7 @@ interface Comment {
 }
 
 const CommentList = () => {
-  const [comments, setComments] = useState<Comment[]>([
+    const [comments, setComments] = useState<Comment[]>([
     {
       id: '1',
       content: '오 어디카페예요? 너무 맛있겠네요!',
@@ -40,7 +40,6 @@ const CommentList = () => {
       },
     },
   ]);
-
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
   const handleAddComment = (newContent: string) => {
@@ -61,25 +60,26 @@ const CommentList = () => {
   const handleEditComment = (updatedContent: string) => {
     if (!editingCommentId) return;
     setComments(prev =>
-      prev.map(comment => (comment.id === editingCommentId ? { ...comment, content: updatedContent } : comment)),
+      prev.map(comment =>
+        comment.id === editingCommentId ? { ...comment, content: updatedContent } : comment,
+      ),
     );
     setEditingCommentId(null);
   };
 
   const handleDeleteComment = (commentId: string) => {
-    const confirmed = window.confirm('정말로 이 댓글을 삭제하시겠어요?');
+    const confirmed = window.confirm('정말로 이 댓글을 삭제하시겠습니까?');
     if (!confirmed) return;
-
     setComments(prev => prev.filter(comment => comment.id !== commentId));
   };
 
   return (
     <div>
       {/* 댓글 입력창 */}
-      <CommentInput onSubmit={handleAddComment} buttonLabel="등록" bordered withTopBorder />
+      <CommentInput onSubmit={handleAddComment} buttonLabel="등록" />
 
-      {/* 댓글 리스트 */}
-      {comments.map(comment => (
+      {/* 댓글이 있을 때만 리스트 출력 */}
+      {comments.length > 0 && comments.map(comment => (
         <div key={comment.id} className="relative group mt-2 mb-4">
           <div className="flex items-start justify-between gap-2 border-t pt-3">
             <div className="flex items-center gap-2">
@@ -97,12 +97,20 @@ const CommentList = () => {
             )}
           </div>
 
+          {/* 댓글 내용 or 수정 input */}
           {editingCommentId === comment.id ? (
             <div className="mt-2">
-              <CommentInput onSubmit={handleEditComment} initialValue={comment.content} buttonLabel="수정" bordered />
+              <CommentInput
+                onSubmit={handleEditComment}
+                initialValue={comment.content}
+                buttonLabel="수정"
+                isEditMode
+              />
             </div>
           ) : (
-            <p className="text-sm text-gray-700 mt-1 ml-[34px]">{comment.content}</p>
+            <p className="text-sm text-gray-700 mt-1 ml-[14px] whitespace-pre-line">
+              {comment.content}
+            </p>
           )}
         </div>
       ))}
