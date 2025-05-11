@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface CommentInputProps {
   onSubmit: (value: string) => void;
@@ -14,10 +14,18 @@ const CommentInput = ({
   isEditMode = false,
 }: CommentInputProps) => {
   const [value, setValue] = useState(initialValue);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [value]);
 
   const handleSubmit = () => {
     if (!value.trim()) return;
@@ -28,21 +36,27 @@ const CommentInput = ({
   return (
     <div className="w-full">
       <textarea
+        ref={textareaRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="댓글을 입력하세요."
-        rows={1} // 기본 1줄, 자동 늘어날 수 있음 (필요하면 조정)
-        className={`w-full text-sm px-4 py-2 resize-none
+        className={`w-full text-sm px-4 py-2 resize-none overflow-hidden
           ${isEditMode
             ? 'border border-gray-300 focus:border-gray-300 focus:ring-0 rounded-none' 
             : 'border-none focus:ring-1 focus:ring-primary-400'
           }
         `}
+        rows={1}
       />
       <div className="flex justify-end mt-2 mb-5">
         <button
           onClick={handleSubmit}
-          className="text-sm text-accent-blue font-medium hover:underline"
+          disabled={!value.trim()}
+          className={`text-sm font-medium ${
+            !value.trim()
+              ? 'text-gray-300 cursor-not-allowed'
+              : 'text-accent-blue hover:underline'
+          }`}
         >
           {buttonLabel}
         </button>
