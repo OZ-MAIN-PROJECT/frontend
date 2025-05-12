@@ -47,12 +47,29 @@ const PostWrite = () => {
     const confirmed = window.confirm(`게시글을 ${isEdit ? '수정' : '등록'}하시겠습니까?`);
     if (!confirmed) return;
 
-    if (selectedCategory === 'notice') {
-      console.log('공지사항 등록');
-    } else {
-      console.log('커뮤니티 게시글 등록');
-    }
+    // 이미지 URL 가상 생성
+    const imageUrl = image ? URL.createObjectURL(image) : undefined;
 
+    // 저장할 Post 객체 생성
+    const newPost: Post = {
+      id: `${Date.now()}`, // 임시 ID
+      type: selectedCategory,
+      title,
+      content,
+      imageUrl, // 이미지 URL 반영
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      author: { id: 'currentUser', nickname: '나' }, // 임시 작성자
+      isMine: true,
+      likes: 0,
+      comments: 0,
+      views: 0,
+      isPinned: selectedCategory === 'notice' ? true : false, // 기본 고정글 여부
+    };
+
+    console.log('작성된 게시글 데이터:', newPost);
+
+    // 작성 완료 후 해당 게시판으로 이동
     switch (selectedCategory) {
       case 'question':
         navigate('/community/question');
@@ -99,7 +116,7 @@ const PostWrite = () => {
           <input
             type="text"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 입력해주세요."
             className="w-full text-xl font-medium placeholder:text-gray-400 mb-4 focus:outline-none border-b pb-2"
           />
@@ -107,7 +124,7 @@ const PostWrite = () => {
           {/* 내용 입력 */}
           <textarea
             value={content}
-            onChange={e => setContent(e.target.value)}
+            onChange={(e) => setContent(e.target.value)}
             placeholder="콘텐츠 내용을 입력하세요."
             className="w-full min-h-[200px] placeholder:text-gray-400 text-sm focus:outline-none border-b pb-4 resize-none"
           />
