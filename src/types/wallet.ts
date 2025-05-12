@@ -66,3 +66,20 @@ export const sampleData: MonthlyWalletList = {
     },
   ],
 };
+
+// AddWalletModal에서 입력받는 form 데이터 타입 정의
+export interface WalletFormData {
+  date: Date;
+  emotion: Emotion;
+  category: Category | null;
+  amount: number;
+  title: string;
+  description: string; // content와 매핑
+}
+
+export type WalletFormField = keyof WalletFormData;
+
+export type WalletFormChangeHandler = <K extends WalletFormField>(
+  field : K,
+  value : WalletFormData[K]
+) => void;
