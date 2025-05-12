@@ -11,7 +11,7 @@ export interface Author {
 // 게시글 데이터 구조 정의
 export interface Post {
   id: string; // 게시글 고유 ID
-  type: string; // 게시글 유형
+  type: PostType; // 게시글 유형
   title: string; // 제목
   content: string; // 본문 내용
   imageUrl?: string; // 첨부 이미지 URL (선택)
@@ -23,6 +23,7 @@ export interface Post {
   comments?: number; // 댓글
   views?: number; // 조회
 }
+
 // 댓글 데이터 구조 정의
 export interface Comment {
   id: string; // 댓글 고유 ID
