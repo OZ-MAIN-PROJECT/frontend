@@ -12,15 +12,10 @@ const PostList = ({ posts, viewType, boardType }: PostListProps) => {
     return <p className="text-center text-[16px] text-gray-600 pt-10">게시글이 없습니다.</p>;
   }
 
-  // 최신순으로 정렬
-  const sortedPosts = [...posts].sort((a, b) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  });
-
-  // notice 게시판일 경우 고정글/일반글 분리
+  // 공지사항이면 고정글/일반글 분리해서 출력
   if (boardType === 'notice') {
-    const pinnedPosts = sortedPosts.filter(post => post.isPinned);
-    const normalPosts = sortedPosts.filter(post => !post.isPinned);
+    const pinnedPosts = posts.filter(post => post.isPinned);
+    const normalPosts = posts.filter(post => !post.isPinned);
 
     return (
       <>
@@ -58,7 +53,7 @@ const PostList = ({ posts, viewType, boardType }: PostListProps) => {
   // 다른 게시판은 그냥 출력
   return (
     <div className={`grid ${viewType === 'grid' ? 'grid-cols-1 gap-2' : 'flex flex-col gap-6'}`}>
-      {sortedPosts.map(post => (
+      {posts.map(post => (
         <PostCard
           key={post.id}
           post={post}
