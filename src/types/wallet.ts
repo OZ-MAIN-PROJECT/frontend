@@ -11,7 +11,7 @@ export type Category = ExpenseCategory | IncomeCategory;
 
 // Wallet 타입 정의
 export type Wallet = {
-  id: number;
+  id: string;
   type: 'expense' | 'income';
   amount: number; // 금액
   title: string; // 제목
@@ -21,6 +21,31 @@ export type Wallet = {
   date: Date;
 };
 
+// (서버) Wallet 타입 정의
+export type SWallet = {
+  walletUuid: string
+  title: string;
+  content?: string;
+  amount: number;
+  type: "INCOME" | "EXPENSE";
+  category: ExpenseCategory | IncomeCategory;
+  emotion: Emotion;
+  date: string;
+}
+
+export const transformSWalletToWallet = (s: SWallet): Wallet => {
+  return {
+    id: s.walletUuid,
+    title: s.title,
+    content: s.content,
+    amount: s.amount,
+    category: s.category,
+    emotion: s.emotion,
+    date: new Date(s.date),
+    type: s.type === "INCOME" ? "income" : "expense",
+  };
+};
+
 // 날짜별 WalletList 타입 정의
 export type DailyWalletList = {
   date: Date;
@@ -28,83 +53,22 @@ export type DailyWalletList = {
   entries: Wallet[];
 };
 
-export type MonthlyWalletList = {
-  year: number;
-  month: number;
-  totalIncome: number;
-  totalExpense: number;
-  entries: DailyWalletList[];
-};
+// (서버) 날짜별 WalletList 타입 정의
+export type SDailyWalletList = {
+  date: Date;
+  totalAmount: number;
+  entries: SWallet[];
+}
 
-// 예시 데이터
-export const sampleData: MonthlyWalletList = {
-  year: 2025,
-  month: 5,
-  totalIncome: 4000000,
-  totalExpense: 404000,
-  entries: [
-    {
-      date: new Date('2025-05-01'),
-      totalAmount: 4000000,
-      entries: [
-        {
-          id: 1,
-          type: 'income',
-          amount: 4000000,
-          category: '급여',
-          title: '급여',
-          emotion: '기대',
-          date: new Date('2025-04-01'),
-        },
-      ],
-    },
-    {
-      date: new Date('2025-05-11'),
-      totalAmount: -300000,
-      entries: [
-        {
-          id: 2,
-          type: 'expense',
-          amount: -300000,
-          category: '쇼핑',
-          title: '쇼핑',
-          emotion: '기대',
-          date: new Date('2025-04-11'),
-        },
-      ],
-    },
-    {
-      date: new Date('2025-05-19'),
-      totalAmount: -12000,
-      entries: [
-        {
-          id: 3,
-          type: 'expense',
-          amount: -12000,
-          category: '생활',
-          title: '커피',
-          emotion: '위로',
-          date: new Date('2025-04-19'),
-        },
-      ],
-    },
-    {
-      date: new Date('2025-05-24'),
-      totalAmount: -250000,
-      entries: [
-        {
-          id: 4,
-          type: 'expense',
-          amount: -250000,
-          category: '식비',
-          title: '식비',
-          emotion: '만족',
-          date: new Date('2025-04-24'),
-        },
-      ],
-    },
-  ],
-};
+// 월별 WalletList 타입 정의
+export type MonthlyWalletList = {
+  list: DailyWalletList[];
+}
+
+// (서버) 월별 WalletList 타입 정의
+export type SMonthlyWalletList = {
+  list: SDailyWalletList[];
+}
 
 // AddWalletModal에서 입력받는 form 데이터 타입 정의
 export interface WalletFormData {

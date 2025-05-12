@@ -39,7 +39,7 @@ const PostDetail = () => {
     // 실제 삭제 API 연결 예정
     console.log('게시글 삭제:', post.id);
   };
-
+  
   return (
     <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6">
       <CommunityTitle title="감정 소비 이야기" />

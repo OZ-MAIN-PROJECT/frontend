@@ -2,10 +2,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Frame from "../../../components/common/Frame";
 import "swiper/css";
 import "swiper/css/pagination"; 
-import { sampleStatistic } from "@/types/statistic";
 import { getEmotionBgClass, getEmotionTextClass } from "@/utils/emotionColor";
 import { getCategoryIcons } from "@/utils/categoryIcons";
 import { Autoplay, Pagination } from "swiper/modules";
+import { sampleStatistic } from "@/data/wallet";
 
 interface SummarySwiperProps {
   month: number;

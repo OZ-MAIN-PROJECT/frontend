@@ -10,6 +10,7 @@ import SignupPage from './pages/Signup/SignupPage';
 import FindPasswordPage from './pages/FindPassword/FindPasswordPage';
 import ChangePasswordPage from './pages/ChangePassword/ChangePasswordPage';
 import MyPage from './pages/myPage/MyPage';
+import WalletPage from './pages/Wallet/WalletPage';
 import CommunityList from './pages/Community/CommunityList';
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
       <Routes>
         {/* 메인 페이지 */}
         <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+
+        {/* 내역 페이지 */}
+        <Route path="/wallet" element={<MainLayout><WalletPage /></MainLayout>} />
 
         {/* 통계 페이지 */}
         <Route path="/statistic" element={<MainLayout><StatisticsPage /></MainLayout>} />
