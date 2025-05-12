@@ -1,8 +1,6 @@
 import { Category, Emotion } from "./wallet";
 
 export type Statistic = {
-    year: number;
-    month: number;
     totalIncomeAmount: number;
     totalExpenseAmount: number;
     totalConsumptionAmount: number;
@@ -15,8 +13,7 @@ export type Statistic = {
 }
 
 export type YearlyStatistics = {
-    year: number;
-    monthlyData: MonthlyStatistics[];
+    monthlyStatistics: MonthlyStatistics[];
 }
 
 export type MonthlyStatistics = {

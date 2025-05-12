@@ -21,6 +21,7 @@ export type Wallet = {
   date: Date;
 };
 
+// (서버) Wallet 타입 정의
 export type SWallet = {
   walletUuid: string
   title: string;
@@ -52,10 +53,19 @@ export type DailyWalletList = {
   entries: Wallet[];
 }
 
+// (서버) 날짜별 WalletList 타입 정의
+export type SDailyWalletList = {
+  date: Date;
+  totalAmount: number;
+  entries: SWallet[];
+}
+
+// 월별 WalletList 타입 정의
 export type MonthlyWalletList = {
-  year: number;
-  month: number;
-  totalIncome : number;
-  totalExpense : number;
-  entries: DailyWalletList[];
+  list: DailyWalletList[];
+}
+
+// (서버) 월별 WalletList 타입 정의
+export type SMonthlyWalletList = {
+  list: SDailyWalletList[];
 }

@@ -1,14 +1,15 @@
-import { sampleData } from "@/data/wallet";
 import { getEmotionBgClass } from "../../../utils/emotionColor";
+import { MonthlyWalletList } from "@/types/wallet";
 
 type ListViewProps = {
   onDateSelect: (date: Date) => void;
+  data: MonthlyWalletList;
 };
 
-const ListView = ({ onDateSelect }: ListViewProps) => {
+const ListView = ({ onDateSelect, data }: ListViewProps) => {
   return (
     <div className="space-y-3">
-      {sampleData.entries.map((entry) => {
+      {data.list.map((entry) => {
         if (entry.totalAmount === 0) return null;
 
         const { date, entries: transactions } = entry;
@@ -36,11 +37,11 @@ const ListView = ({ onDateSelect }: ListViewProps) => {
             onClick={() => onDateSelect(new Date(date))}
             className={`w-full h-16 p-0 flex items-center rounded-lg bg-gray-200`}
           >
-            <button className={`${bgClass} w-16 h-16 text-2xl font-semibold text-white rounded-l-lg`}>{day}</button>
-            <div className="flex items-center justify-around text-sm text-primary-500 px-5 flex-1">
-              <div className="w-1/3">Income<span className="text-lg text-primary-800 ml-2 font-medium">{income.toLocaleString()}원</span></div>
-              <div className="w-1/3">Expense<span className="text-lg text-primary-800 ml-2 font-medium">{expense.toLocaleString()}원</span></div>
-              <div className="w-1/3">Total <span className="text-lg text-primary-800 ml-2 font-medium">{entry.totalAmount.toLocaleString()}원</span></div>
+            <button className={`${bgClass} w-16 h-16 text-xl md:text-2xl font-semibold text-white rounded-l-lg`}>{day}</button>
+            <div className="flex items-center justify-around text-xs md:text-sm text-primary-500 px-5 flex-1">
+              <div className="w-1/3">Income<span className="block text-base md:text-lg text-primary-800 2xl:ml-2 font-medium 2xl:inline-block">{income.toLocaleString()}원</span></div>
+              <div className="w-1/3">Expense<span className="block text-base md:text-lg text-primary-800 2xl:ml-2 font-medium 2xl:inline-block">{expense.toLocaleString()}원</span></div>
+              <div className="w-1/3">Total <span className="block text-base md:text-lg text-primary-800 2xl:ml-2 font-medium 2xl:inline-block">{entry.totalAmount.toLocaleString()}원</span></div>
             </div>
           </div>
         );

@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 const YearlyLineChart = () => {
-  const chartData = sampleYearlyStatistics.monthlyData.map((m) => ({
+  const chartData = sampleYearlyStatistics.monthlyStatistics.map((m) => ({
     month: `${m.month}월`,
     income: m.incomeAmount,
     expense: m.expenseAmount,

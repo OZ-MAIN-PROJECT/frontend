@@ -10,13 +10,13 @@ type WalletListProps = {
   onPageChange?: (page: number) => void;
 };
 
-export default function WalletList({
+const WalletList = ({
   data,
   isPaginated = false,
   totalPages = 1,
   currentPage = 1,
   onPageChange,
-}: WalletListProps) {
+}: WalletListProps) => {
   return (
     <div className="w-full space-y-4 sm:space-y-0">
       {/* 헤더 */}
@@ -31,7 +31,7 @@ export default function WalletList({
       {data.map((item) => (
         <div
           key={item.id}
-          className="flex-wrap sm:flex-nowrap flex border rounded shadow-sm text-base items-center bg-white sm:grid sm:grid-cols-[1fr_1.5fr_1fr_0.8fr_1fr] sm:items-center gap-2 sm:gap-0 sm:shadow-none sm:border-x-0 sm:border-t-0 sm:border-b sm:rounded-none px-4 py-3"
+          className="flex-wrap sm:flex-nowrap flex border rounded shadow-sm text-base items-center bg-white sm:grid sm:grid-cols-[1.1fr_1.5fr_1.1fr_0.8fr_1fr] sm:items-center gap-2 sm:gap-0 sm:shadow-none sm:border-x-0 sm:border-t-0 sm:border-b sm:rounded-none px-4 py-3"
         >
           {/* 날짜 */}
           <div className="text-gray-600 sm:text-gray-700 w-full sm:w-auto text-left text-sm sm:text-base">
@@ -85,3 +85,5 @@ export default function WalletList({
     </div>
   );
 }
+
+export default WalletList;

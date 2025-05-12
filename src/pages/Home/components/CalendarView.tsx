@@ -2,16 +2,17 @@ import Calendar from "react-calendar";
 import "./CalendarOverride.css";
 import { formatDate } from "../../../utils/utils";
 import { getEmotionBgClass } from "../../../utils/emotionColor";
-import { sampleData } from "@/data/wallet";
+import { MonthlyWalletList } from "@/types/wallet";
 
 type CalendarViewProps = {
   year: number;
   month: number;
   onDateSelect: (date: Date) => void;
+  data: MonthlyWalletList;
 };
 
 
-const CalendarView = ({ year, month, onDateSelect }: CalendarViewProps) => {
+const CalendarView = ({ year, month, onDateSelect, data }: CalendarViewProps) => {
   const value = new Date(year, month, 1);
 
   return (
@@ -26,7 +27,7 @@ const CalendarView = ({ year, month, onDateSelect }: CalendarViewProps) => {
           onClickDay={onDateSelect}
           tileClassName={() => "relative aspect-square p-0 border-none bg-gray-300"}
           tileContent={({ date }) => {
-            const match = sampleData.entries.find(
+            const match = data.list.find(
               (entry) => formatDate(entry.date) === formatDate(date)
             );
 

@@ -6,6 +6,7 @@ import ListView from "./components/ListView";
 import YearMonthDropdown from "./components/YearMonthDropdown";
 import { formatDate } from "../../utils/utils";
 import { getEmotionBgClass } from "../../utils/emotionColor";
+import { useWalletTotal } from "@/hooks/useWallet";
 import { sampleData } from "@/data/wallet";
 
 const HomePage = () => {
@@ -19,9 +20,12 @@ const HomePage = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
+  // const { data: walletData } = useWalletEntries(selectedYear, selectedMonth + 1);
+  const { data: totalData } = useWalletTotal(selectedYear, selectedMonth + 1);
+
   // 해당 날짜의 상세 내역 필터링
   const selectedWalletEntries =
-    sampleData.entries.find(
+    sampleData?.list.find(
       (entry) =>
         selectedDate && formatDate(entry.date) === formatDate(selectedDate)
     )?.entries || [];
@@ -85,10 +89,12 @@ const HomePage = () => {
                     year={selectedYear}
                     month={selectedMonth}
                     onDateSelect={setSelectedDate}
+                    data={sampleData}
                 />
                 ) : (
                 <ListView
                     onDateSelect={setSelectedDate}
+                    data={sampleData}
                 />
                 )}
             </div>
@@ -101,12 +107,16 @@ const HomePage = () => {
         <Frame className="bg-white space-y-5">
             <div className="flex justify-between">
                 <h3 className="flex gap-1"><BanknoteArrowUp />총 수입</h3>
-                <p className="text-accent-blue text-lg font-medium">4,000,000원</p>
+                <p className="text-accent-blue text-lg font-medium">
+                  {totalData?.data?.income?.toLocaleString() || 0}원
+                </p>
             </div>
             <div className="border-b"></div>
             <div className="flex justify-between">
                 <h3 className="flex gap-1"><BanknoteArrowDown />총 지출</h3>
-                <p className="text-accent-red text-lg font-medium">4,000,000원</p>
+                <p className="text-accent-red text-lg font-medium">
+                  {totalData?.data?.expense?.toLocaleString() || 0}원
+                </p>
             </div>
         </Frame>
 

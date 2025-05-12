@@ -3,11 +3,7 @@ import { MonthlyWalletList, Wallet } from "@/types/wallet";
 
 // 예시 데이터
 export const sampleData: MonthlyWalletList = {
-    year: 2025,
-    month: 5,
-    totalIncome: 4000000,
-    totalExpense: 404000,
-    entries: [
+    list: [
       {
         date: new Date("2025-05-01"),
         totalAmount: 4000000,
@@ -35,8 +31,6 @@ export const sampleData: MonthlyWalletList = {
 
 // 단일 월 통계
 export const sampleStatistic: Statistic = {
-    year: 2025,
-    month: 4,
     totalIncomeAmount: 5000000,
     totalExpenseAmount: 2300000,
     totalConsumptionAmount: 2700000, // 나머지는 저축 등으로 추정
@@ -50,21 +44,20 @@ export const sampleStatistic: Statistic = {
   
 // 연간 월별 통계
 export const sampleYearlyStatistics: YearlyStatistics = {
-year: 2025,
-monthlyData: [
-    { month: 1, incomeAmount: 4800000, expenseAmount: 2200000 },
-    { month: 2, incomeAmount: 5000000, expenseAmount: 2100000 },
-    { month: 3, incomeAmount: 5100000, expenseAmount: 2500000 },
-    { month: 4, incomeAmount: 5000000, expenseAmount: 2300000 },
-    { month: 5, incomeAmount: 5200000, expenseAmount: 2700000 },
-    { month: 6, incomeAmount: 5000000, expenseAmount: 2600000 },
-    { month: 7, incomeAmount: 4900000, expenseAmount: 2800000 },
-    { month: 8, incomeAmount: 5000000, expenseAmount: 2400000 },
-    { month: 9, incomeAmount: 5100000, expenseAmount: 2200000 },
-    { month: 10, incomeAmount: 5000000, expenseAmount: 2100000 },
-    { month: 11, incomeAmount: 5000000, expenseAmount: 2300000 },
-    { month: 12, incomeAmount: 5000000, expenseAmount: 2500000 },
-]
+    monthlyStatistics: [
+        { month: 1, incomeAmount: 4800000, expenseAmount: 2200000 },
+        { month: 2, incomeAmount: 5000000, expenseAmount: 2100000 },
+        { month: 3, incomeAmount: 5100000, expenseAmount: 2500000 },
+        { month: 4, incomeAmount: 5000000, expenseAmount: 2300000 },
+        { month: 5, incomeAmount: 5200000, expenseAmount: 2700000 },
+        { month: 6, incomeAmount: 5000000, expenseAmount: 2600000 },
+        { month: 7, incomeAmount: 4900000, expenseAmount: 2800000 },
+        { month: 8, incomeAmount: 5000000, expenseAmount: 2400000 },
+        { month: 9, incomeAmount: 5100000, expenseAmount: 2200000 },
+        { month: 10, incomeAmount: 5000000, expenseAmount: 2100000 },
+        { month: 11, incomeAmount: 5000000, expenseAmount: 2300000 },
+        { month: 12, incomeAmount: 5000000, expenseAmount: 2500000 },
+    ]
 };
 
 // 감정 통계 (PieChart 등용)
