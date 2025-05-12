@@ -72,7 +72,7 @@ const Sidebar = ({ isVisible, toggleSidebar }: { isVisible: boolean; toggleSideb
                 <NavItem to="/community/question" icon={MessageCircleMore} text="질문 게시판" />
               </li>
               <li>
-                <NavItem to="/community/emotional-consumption" icon={MessageCircleHeart} text="감정 소비 이야기" />
+                <NavItem to="/community/emotion" icon={MessageCircleHeart} text="감정 소비 이야기" />
               </li>
               <li>
                 <NavItem to="/community/notice" icon={Volume2} text="공지사항" />

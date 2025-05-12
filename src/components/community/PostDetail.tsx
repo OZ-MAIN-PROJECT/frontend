@@ -11,9 +11,9 @@ import PostMoreButton from './PostMoreButton';
 import CommunityTitle from './CommunityTitle';
 
 const PostDetail = () => {
-  const { id } = useParams();
+  const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
-  const post = dummyPosts.find(p => p.id === id);
+  const post = dummyPosts.find(p => p.id === postId);
 
   if (!post) return <div>게시글을 찾을 수 없습니다.</div>;
 
