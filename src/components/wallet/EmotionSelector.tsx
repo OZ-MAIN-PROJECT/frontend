@@ -12,7 +12,7 @@ const EmotionSelector = () => {
   }
 
   return (
-    <div className='flex gap-2 items-center justify-center py-4'>
+    <div className='flex gap-2 items-center py-4'>
       {EMOTIONS.map(e => {
         return (
           <div key={e}

@@ -1,12 +1,13 @@
 import { ChevronDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-
-interface DropdownProps {
-  items: string[];
-  selected: string;
+import clsx from 'clsx';
+interface DropdownProps<T extends string> {
+  items: T[];
+  selected: T;
   style: 'outline' | 'underline';
   placeholder?: string;
-  onSelect: (item: string) => void;
+  onSelect: (item: T) => void;
+  className?: string;
 }
 
 const getWrapperClass = (style: 'outline' | 'underline') => {
@@ -15,7 +16,7 @@ const getWrapperClass = (style: 'outline' | 'underline') => {
     : 'border border-gray-300 rounded-md bg-white';
 };
 
-const DropdownInput = ({ items, selected, style, placeholder, onSelect }: DropdownProps) => {
+const DropdownInput = <T extends string>({ items, selected, style, placeholder, onSelect, className }: DropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -30,7 +31,7 @@ const DropdownInput = ({ items, selected, style, placeholder, onSelect }: Dropdo
   }, []);
 
   return (
-    <div ref={ref} className="relative inline-block mb-4 w-[500px]">
+    <div ref={ref} className={clsx("relative inline-block mb-4", className || 'w-[500px]')}>
       <div
         className={`flex items-center h-[60px] px-3 py-2 text-sm cursor-pointer ${getWrapperClass(style)}`}
         onClick={() => setIsOpen(prev => !prev)}

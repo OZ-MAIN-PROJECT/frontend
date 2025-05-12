@@ -1,9 +1,17 @@
-import AddWalletForm from "./AddWalletForm";
+// import BlankModal from '../common/Modal/BlankModal';
+import AddWalletForm from './AddWalletForm';
 
-export default function AddWalletModal() {
+interface AddWalletModalProps {
+  type : 'expense' | 'income';
+  // onClose : () => void;
+}
+
+export default function AddWalletModal({type} : AddWalletModalProps) {
   return (
-    <div>
-        <AddWalletForm />
-    </div>
-  )
+    // <BlankModal>
+      <div className="flex flex-col justify-start p-10 ">
+        <AddWalletForm type={type}/>
+      </div>
+    // </BlankModal>
+  );
 }
