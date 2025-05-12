@@ -1,8 +1,8 @@
 import Calendar from "react-calendar";
-import { sampleData } from "../../../types/wallet";
 import "./CalendarOverride.css";
 import { formatDate } from "../../../utils/utils";
 import { getEmotionBgClass } from "../../../utils/emotionColor";
+import { sampleData } from "@/data/wallet";
 
 type CalendarViewProps = {
   year: number;

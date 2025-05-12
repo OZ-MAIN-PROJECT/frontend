@@ -5,7 +5,7 @@ import YearlyLineChart from "./components/YearlyLineChart";
 import EmotionCategoryPieChart from "./components/EmotionCategoryPieChart";
 import SummarySwiper from "./components/SummarySwiper";
 import WalletList from "../Wallet/components/WalletList";
-import { sampleListData } from "@/types/statistic";
+import { sampleListData } from "@/data/wallet";
 
 const StatisticsPage = () => {
 

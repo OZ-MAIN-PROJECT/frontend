@@ -1,4 +1,4 @@
-import { sampleData } from "../../../types/wallet";
+import { sampleData } from "@/data/wallet";
 import { getEmotionBgClass } from "../../../utils/emotionColor";
 
 type ListViewProps = {

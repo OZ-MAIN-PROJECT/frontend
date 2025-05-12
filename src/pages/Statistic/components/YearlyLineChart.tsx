@@ -1,3 +1,4 @@
+import { sampleYearlyStatistics } from "@/data/wallet";
 import {
   LineChart,
   Line,
@@ -8,7 +9,6 @@ import {
   Legend,
   ResponsiveContainer
 } from "recharts";
-import { sampleYearlyStatistics } from "../../../types/statistic";
 
 const YearlyLineChart = () => {
   const chartData = sampleYearlyStatistics.monthlyData.map((m) => ({

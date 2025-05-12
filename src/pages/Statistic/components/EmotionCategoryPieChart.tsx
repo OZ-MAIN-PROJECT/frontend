@@ -9,11 +9,10 @@ import {
 import {
   categoryStatistics,
   EmotionStatistics,
-  sampleCategoryStatistics,
-  sampleEmotionStatistics,
 } from "../../../types/statistic";
 import { getEmotionColorMap } from "../../../utils/emotionColor";
 import { Dot } from "lucide-react";
+import { sampleCategoryStatistics, sampleEmotionStatistics } from "@/data/wallet";
 
 const CATEGORY_COLORS = [
   "#60a5fa", "#fbbf24", "#f87171", "#a78bfa", "#34d399", "#fb7185", "#7dd3fc", "#fde68a", "#fca5a5"

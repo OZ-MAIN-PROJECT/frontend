@@ -4,9 +4,9 @@ import { BanknoteArrowDown, BanknoteArrowUp, CalendarDays, ListTodo, Triangle } 
 import CalendarView from "./components/CalendarView";
 import ListView from "./components/ListView";
 import YearMonthDropdown from "./components/YearMonthDropdown";
-import { sampleData } from "../../types/wallet";
 import { formatDate } from "../../utils/utils";
 import { getEmotionBgClass } from "../../utils/emotionColor";
+import { sampleData } from "@/data/wallet";
 
 const HomePage = () => {
   const [viewMode, setViewMode] = useState<"calendar" | "list">("calendar");
