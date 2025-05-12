@@ -18,6 +18,23 @@ export const dummyPosts: Post[] = [
     views: 300,
     isPinned: true,
   },
+    {
+    id: '999',
+    type: 'notice',
+    title: '새 기능 업데이트 안내',
+    content: '신규 기능이 추가되었습니다. 확인 부탁드립니다.',
+    createdAt: '2025-04-26T10:00:00',
+    updatedAt: '2025-04-26T10:00:00',
+    author: {
+      id: 'admin',
+      nickname: '운영자',
+    },
+    isMine: true,
+    likes: 8,
+    comments: 3,
+    views: 250,
+    isPinned: false,
+  },
   {
     id: '1',
     type: 'emotion',

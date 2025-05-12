@@ -32,7 +32,17 @@ const CommunityList = () => {
     return '/community/write';
   };
 
+  // 현재 게시판 타입에 맞는 글만 필터링
   const filteredPosts = dummyPosts.filter((post) => post.type === type);
+
+  // 최신순 정렬
+  const sortedPosts = [...filteredPosts].sort((a, b) => {
+    if (sortType === 'recent') {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    } else {
+      return (b.likes ?? 0) - (a.likes ?? 0);
+    }
+  });
 
   return (
     <div className="relative w-full max-w-[800px] mx-auto px-4 sm:px-6">
@@ -60,7 +70,13 @@ const CommunityList = () => {
       </div>
 
       {/* 게시글 목록 */}
-      <PostList posts={filteredPosts} viewType={viewType} />
+      {type && (
+        <PostList
+          posts={sortedPosts}
+          viewType={viewType}
+          boardType={type}
+        />
+      )}
 
       {/* 글쓰기 버튼 */}
       {type !== 'notice' && type && (
