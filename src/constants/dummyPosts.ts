@@ -1,6 +1,23 @@
 import { Post } from '../types/Post';
 
 export const dummyPosts: Post[] = [
+    {
+    id: '999',
+    type: 'notice',
+    title: '서비스 점검 안내',
+    content: '서비스 점검이 예정되어 있습니다. 불편을 드려 죄송합니다.',
+    createdAt: '2025-04-25T08:00:00',
+    updatedAt: '2025-04-25T08:00:00',
+    author: {
+      id: 'admin',
+      nickname: '운영자',
+    },
+    isMine: true,
+    likes: 10,
+    comments: 5,
+    views: 300,
+    isPinned: true,
+  },
   {
     id: '1',
     type: 'emotion',

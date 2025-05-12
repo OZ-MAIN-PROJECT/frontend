@@ -11,23 +11,39 @@ const PostList = ({ posts, viewType }: PostListProps) => {
     return <p className="text-center text-[16px] text-gray-600 pt-10">게시글이 없습니다.</p>;
   }
 
-  const isGrid = viewType === 'grid';
-  const containerClass = isGrid
-    ? 'grid grid-cols-1 gap-4'
-    : 'flex flex-col gap-3';
+  const pinnedPosts = posts.filter(post => post.isPinned);
+  const normalPosts = posts.filter(post => !post.isPinned);
 
   return (
-    <div className={containerClass}>
-      {posts.map((post) => (
-        <PostCard
-          key={post.id}
-          post={post}
-          viewType={viewType}
-          onLikeToggle={() => {}}
-          onCommentClick={() => {}}
-        />
-      ))}
-    </div>
+    <>
+      {/* 고정글 먼저 출력 */}
+      {pinnedPosts.length > 0 && (
+        <div className="mb-6">
+          {pinnedPosts.map(post => (
+            <PostCard
+              key={post.id}
+              post={post}
+              viewType={viewType}
+              onLikeToggle={() => {}}
+              onCommentClick={() => {}}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* 일반 게시글 출력 */}
+      <div className={`grid ${viewType === 'grid' ? 'grid-cols-1 gap-2' : 'flex flex-col gap-6'}`}>
+        {normalPosts.map(post => (
+          <PostCard
+            key={post.id}
+            post={post}
+            viewType={viewType}
+            onLikeToggle={() => {}}
+            onCommentClick={() => {}}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Eye } from 'lucide-react';
+import { Eye, Pin } from 'lucide-react'; // ★ 여기 Pin 추가
 import { PostCardProps } from '@/types/Post';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
@@ -16,7 +16,7 @@ interface ExtendedProps extends PostCardProps {
 const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { id, title, imageUrl, content, createdAt, likes, comments, views, author } = post;
+  const { title, imageUrl, content, createdAt, likes, comments, views, author, isPinned } = post;
   const formattedDate = format(new Date(createdAt), 'yyyy.MM.dd HH:mm');
 
   const isInDetailPage =
@@ -81,7 +81,24 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
       </div>
 
       {/* 제목 */}
-      <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
+      <div className="flex items-center justify-between">
+        <h2
+          className={`text-lg font-semibold ${
+            post.type === 'notice' ? 'text-accent-red' : 'text-gray-800'
+          }`}
+        >
+          {title}
+        </h2>
+        {isPinned && (
+          <IconWrapper
+            icon={Pin}
+            size={20}
+            fill="#151d4a"
+            color="#151d4a"
+            className="rotate-45"
+          />
+        )}
+      </div>
 
       {/* 이미지 */}
       {imageUrl && (
