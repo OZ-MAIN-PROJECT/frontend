@@ -1,25 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface CommentInputProps {
   onSubmit: (value: string) => void;
   initialValue?: string;
   buttonLabel?: string;
-  bordered?: boolean;
-  withTopBorder?: boolean;
+  isEditMode?: boolean;
 }
 
 const CommentInput = ({
   onSubmit,
   initialValue = '',
   buttonLabel = '등록',
-  bordered = true,
-  withTopBorder = false,
+  isEditMode = false,
 }: CommentInputProps) => {
   const [value, setValue] = useState(initialValue);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [value]);
 
   const handleSubmit = () => {
     if (!value.trim()) return;
@@ -27,21 +33,31 @@ const CommentInput = ({
     setValue('');
   };
 
-  const isRegistrationInput = withTopBorder && bordered;
-
   return (
-    <div className={`w-full ${withTopBorder ? 'border-t pt-4 mt-6' : ''}`}>
-      <input
-        type="text"
+    <div className="w-full">
+      <textarea
+        ref={textareaRef}
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
         placeholder="댓글을 입력하세요."
-        className={`w-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-400
-          ${bordered && !isRegistrationInput ? 'border rounded-lg' : ''}
+        className={`w-full text-sm px-4 py-2 resize-none overflow-hidden
+          ${isEditMode
+            ? 'border border-gray-300 focus:border-gray-300 focus:ring-0 rounded-none' 
+            : 'border-none focus:ring-1 focus:ring-primary-400'
+          }
         `}
+        rows={1}
       />
       <div className="flex justify-end mt-2 mb-5">
-        <button onClick={handleSubmit} className="text-sm text-accent-blue font-medium hover:underline">
+        <button
+          onClick={handleSubmit}
+          disabled={!value.trim()}
+          className={`text-sm font-medium ${
+            !value.trim()
+              ? 'text-gray-300 cursor-not-allowed'
+              : 'text-accent-blue hover:underline'
+          }`}
+        >
           {buttonLabel}
         </button>
       </div>
