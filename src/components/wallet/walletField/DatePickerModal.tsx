@@ -9,7 +9,7 @@ interface DatePickerModalProps {
 
 export default function DatePickerModal({selected, onChange} : DatePickerModalProps) {
   return (
-    <div className='absolute'>
+    <div className='absolute z-10'>
       <ReactDatePicker
         locale={ko}
         selected={selected}

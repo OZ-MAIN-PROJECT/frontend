@@ -1,11 +1,11 @@
 // Emotion 타입
-export type Emotion =  '행복' | '슬픔' | '분노' | '불안' | '위로' | '만족' | '지침' | '기대';
+export type Emotion = '행복' | '슬픔' | '분노' | '불안' | '위로' | '만족' | '지침' | '기대';
 
 // ExpenseCategory 타입
 export type ExpenseCategory = '식비' | '생활' | '교통/차량' | '건강' | '교육' | '쇼핑' | '여가/문화' | '금융';
 
 // IncomeCategory 타입
-export type IncomeCategory =  '급여' | '상여/보너스' | '용돈' | '부수입' | '투자수익' | '환급';
+export type IncomeCategory = '급여' | '상여/보너스' | '용돈' | '부수입' | '투자수익' | '환급';
 
 export type Category = ExpenseCategory | IncomeCategory;
 
@@ -26,16 +26,15 @@ export type DailyWalletList = {
   date: Date;
   totalAmount: number;
   entries: Wallet[];
-}
+};
 
 export type MonthlyWalletList = {
   year: number;
   month: number;
-  totalIncome : number;
-  totalExpense : number;
+  totalIncome: number;
+  totalExpense: number;
   entries: DailyWalletList[];
-}
-
+};
 
 // 예시 데이터
 export const sampleData: MonthlyWalletList = {
@@ -45,24 +44,64 @@ export const sampleData: MonthlyWalletList = {
   totalExpense: 404000,
   entries: [
     {
-      date: new Date("2025-05-01"),
+      date: new Date('2025-05-01'),
       totalAmount: 4000000,
-      entries: [{ id: 1, type: "income", amount: 4000000, category: "급여", title: "급여", emotion: "기대", date: new Date("2025-04-01") }],
+      entries: [
+        {
+          id: 1,
+          type: 'income',
+          amount: 4000000,
+          category: '급여',
+          title: '급여',
+          emotion: '기대',
+          date: new Date('2025-04-01'),
+        },
+      ],
     },
     {
-      date: new Date("2025-05-11"),
+      date: new Date('2025-05-11'),
       totalAmount: -300000,
-      entries: [{ id: 2, type: "expense", amount: -300000, category: "쇼핑", title: "쇼핑", emotion: "기대", date: new Date("2025-04-11") }],
+      entries: [
+        {
+          id: 2,
+          type: 'expense',
+          amount: -300000,
+          category: '쇼핑',
+          title: '쇼핑',
+          emotion: '기대',
+          date: new Date('2025-04-11'),
+        },
+      ],
     },
     {
-      date: new Date("2025-05-19"),
+      date: new Date('2025-05-19'),
       totalAmount: -12000,
-      entries: [{ id: 3, type: "expense", amount: -12000, category: "생활", title: "커피", emotion: "위로", date: new Date("2025-04-19") }],
+      entries: [
+        {
+          id: 3,
+          type: 'expense',
+          amount: -12000,
+          category: '생활',
+          title: '커피',
+          emotion: '위로',
+          date: new Date('2025-04-19'),
+        },
+      ],
     },
     {
-      date: new Date("2025-05-24"),
+      date: new Date('2025-05-24'),
       totalAmount: -250000,
-      entries: [{ id: 4, type: "expense", amount: -250000, category: "식비", title: "식비", emotion: "만족", date: new Date("2025-04-24") }],
+      entries: [
+        {
+          id: 4,
+          type: 'expense',
+          amount: -250000,
+          category: '식비',
+          title: '식비',
+          emotion: '만족',
+          date: new Date('2025-04-24'),
+        },
+      ],
     },
   ],
 };
@@ -74,12 +113,25 @@ export interface WalletFormData {
   category: Category | null;
   amount: number;
   title: string;
-  description: string; // content와 매핑
+  description: string;
 }
 
+/**
+ * @description
+ * 'date' | 'emotion' | 'category' | 'amount' | 'title' | 'description'
+ */
 export type WalletFormField = keyof WalletFormData;
 
-export type WalletFormChangeHandler = <K extends WalletFormField>(
-  field : K,
-  value : WalletFormData[K]
-) => void;
+// Wallet에 정의된 데이터 필드 타입에 맞는 value만 넣을 수 있게 함
+export type WalletFormChangeHandler = <K extends WalletFormField>(field: K, value: WalletFormData[K]) => void;
+
+export interface walletSelectProps<T> {
+  value: T | null;
+  items: T[];
+  onChange: (value: T | null) => void;
+}
+
+export interface walletFormProps<T> {
+  value: T;
+  onChange: (value: T) => void;
+}

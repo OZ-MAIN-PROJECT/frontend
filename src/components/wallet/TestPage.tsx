@@ -1,16 +1,35 @@
 import { useState } from 'react';
-import AddWalletModal from './AddWalletModal';
 import Button from '../common/Button';
+import AddWalletModal from './AddWalletModal';
 
 export default function TestPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [type, setType] = useState<'income' | 'expense' | null>(null);
 
+  const openModal = (type: 'income' | 'expense') => {
+    setType(type);
+    setIsOpen(true);
+  };
   return (
-    <div className="flex flex-col w-full h-full justify-center items-center">
-      <Button onClick={() => setIsOpen(!isOpen)} color="primary">
-        {!isOpen? '추가' : '닫기'}
+    <div className="flex gap-4 w-full h-full justify-center items-center">
+      <Button onClick={() => openModal('income')} color="primary">
+        수입
       </Button>
-      {isOpen ? <AddWalletModal /> : ''}
+      <Button onClick={() => openModal('expense')} color="primary">
+        지출
+      </Button>
+      {type && isOpen ? (
+        <AddWalletModal
+          type={type}
+          isOpen={isOpen}
+          onClose={() => {
+            setIsOpen(false);
+            setType(null);
+          }}
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 }

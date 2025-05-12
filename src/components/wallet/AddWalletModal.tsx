@@ -1,17 +1,20 @@
-// import BlankModal from '../common/Modal/BlankModal';
+import CloseButton from '../common/Modal/CloseButton';
 import AddWalletForm from './AddWalletForm';
 
 interface AddWalletModalProps {
-  type : 'expense' | 'income';
-  // onClose : () => void;
+  type: 'expense' | 'income';
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function AddWalletModal({type} : AddWalletModalProps) {
+export default function AddWalletModal({ type, isOpen, onClose }: AddWalletModalProps) {
   return (
-    // <BlankModal>
-      <div className="flex flex-col justify-start p-10 ">
-        <AddWalletForm type={type}/>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 py-5 px-10">
+      <div className="absolute inset-0" onClick={onClose} />
+      <div className="modal-wrapper relative bg-white rounded-2xl shadow-xl" onClick={e => e.stopPropagation()}>
+        <CloseButton onClick={onClose} />
+        <div className="flex flex-col justify-start p-10 ">{type && isOpen && <AddWalletForm type={type} />}</div>
       </div>
-    // </BlankModal>
+    </div>
   );
 }

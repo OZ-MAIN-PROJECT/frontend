@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 interface DropdownProps<T extends string> {
   items: T[];
-  selected: T;
+  selected: T | null;
   style: 'outline' | 'underline';
   placeholder?: string;
   onSelect: (item: T) => void;
