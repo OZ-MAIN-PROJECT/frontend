@@ -1,11 +1,12 @@
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import Sidebar from "../components/layout/Sidebar";
-import { useEffect, useState } from "react";
-import IconButton from "../components/common/IconButton";
-import { BanknoteArrowDown, BanknoteArrowUp, Plus } from "lucide-react";
-import { useLocation } from "react-router-dom";
-import SelectLayer from "../components/common/SelectLayer";
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
+import Sidebar from '../components/layout/Sidebar';
+import { useEffect, useState } from 'react';
+import IconButton from '../components/common/IconButton';
+import { BanknoteArrowDown, BanknoteArrowUp, Plus } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import SelectLayer from '../components/common/SelectLayer';
+import AddWalletModal from '@/components/wallet/AddWalletModal';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
@@ -14,7 +15,15 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
 
   const currentPath = location.pathname;
-  const showWalletButton = !currentPath.includes("/community");
+  const showWalletButton = !currentPath.includes('/community');
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [type, setType] = useState<'income' | 'expense' | null>(null);
+
+  const openModal = (type: 'income' | 'expense') => {
+    setType(type);
+    setIsOpen(true);
+  };
 
   // 화면 크기에 따라 사이드바의 초기 상태 설정
   useEffect(() => {
@@ -26,11 +35,11 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     handleResize(); // 화면 크기 초기 로드 시 실행
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -47,14 +56,28 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <Footer />
       </div>
       {showWalletButton && (
-        <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3">
+        <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3 z-50">
           {layerOpen && (
             <SelectLayer
               options={[
-                { icon: BanknoteArrowUp, label: "수입 추가", onClick: () => console.log("수입 추가 모달"), className: "text-primary-500 hover:text-accent-blue" },
-                { icon: BanknoteArrowDown, label: "지출 추가", onClick: () => console.log("지출 추가 모달"), className: "text-primary-500 hover:text-accent-red" },
+                {
+                  icon: BanknoteArrowUp,
+                  label: '수입 추가',
+                  onClick: () => {
+                    openModal('income');
+                  },
+                  className: 'text-primary-500 hover:text-accent-blue',
+                },
+                {
+                  icon: BanknoteArrowDown,
+                  label: '지출 추가',
+                  onClick: () => {
+                    openModal('expense');
+                  },
+                  className: 'text-primary-500 hover:text-accent-red',
+                },
               ]}
-              onSelect={(option) => {
+              onSelect={option => {
                 option.onClick();
                 setLayerOpen(false);
               }}
@@ -65,10 +88,20 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
             onClick={() => setLayerOpen(!layerOpen)}
             className="bg-accent-blue hover:bg-primary-800"
           />
+          {type && isOpen ? (
+            <AddWalletModal
+              type={type}
+              isOpen={isOpen}
+              onClose={() => {
+                setIsOpen(false);
+                setType(null);
+              }}
+            />
+          ) : (
+            ''
+          )}
         </div>
       )}
-
-
     </div>
   );
 };
