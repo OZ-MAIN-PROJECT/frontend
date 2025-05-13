@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Comment } from '@/types/Post';
 import AuthorInfo from './AuthorInfo';
 import CommentInput from './CommentInput';
@@ -37,6 +37,10 @@ const CommentList = () => {
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [replyTargetId, setReplyTargetId] = useState<string | null>(null);
 
+  useEffect(() => {
+    console.log('현재 comments 배열 상태:', comments);
+  }, [comments]);
+
   const handleAddComment = (content: string, parentId: string | null = null) => {
     const newComment: Comment = {
       id: Date.now().toString(),
@@ -67,7 +71,21 @@ const CommentList = () => {
   const handleDeleteComment = (commentId: string) => {
     const confirmed = window.confirm('정말로 이 댓글을 삭제하시겠습니까?');
     if (!confirmed) return;
-    setComments(prev => prev.filter(comment => comment.id !== commentId));
+
+    setComments(prev => {
+      const deleteIds = new Set<string>();
+      const findChildren = (id: string) => {
+        deleteIds.add(id);
+        prev.forEach(comment => {
+          if (comment.parentId === id) {
+            findChildren(comment.id);
+          }
+        });
+      };
+      findChildren(commentId);
+
+      return prev.filter(comment => !deleteIds.has(comment.id));
+    });
   };
 
   const renderComments = (parentId: string | null = null, depth: number = 0) => {
@@ -80,7 +98,7 @@ const CommentList = () => {
       >
         <div
           onClick={() => {
-            if (editingCommentId) return; // 수정 중일 땐 대댓글 입력 막기
+            if (editingCommentId) return;
             setReplyTargetId(comment.id);
           }}
           className="flex flex-col cursor-pointer"
@@ -104,7 +122,6 @@ const CommentList = () => {
               <span className="text-[10px] text-gray-400">{comment.createdAt}</span>
             </div>
 
-            {/* 수정 중이 아닐 때만 MoreButton 보여줌 */}
             {editingCommentId !== comment.id && (
               <div
                 className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center"
@@ -120,7 +137,6 @@ const CommentList = () => {
             )}
           </div>
 
-          {/* 댓글 내용 or 수정 input */}
           {editingCommentId === comment.id ? (
             <div className="mt-2 ml-[34px]">
               <CommentInput
@@ -137,7 +153,6 @@ const CommentList = () => {
           )}
         </div>
 
-        {/* 대댓글 입력창 */}
         {replyTargetId === comment.id && (
           <div className="flex items-start gap-2 ml-6 mt-2">
             <IconWrapper
@@ -155,7 +170,6 @@ const CommentList = () => {
           </div>
         )}
 
-        {/* 대댓글 재귀 렌더링 */}
         {renderComments(comment.id, depth + 1)}
       </div>
     ));
