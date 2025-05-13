@@ -32,6 +32,7 @@ export interface Comment {
   createdAt: string; // 작성일
   author: Author; // 작성자
   isMine?: boolean; // 본인이 작성한 댓글인지 여부 (옵션)
+  parentId?: string | null; // 원댓글 ID
 }
 
 // PostCard 컴포넌트에 전달할 props 타입
