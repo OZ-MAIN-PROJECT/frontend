@@ -1,7 +1,11 @@
 import logo from '@/assets/logo.png';
 import FindPasswordForm from './components/FindPasswordForm';
+import { useState } from 'react';
+import ChangePasswordModal from '../ChangePassword/ChangePasswordModal';
 
 const FindPasswordPage = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="flex flex-col items-center h-full min-h-screen bg-gray-200">
       <div className="my-10 flex flex-col items-center min-w-[700px] border-b-2 border-gr">
@@ -11,8 +15,11 @@ const FindPasswordPage = () => {
         입력하신 정보를 확인한 후, 비밀번호 재설정 안내를 드립니다.</p>
       </div>
       <div className="felx felx-col h-full justify-center">
-        <FindPasswordForm />
+        <FindPasswordForm onVerified={() => setIsOpen(true)} />
       </div>
+      {isOpen && (
+        <ChangePasswordModal fromFindPassword isOpen={isOpen} onClose={() => setIsOpen(false)}/>
+      )}
     </div>
   );
 };

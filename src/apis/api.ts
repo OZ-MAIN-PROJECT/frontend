@@ -1,7 +1,10 @@
+import { BASE_URL } from "@/constants/route";
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 const api = axios.create({
-  baseURL: "http://3.93.163.29:8000",
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

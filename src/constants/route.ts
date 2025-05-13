@@ -1,4 +1,4 @@
-export const BASE_URL = '/api';
+export const BASE_URL = 'http://3.93.163.29:8000';
 
 /**
  * @example
@@ -9,25 +9,25 @@ export const BASE_URL = '/api';
 
 export const END_POINT = {
   // wallet : 가계부 관련 api
-  WALLET: '/wallet', // 가계부
-  WALLET_DAILY: '/wallet/daily', // 가계부 일별 내역
-  WALLET_ENTRIES: '/wallet/entries', // 가계부 수입/지출 전체 내역
+  WALLET: '/api/wallet', // 가계부
+  WALLET_DAILY: '/api/wallet/daily', // 가계부 일별 내역
+  WALLET_ENTRIES: '/api/wallet/entries', // 가계부 수입/지출 전체 내역
   WALLET_DETAIL: (walletId: string | number) => `/wallet/${walletId}`, // 가계부 상세 내역 접근
-  WALLET_TOTAL: '/wallet/total', // 월별 총 수입/지출 조회
+  WALLET_TOTAL: '/api/wallet/total', // 월별 총 수입/지출 조회
 
   // statistics : 통계 관련 api
-  STATISTICS_MONTHLY: '/wallet/statistics/monthly',
-  STATISTICS_EMOTION: '/wallet/statistics/emotion',
-  STATISTICS_CATEGORY: '/wallet/statistics/category',
-  STATISTICS_SUMMARY: '/wallet/statistics/summary',
+  STATISTICS_MONTHLY: '/api/wallet/statistics/monthly',
+  STATISTICS_EMOTION: '/api/wallet/statistics/emotion',
+  STATISTICS_CATEGORY: '/api/wallet/statistics/category',
+  STATISTICS_SUMMARY: '/api/wallet/statistics/summary',
 
   // users : 회원 관련 api
-  USERS_SIGNUP: '/users/signup',
-  USERS_LOGIN: '/users/login',
-  USERS_MYPAGE: '/users/mypage',
-  USERS_LOGOUT: '/users/logout',
-  MYPAGE_POSTS: '/mypage/posts',
-  USERS_FIND_PASSWORD: '/users/find-password',
+  USERS_SIGNUP: '/api/users/signup/',
+  USERS_LOGIN: '/api/users/login/',
+  USERS_MYPAGE: '/api/users/mypage',
+  USERS_LOGOUT: '/api/users/logout',
+  MYPAGE_POSTS: '/api/mypage/posts',
+  USERS_FIND_PASSWORD: '/api/users/find-password',
 
   // notice : 공지사항 관련 api
   NOTICE: '/notice', // 공지사항 목록 조회
