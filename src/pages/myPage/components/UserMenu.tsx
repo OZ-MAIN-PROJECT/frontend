@@ -1,18 +1,15 @@
 import BlankModal from '@/components/common/Modal/BlankModal';
 import { Ban, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import WithdrawModal from './WithdrawModal';
 import { useState } from 'react';
-import AlertModal from '@/components/common/Modal/AlertModal';
+import ConfirmModal from './ConfirmModal';
 
 const UserMenu = () => {
   const navigate = useNavigate();
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const handleWithdrawConfirm = () => {
     setIsWithdrawOpen(false);
-    setIsAlertOpen(true);
   };
 
   return (
@@ -40,15 +37,7 @@ const UserMenu = () => {
       <BlankModal
         isOpen={isWithdrawOpen}
         onClose={() => setIsWithdrawOpen(false)}
-        children={<WithdrawModal onConfirm={handleWithdrawConfirm} onCancel={() => setIsWithdrawOpen(false)} />}
-      />
-      {/* 알림 모달 */}
-      <AlertModal 
-        status = "forbidden"
-        isOpen = {isAlertOpen}
-        onClose = {() => setIsAlertOpen(false)}
-        title="탈퇴 완료"
-        description ="탈퇴가 정상적으로 처리되었습니다."
+        children={<ConfirmModal onConfirm={handleWithdrawConfirm} />}
       />
     </div>
   );

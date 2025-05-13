@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from '@/components/common/Button';
 import BaseModal from '@/components/common/Modal/BaseModal';
 import PasswordConfirm from '@/pages/Signup/components/PasswordConfirm';
-import { usePasswordValidation } from '@/hooks/usePasswordValidation';
+import { usePasswordValidation } from '@/hooks/auth/usePasswordValidation';
 import AlertModal from '@/components/common/Modal/AlertModal';
 
 interface ChangePasswordModalProps {

@@ -1,4 +1,4 @@
-import { login } from "@/apis/auth";
+import { login } from "@/apis/authApi";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
