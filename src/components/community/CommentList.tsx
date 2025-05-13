@@ -73,106 +73,132 @@ const CommentList = () => {
     if (!confirmed) return;
 
     setComments(prev => {
-      const deleteIds = new Set<string>();
-      const findChildren = (id: string) => {
-        deleteIds.add(id);
-        prev.forEach(comment => {
-          if (comment.parentId === id) {
-            findChildren(comment.id);
-          }
-        });
-      };
-      findChildren(commentId);
+      const target = prev.find(c => c.id === commentId);
+      if (!target) return prev;
 
-      return prev.filter(comment => !deleteIds.has(comment.id));
+      if (target.parentId === null) {
+        // 루트댓글이면 content만 "삭제됨" 표시
+        return prev.map(c =>
+          c.id === commentId ? { ...c, content: '작성자가 삭제한 댓글입니다.' } : c
+        );
+      } else {
+        // 일반 댓글/대댓글이면 삭제 + 자식 연결
+        return prev
+          .map(c => (c.parentId === commentId ? { ...c, parentId: target.parentId } : c))
+          .filter(c => c.id !== commentId);
+      }
     });
   };
 
-  const renderComments = (parentId: string | null = null, depth: number = 0) => {
-    const filteredComments = comments.filter(comment => comment.parentId === parentId);
+  // 루트댓글 삭제 + 하위 댓글 모두 삭제 처리
+  useEffect(() => {
+    const deletedRootIds = comments
+      .filter(c => c.parentId === null && c.content === '작성자가 삭제한 댓글입니다.')
+      .map(c => c.id);
 
-    return filteredComments.map((comment, index) => (
-      <div
-        key={comment.id}
-        className={`${depth === 0 && index !== 0 ? 'border-t' : ''} ${depth === 0 ? 'py-4' : 'mt-4 ml-6'}`}
-      >
+    deletedRootIds.forEach(rootId => {
+      const hasChildren = comments.some(c => c.parentId === rootId);
+      if (!hasChildren) {
+        setComments(prev => prev.filter(c => c.id !== rootId));
+      }
+    });
+  }, [comments]);
+
+  const renderComments = (
+    parentId: string | null = null,
+    depth: number = 0,
+    ancestorDeleted: boolean = false
+  ) => {
+    const filtered = comments.filter(c => c.parentId === parentId);
+
+    return filtered.map((comment, index) => {
+      const isDeletedRoot = comment.content === '작성자가 삭제한 댓글입니다.' && comment.parentId === null;
+      const currentAncestorDeleted = ancestorDeleted || isDeletedRoot;
+
+      return (
         <div
-          onClick={() => {
-            if (editingCommentId) return;
-            setReplyTargetId(comment.id);
-          }}
-          className="flex flex-col cursor-pointer"
+          key={comment.id}
+          className={`${depth === 0 && index !== 0 ? 'border-t' : ''} ${depth === 0 ? 'py-4' : 'mt-4 ml-6'}`}
         >
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex items-center gap-2">
-              {depth > 0 && (
-                <IconWrapper
-                  icon={CornerDownRight}
-                  size={16}
-                  color="#151d4a"
-                  className="mt-1"
+          <div
+            onClick={() => {
+              if (editingCommentId || currentAncestorDeleted) return;
+              setReplyTargetId(comment.id);
+            }}
+            className={`flex flex-col ${currentAncestorDeleted ? 'cursor-default' : 'cursor-pointer'}`}
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-center gap-2">
+                {depth > 0 && (
+                  <IconWrapper
+                    icon={CornerDownRight}
+                    size={16}
+                    color="#151d4a"
+                    className="mt-1"
+                  />
+                )}
+                <AuthorInfo
+                  author={comment.author}
+                  size={depth > 0 ? 20 : 24}
+                  fontSize="text-xs"
+                  textColor="text-gray-800"
                 />
-              )}
-              <AuthorInfo
-                author={comment.author}
-                size={depth > 0 ? 20 : 24}
-                fontSize="text-xs"
-                textColor="text-gray-800"
-              />
-              <span className="text-[10px] text-gray-400">{comment.createdAt}</span>
-            </div>
+                <span className="text-[10px] text-gray-400">{comment.createdAt}</span>
+              </div>
 
-            {editingCommentId !== comment.id && (
-              <div
-                className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {comment.isMine && (
+              {/* 내가 작성한 댓글이면 수정/삭제 가능 */}
+              {comment.isMine && editingCommentId !== comment.id && (
+                <div
+                  className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <CommentMoreButton
                     onEdit={() => setEditingCommentId(comment.id)}
                     onDelete={() => handleDeleteComment(comment.id)}
                   />
-                )}
+                </div>
+              )}
+            </div>
+
+            {/* 수정 모드 */}
+            {editingCommentId === comment.id ? (
+              <div className="mt-2 ml-[34px]">
+                <CommentInput
+                  onSubmit={handleEditComment}
+                  initialValue={comment.content}
+                  buttonLabel="수정"
+                  isEditMode
+                />
               </div>
+            ) : (
+              <p className="text-sm text-gray-700 mt-1 ml-[34px] whitespace-pre-line">
+                {comment.content}
+              </p>
             )}
           </div>
 
-          {editingCommentId === comment.id ? (
-            <div className="mt-2 ml-[34px]">
-              <CommentInput
-                onSubmit={handleEditComment}
-                initialValue={comment.content}
-                buttonLabel="수정"
-                isEditMode
+          {/* 대댓글 입력창 */}
+          {replyTargetId === comment.id && !currentAncestorDeleted && (
+            <div className="flex items-start gap-2 ml-6 mt-2">
+              <IconWrapper
+                icon={CornerDownRight}
+                size={16}
+                color="#151d4a"
+                className="mt-2"
               />
+              <div className="flex-1">
+                <CommentInput
+                  onSubmit={(replyContent) => handleAddComment(replyContent, comment.id)}
+                  buttonLabel="답글 등록"
+                />
+              </div>
             </div>
-          ) : (
-            <p className="text-sm text-gray-700 mt-1 ml-[34px] whitespace-pre-line">
-              {comment.content}
-            </p>
           )}
+
+          {renderComments(comment.id, depth + 1, currentAncestorDeleted)}
         </div>
-
-        {replyTargetId === comment.id && (
-          <div className="flex items-start gap-2 ml-6 mt-2">
-            <IconWrapper
-              icon={CornerDownRight}
-              size={16}
-              color="#151d4a"
-              className="mt-2"
-            />
-            <div className="flex-1">
-              <CommentInput
-                onSubmit={(replyContent) => handleAddComment(replyContent, comment.id)}
-                buttonLabel="답글 등록"
-              />
-            </div>
-          </div>
-        )}
-
-        {renderComments(comment.id, depth + 1)}
-      </div>
-    ));
+      );
+    });
   };
 
   return (
