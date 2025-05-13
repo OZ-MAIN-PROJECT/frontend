@@ -32,7 +32,28 @@ const CommunityList = () => {
     return '/community/write';
   };
 
+  // 게시판 타입별 게시글 필터링
   const filteredPosts = dummyPosts.filter((post) => post.type === type);
+
+  // 고정글과 일반글 분리 (공지사항만 해당)
+  const pinnedPosts = type === 'notice' ? filteredPosts.filter(post => post.isPinned) : [];
+  const normalPosts = type === 'notice' ? filteredPosts.filter(post => !post.isPinned) : filteredPosts;
+
+  // 일반글 정렬
+  const sortedNormalPosts = [...normalPosts].sort((a, b) => {
+    if (sortType === 'recent') {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
+    if (sortType === 'popular') {
+      const aLikes = typeof a.likes === 'number' ? a.likes : 0;
+      const bLikes = typeof b.likes === 'number' ? b.likes : 0;
+      return bLikes - aLikes;
+    }
+    return 0;
+  });
+
+  // 고정글 + 일반글 병합한 최종 리스트
+  const finalPosts = [...pinnedPosts, ...sortedNormalPosts];
 
   return (
     <div className="relative w-full max-w-[800px] mx-auto px-4 sm:px-6">
@@ -60,7 +81,13 @@ const CommunityList = () => {
       </div>
 
       {/* 게시글 목록 */}
-      <PostList posts={filteredPosts} viewType={viewType} />
+      {type && (
+        <PostList
+          posts={finalPosts}
+          viewType={viewType}
+          boardType={type}
+        />
+      )}
 
       {/* 글쓰기 버튼 */}
       {type !== 'notice' && type && (

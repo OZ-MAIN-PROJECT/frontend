@@ -22,6 +22,7 @@ export interface Post {
   likes?: number; // 좋아요
   comments?: number; // 댓글
   views?: number; // 조회
+  isPinned?: boolean; // 고정글 여부
 }
 
 // 댓글 데이터 구조 정의
