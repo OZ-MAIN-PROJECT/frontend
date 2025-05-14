@@ -7,8 +7,8 @@ import { SECURITY_QUESTIONS } from '@/constants/questions';
 import AlertModal from '@/components/common/Modal/AlertModal';
 import SecurityQuestion from './SecurityQuestion';
 import PasswordConfirm from './PasswordConfirm';
-import { usePasswordValidation } from '@/hooks/usePasswordValidation';
-import { useSignup } from '@/hooks/useSignup';
+import { usePasswordValidation } from '@/hooks/auth/usePasswordValidation';
+import { useSignup } from '@/hooks/auth/useSignup';
 
 const SignupForm = () => {
   const [userInfo, setUserInfo] = useState({

@@ -1,4 +1,4 @@
-import { signup, SignupPayload } from '@/apis/auth';
+import { signup, SignupPayload } from '@/apis/authApi';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

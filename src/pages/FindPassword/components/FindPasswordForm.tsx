@@ -5,16 +5,13 @@ import { users } from '@/data/users';
 import SecurityQuestion from '@/pages/Signup/components/SecurityQuestion';
 import { isValidEmail } from '@/utils/validators';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const FindPasswordForm = () => {
+const FindPasswordForm = ({onVerified} : {onVerified : () => void}) => {
   const [email, setEmail] = useState('');
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [emailError, setEmailError] = useState('');
   const [formError, setFormError] = useState('');
-
-  const navigate = useNavigate();
 
   // 이메일 유효성 검사
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,12 +28,13 @@ const FindPasswordForm = () => {
     const isFormValid = email && question && answer && !emailError;
     if (!isFormValid) {
       setFormError('모든 필드를 입력해주세요.');
+      return;
     }
     // TODO 서버에 검증 요청
     const foundUser = users.find(u => u.email === email && u.question === question && u.answer === answer);
     if (foundUser) {
+      onVerified();
       console.log('본인확인 성공');
-      navigate('/change-password', { state: { fromFindPassword: true } });
     } else {
       console.log('본인확인 실패');
       setFormError('등록된 회원 정보를 찾을 수 없습니다.')

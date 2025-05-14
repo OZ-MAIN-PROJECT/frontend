@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import { isValidEmail } from '@/utils/validators';
-import { useLogin } from '@/hooks/useLogin';
+import { useLogin } from '@/hooks/auth/useLogin';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
