@@ -1,4 +1,4 @@
-import { BlankModalProps } from '@/types/modal';
+import { BlankModalProps } from '@/types/Modal';
 import BaseModal from './BaseModal';
 
 const BlankModal = ({ isOpen, onClose, width = '620px', height = 'auto', children }: BlankModalProps) => {

@@ -1,4 +1,4 @@
-import { AlertModalProps } from '@/types/modal';
+import { AlertModalProps } from '@/types/Modal';
 import BaseModal from './BaseModal';
 import Icon from './Icon';
 
