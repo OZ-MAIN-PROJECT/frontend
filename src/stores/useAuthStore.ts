@@ -21,7 +21,10 @@ export const useAuthStore = create<AuthState>()(
         const payload = JSON.parse(atob(access.split('.')[1]));
         console.log(payload);
       },
-      setLogout: () => set({ access_token: null, refresh_token: null, user: null }),
+      setLogout: () => {
+        set({ access_token: null, refresh_token: null, user: null })
+        console.log('로그아웃 요청')
+      },
     }),
     {
       name: 'auth-storage',

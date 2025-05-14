@@ -28,6 +28,15 @@ export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
   return response.data;
 };
 
+// 로그아웃
+export const logout = async () => {
+  const refresh_token = useAuthStore.getState().refresh_token
+  const logoutStore = useAuthStore.getState().setLogout;
+  await api.post(END_POINT.USERS_LOGOUT, {refresh : refresh_token});
+  logoutStore();
+  console.log('로그아웃 응답 : ', logoutStore)
+};
+
 // 회원가입
 export interface SignupPayload {
   name: string;
@@ -54,13 +63,6 @@ export const getRefreshToken = async () => {
   if (!refresh_token) throw new Error('refresh_token 없음');
   const response = await api.post(END_POINT.TOKEN_REFRESH, { refresh: refresh_token });
   return response.data;
-};
-
-// 로그아웃
-export const logout = async () => {
-  const logoutStore = useAuthStore.getState().setLogout;
-  await api.post(END_POINT.USERS_LOGOUT);
-  logoutStore();
 };
 
 // 내 정보 조회
