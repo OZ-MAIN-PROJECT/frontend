@@ -17,8 +17,4 @@ export const useLogout = () => {
     }
   };
   return handleLogout;
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> feature/#53-mypage-api
