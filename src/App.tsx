@@ -8,7 +8,6 @@ import PostWrite from './pages/Community/PostWrite';
 import LoginPage from './pages/Login/LoginPage';
 import SignupPage from './pages/Signup/SignupPage';
 import FindPasswordPage from './pages/FindPassword/FindPasswordPage';
-import ChangePasswordPage from './pages/ChangePassword/ChangePasswordPage';
 import MyPage from './pages/myPage/MyPage';
 import WalletPage from './pages/Wallet/WalletPage';
 import CommunityList from './pages/Community/CommunityList';
@@ -33,7 +32,6 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/find-password" element={<FindPasswordPage />} />
-        <Route path="/change-password" element={<ChangePasswordPage />} />
 
         {/* 게시글 관련 페이지 */}
         <Route path="/community/:type/:postId" element={<MainLayout><PostDetail /></MainLayout>} /> {/* 게시글 상세 먼저! */}
