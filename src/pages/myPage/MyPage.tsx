@@ -2,8 +2,12 @@ import MainLayout from '@/layouts/MainLayout';
 import InformationCard from './components/InformationCard';
 import PostCard from './components/PostsCard';
 import UserMenu from './components/UserMenu';
+import { getMyInfo } from '@/apis/authApi';
 
 const MyPage = () => {
+  const myProfile = getMyInfo();
+  console.log(myProfile)
+  
   return (
     <>
       <MainLayout>

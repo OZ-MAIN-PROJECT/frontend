@@ -24,10 +24,10 @@ export const END_POINT = {
   // users : 회원 관련 api
   USERS_SIGNUP: '/api/users/signup/',
   USERS_LOGIN: '/api/users/login/',
-  USERS_MYPAGE: '/api/users/mypage',
-  USERS_LOGOUT: '/api/users/logout',
-  MYPAGE_POSTS: '/api/mypage/posts',
-  USERS_FIND_PASSWORD: '/api/users/find-password',
+  USERS_MYPAGE: '/api/users/mypage/',
+  USERS_LOGOUT: '/api/users/logout/',
+  MYPAGE_POSTS: '/api/mypage/posts/',
+  USERS_FIND_PASSWORD: '/api/users/find-password/',
 
   // notice : 공지사항 관련 api
   NOTICE: '/notice', // 공지사항 목록 조회
