@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://3.93.163.29:8000';
+export const BASE_URL = 'https://sussyoo.kro.kr';
 
 /**
  * @example

@@ -7,7 +7,7 @@ interface AuthState {
   refresh_token : string | null;
   user: SimpleUser | null;
   setAuth: (token: string, refresh : string, user: SimpleUser) => void;
-  logout: () => void;
+  setLogout: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -21,7 +21,10 @@ export const useAuthStore = create<AuthState>()(
         const payload = JSON.parse(atob(access.split('.')[1]));
         console.log(payload);
       },
-      logout: () => set({ access_token: null, user: null }),
+      setLogout: () => {
+        set({ access_token: null, refresh_token: null, user: null })
+        console.log('로그아웃 요청')
+      },
     }),
     {
       name: 'auth-storage',
