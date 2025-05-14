@@ -12,16 +12,16 @@ export interface LoginPayload {
 export interface LoginResponse {
   access: string;
   nickname: string;
-  refresh : string;
-  role : string;
+  refresh: string;
+  role: string;
 }
 
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
   const response = await api.post<LoginResponse>(END_POINT.USERS_LOGIN, payload);
-  const {access, refresh, nickname, role} = response.data;
+  const { access, refresh, nickname, role } = response.data;
 
-  const user = {nickname, role};
-  console.log('로그인 응답 : ', response)
+  const user = { nickname, role };
+  console.log('로그인 응답 : ', response);
   // 상태 저장
   useAuthStore.getState().setAuth(access, refresh, user);
 
@@ -51,15 +51,22 @@ export const signup = async (payload: SignupPayload): Promise<SignupResponse> =>
 // refresh 토큰 재발급 요청
 export const getRefreshToken = async () => {
   const refresh_token = useAuthStore.getState().refresh_token;
-  if (!refresh_token) throw new Error('refresh_token 없음')
-  const response = await api.post(END_POINT.TOKEN_REFRESH, {refresh : refresh_token});
+  if (!refresh_token) throw new Error('refresh_token 없음');
+  const response = await api.post(END_POINT.TOKEN_REFRESH, { refresh: refresh_token });
   return response.data;
-}
+};
+
+// 로그아웃
+export const logout = async () => {
+  const logoutStore = useAuthStore.getState().setLogout;
+  await api.post(END_POINT.USERS_LOGOUT);
+  logoutStore();
+};
 
 // 내 정보 조회
-export const getMyInfo = async () : Promise<User> => {
+export const getMyInfo = async (): Promise<User> => {
   const response = await api.get<User>(END_POINT.USERS_MYPAGE);
-  console.log('마이페이지 응답 : ', response.data)
+  console.log('마이페이지 응답 : ', response.data);
   return response.data;
 };
 
