@@ -77,12 +77,10 @@ const CommentList = () => {
       if (!target) return prev;
 
       if (target.parentId === null) {
-        // 루트댓글이면 content만 "삭제됨" 표시
         return prev.map(c =>
           c.id === commentId ? { ...c, content: '작성자가 삭제한 댓글입니다.' } : c
         );
       } else {
-        // 일반 댓글/대댓글이면 삭제 + 자식 연결
         return prev
           .map(c => (c.parentId === commentId ? { ...c, parentId: target.parentId } : c))
           .filter(c => c.id !== commentId);
@@ -90,7 +88,6 @@ const CommentList = () => {
     });
   };
 
-  // 루트댓글 삭제 + 하위 댓글 모두 삭제 처리
   useEffect(() => {
     const deletedRootIds = comments
       .filter(c => c.parentId === null && c.content === '작성자가 삭제한 댓글입니다.')
@@ -104,98 +101,127 @@ const CommentList = () => {
     });
   }, [comments]);
 
-  const renderComments = (
-    parentId: string | null = null,
-    depth: number = 0,
-    ancestorDeleted: boolean = false
-  ) => {
-    const filtered = comments.filter(c => c.parentId === parentId);
+  const renderRootComments = () => {
+    const rootComments = comments.filter(c => c.parentId === null);
 
-    return filtered.map((comment, index) => {
-      const isDeletedRoot = comment.content === '작성자가 삭제한 댓글입니다.' && comment.parentId === null;
-      const currentAncestorDeleted = ancestorDeleted || isDeletedRoot;
+    return rootComments.map(root => {
+      const childComments = comments.filter(c => c.parentId === root.id);
+      const isDeletedRoot = root.content === '작성자가 삭제한 댓글입니다.';
 
       return (
-        <div
-          key={comment.id}
-          className={`${depth === 0 && index !== 0 ? 'border-t' : ''} ${depth === 0 ? 'py-4' : 'mt-4 ml-6'}`}
-        >
+        <div key={root.id} className="py-4 border-t first:border-t-0">
+          {/* 루트 댓글 */}
           <div
             onClick={() => {
-              if (editingCommentId || currentAncestorDeleted) return;
-              setReplyTargetId(comment.id);
+              if (editingCommentId || isDeletedRoot) return;
+              setReplyTargetId(root.id);
             }}
-            className={`flex flex-col ${currentAncestorDeleted ? 'cursor-default' : 'cursor-pointer'}`}
+            className={`flex flex-col ${isDeletedRoot ? 'cursor-default' : 'cursor-pointer'}`}
           >
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center gap-2">
-                {depth > 0 && (
+                <AuthorInfo
+                  author={root.author}
+                  size={24}
+                  fontSize="text-xs"
+                  textColor="text-gray-800"
+                />
+                <span className="text-[10px] text-gray-400">{root.createdAt}</span>
+              </div>
+              {root.isMine && editingCommentId !== root.id && (
+                <div
+                  className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <CommentMoreButton
+                    onEdit={() => setEditingCommentId(root.id)}
+                    onDelete={() => handleDeleteComment(root.id)}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* 루트 댓글 내용 */}
+            {editingCommentId === root.id ? (
+              <div className="mt-2 ml-[34px]">
+                <CommentInput
+                  onSubmit={handleEditComment}
+                  initialValue={root.content}
+                  buttonLabel="수정"
+                  isEditMode
+                />
+              </div>
+            ) : (
+              <p className="text-sm text-gray-700 mt-1 ml-[34px] whitespace-pre-line">{root.content}</p>
+            )}
+          </div>
+
+          {/* 대댓글 */}
+          {childComments.map(child => (
+            <div
+              key={child.id}
+              onClick={() => {
+                if (editingCommentId || isDeletedRoot) return;
+                setReplyTargetId(root.id); // 무조건 부모에게 답글 다는 구조
+              }}
+              className="mt-4 ml-6 flex flex-col cursor-pointer"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center gap-2">
                   <IconWrapper
                     icon={CornerDownRight}
                     size={16}
                     color="#151d4a"
                     className="mt-1"
                   />
+                  <AuthorInfo
+                    author={child.author}
+                    size={20}
+                    fontSize="text-xs"
+                    textColor="text-gray-800"
+                  />
+                  <span className="text-[10px] text-gray-400">{child.createdAt}</span>
+                </div>
+                {child.isMine && editingCommentId !== child.id && (
+                  <div
+                    className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <CommentMoreButton
+                      onEdit={() => setEditingCommentId(child.id)}
+                      onDelete={() => handleDeleteComment(child.id)}
+                    />
+                  </div>
                 )}
-                <AuthorInfo
-                  author={comment.author}
-                  size={depth > 0 ? 20 : 24}
-                  fontSize="text-xs"
-                  textColor="text-gray-800"
-                />
-                <span className="text-[10px] text-gray-400">{comment.createdAt}</span>
               </div>
 
-              {/* 내가 작성한 댓글이면 수정/삭제 가능 */}
-              {comment.isMine && editingCommentId !== comment.id && (
-                <div
-                  className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <CommentMoreButton
-                    onEdit={() => setEditingCommentId(comment.id)}
-                    onDelete={() => handleDeleteComment(comment.id)}
+              {editingCommentId === child.id ? (
+                <div className="mt-2 ml-[34px]">
+                  <CommentInput
+                    onSubmit={handleEditComment}
+                    initialValue={child.content}
+                    buttonLabel="수정"
+                    isEditMode
                   />
                 </div>
+              ) : (
+                <p className="text-sm text-gray-700 mt-1 ml-[34px] whitespace-pre-line">{child.content}</p>
               )}
             </div>
+          ))}
 
-            {/* 수정 모드 */}
-            {editingCommentId === comment.id ? (
-              <div className="mt-2 ml-[34px]">
-                <CommentInput
-                  onSubmit={handleEditComment}
-                  initialValue={comment.content}
-                  buttonLabel="수정"
-                  isEditMode
-                />
-              </div>
-            ) : (
-              <p className="text-sm text-gray-700 mt-1 ml-[34px] whitespace-pre-line">
-                {comment.content}
-              </p>
-            )}
-          </div>
-
-          {/* 대댓글 입력창 */}
-          {replyTargetId === comment.id && !currentAncestorDeleted && (
+          {/* 대댓글 입력창 (루트 댓글일 때만) */}
+          {replyTargetId === root.id && !isDeletedRoot && (
             <div className="flex items-start gap-2 ml-6 mt-2">
-              <IconWrapper
-                icon={CornerDownRight}
-                size={16}
-                color="#151d4a"
-                className="mt-2"
-              />
+              <IconWrapper icon={CornerDownRight} size={16} color="#151d4a" className="mt-2" />
               <div className="flex-1">
                 <CommentInput
-                  onSubmit={(replyContent) => handleAddComment(replyContent, comment.id)}
+                  onSubmit={(replyContent) => handleAddComment(replyContent, root.id)}
                   buttonLabel="답글 등록"
                 />
               </div>
             </div>
           )}
-
-          {renderComments(comment.id, depth + 1, currentAncestorDeleted)}
         </div>
       );
     });
@@ -204,7 +230,7 @@ const CommentList = () => {
   return (
     <div>
       <CommentInput onSubmit={(content) => handleAddComment(content)} buttonLabel="등록" />
-      {renderComments()}
+      {renderRootComments()}
     </div>
   );
 };
