@@ -1,6 +1,7 @@
 import { BASE_URL } from '@/constants/route';
 import { useAuthStore } from '@/stores/useAuthStore';
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { getRefreshToken } from './authApi';
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -30,22 +31,22 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as CustomAxiosRequestConfig;
 
-    // 401 만료 받고 아직 재시도 안한 경우 (refresh api 요청 방법 확인 필요)
+    // 401 만료 받고 아직 재시도 안한 경우
     if (error.response?.status === 401 && !originalRequest?._retry) {
       originalRequest._retry = true;
 
       try {
-        const refresh_token = useAuthStore.getState().refresh_token;
-        if (!refresh_token) throw new Error ('refresh_token 없음');
-        const res  = await api.post('', {refresh : refresh_token})
-
-        const new_access = res.data.access;
-        const {setAuth, user} = useAuthStore.getState();
-        if (!user) throw Error ('user 정보 없음');
+        const {access : new_access} = await getRefreshToken();
+        const {setAuth, refresh_token, user} = useAuthStore.getState();
+        if (!user || !refresh_token) throw new Error ('인증 정보 부족');
 
         setAuth(new_access, refresh_token, user);
 
-        if (originalRequest.headers) originalRequest.headers.Authorization = `Bearer ${new_access}`;
+        if (originalRequest.headers) {
+          originalRequest.headers.Authorization = `Bearer ${new_access}`;
+        }
+
+        return axios(originalRequest);
       } catch(refreshError) {
         console.log('토큰 갱신 실패', refreshError);
         useAuthStore.getState().logout();

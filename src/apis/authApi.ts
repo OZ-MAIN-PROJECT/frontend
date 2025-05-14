@@ -28,11 +28,6 @@ export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
   return response.data;
 };
 
-// export const getRefreshToken = async () => {
-//   const response = await api.post(END_POINT.USERS_LOGIN, {refresh})
-//   return response.data;
-// }
-
 // 회원가입
 export interface SignupPayload {
   name: string;
@@ -53,8 +48,16 @@ export const signup = async (payload: SignupPayload): Promise<SignupResponse> =>
   return response.data;
 };
 
+// refresh 토큰 재발급 요청
+export const getRefreshToken = async () => {
+  const refresh_token = useAuthStore.getState().refresh_token;
+  if (!refresh_token) throw new Error('refresh_token 없음')
+  const response = await api.post(END_POINT.TOKEN_REFRESH, {refresh : refresh_token});
+  return response.data;
+}
+
 // 내 정보 조회
-export const getMyInfo = async () => {
+export const getMyInfo = async () : Promise<User> => {
   const response = await api.get<User>(END_POINT.USERS_MYPAGE);
   console.log('마이페이지 응답 : ', response.data)
   return response.data;
