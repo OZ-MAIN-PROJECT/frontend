@@ -19,6 +19,7 @@ const ChangePasswordModal = ({ fromFindPassword, isOpen, onClose }: ModalProps) 
   const handleChangePassword = async (password: string) => {
     const success = await update(password);
     setIsSuccess(success);
+    console.log(success);
     return success;
   };
 

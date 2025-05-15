@@ -28,7 +28,7 @@ export const END_POINT = {
   USERS_LOGOUT: '/api/users/logout/',
   MYPAGE_POSTS: '/api/mypage/posts/',
   USERS_FIND_PASSWORD: '/api/users/find-password/',
-  TOKEN_REFRESH : '/api/token/refresh',
+  TOKEN_REFRESH : '/api/token/refresh/',
 
   // notice : 공지사항 관련 api
   NOTICE: '/notice', // 공지사항 목록 조회
