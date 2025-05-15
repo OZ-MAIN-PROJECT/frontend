@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Eye, Pin } from 'lucide-react'; // ★ 여기 Pin 추가
+import { Eye, Pin } from 'lucide-react';
 import { PostCardProps } from '@/types/Post';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
@@ -32,14 +32,30 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
     // 리스트 뷰
     return (
       <div
-        className="w-full bg-white rounded-lg border p-5 shadow-sm flex justify-between items-center gap-4 cursor-pointer"
+        className="w-full bg-white relative rounded-lg border p-5 shadow-sm flex justify-between items-center gap-4 cursor-pointer"
         onClick={handleClick}
       >
+        {/* 고정 핀 아이콘 */}
+        {isPinned && (
+          <div className="absolute top-4 right-4">
+            <IconWrapper icon={Pin} size={20} fill="#151d4a" color="#151d4a" className="rotate-45" />
+          </div>
+        )}
+
         {/* 왼쪽 텍스트 */}
         <div className="flex flex-col flex-1">
-          <AuthorInfo author={author} />
-          <h2 className="text-base font-semibold text-gray-800 mt-2 line-clamp-1">{title}</h2>
-          <p className="text-gray-600 text-sm mt-1 line-clamp-2">{content}</p>
+          <div className="flex items-center gap-2">
+            <AuthorInfo author={author} />
+            <span className="text-xs text-primary-500">{formattedDate}</span>
+          </div>
+          <h2
+            className={`text-base font-semibold mt-2 line-clamp-1 ${
+              post.type === 'notice' ? 'text-accent-red' : 'text-gray-800'
+            }`}
+          >
+            {title}
+          </h2>
+          <p className="text-gray-700 text-sm mt-1 line-clamp-2">{content}</p>
           <div className="flex items-center gap-6 text-primary-500 text-xs mt-3">
             <div className="flex items-center gap-1">
               <LikeButton size={14} onToggle={onLikeToggle} />
@@ -52,7 +68,7 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
             {isInDetailPage && (
               <div className="flex items-center gap-1 ml-auto text-gray-400">
                 <IconWrapper icon={Eye} size={14} />
-                <span>{views}</span>
+                <span className="text-primary-500">{views}</span>
               </div>
             )}
           </div>
@@ -71,9 +87,16 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
   // 피드 뷰
   return (
     <div
-      className="w-full bg-white rounded-lg border p-5 shadow-sm flex flex-col gap-4 cursor-pointer"
+      className="w-full bg-white relative rounded-lg border p-5 shadow-sm flex flex-col gap-4 cursor-pointer"
       onClick={handleClick}
     >
+      {/* 고정 핀 아이콘 */}
+      {isPinned && (
+        <div className="absolute top-4 right-4">
+          <IconWrapper icon={Pin} size={20} fill="#151d4a" color="#151d4a" className="rotate-45" />
+        </div>
+      )}
+
       {/* 작성자/작성일 */}
       <div className="flex items-center gap-2">
         <AuthorInfo author={author} />
@@ -81,24 +104,9 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
       </div>
 
       {/* 제목 */}
-      <div className="flex items-center justify-between">
-        <h2
-          className={`text-lg font-semibold ${
-            post.type === 'notice' ? 'text-accent-red' : 'text-gray-800'
-          }`}
-        >
-          {title}
-        </h2>
-        {isPinned && (
-          <IconWrapper
-            icon={Pin}
-            size={20}
-            fill="#151d4a"
-            color="#151d4a"
-            className="rotate-45"
-          />
-        )}
-      </div>
+      <h2 className={`text-lg font-semibold ${post.type === 'notice' ? 'text-accent-red' : 'text-gray-800'}`}>
+        {title}
+      </h2>
 
       {/* 이미지 */}
       {imageUrl && (
@@ -106,11 +114,7 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
           className="w-full bg-gray-300 flex items-center justify-center rounded-md overflow-hidden"
           style={{ maxHeight: '400px' }}
         >
-          <img
-            src={imageUrl}
-            alt="본문 이미지"
-            className="object-contain w-full max-h-[400px]"
-          />
+          <img src={imageUrl} alt="본문 이미지" className="object-contain w-full max-h-[400px]" />
         </div>
       )}
 
