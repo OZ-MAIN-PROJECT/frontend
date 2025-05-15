@@ -14,21 +14,33 @@ interface MoreDropdownProps {
   hasIcon?: boolean;
   align?: 'left' | 'right';
   type?: 'comment' | 'post';
+  open?: boolean;
+  setOpen?: (open: boolean) => void; 
 }
 
-const MoreDropdown = ({ menuItems, hasIcon = true, align = 'right', type = 'post' }: MoreDropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+const MoreDropdown = ({
+  menuItems,
+  hasIcon = true,
+  align = 'right',
+  type = 'post',
+  open,
+  setOpen,
+}: MoreDropdownProps) => {
+  const [isInternalOpen, setIsInternalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const isOpen = open !== undefined ? open : isInternalOpen;
+  const controlOpen = setOpen ?? setIsInternalOpen;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        controlOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [controlOpen]);
 
   const trigger =
     type === 'comment' ? (
@@ -40,7 +52,7 @@ const MoreDropdown = ({ menuItems, hasIcon = true, align = 'right', type = 'post
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
       <div
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => controlOpen(!isOpen)}
         role="button"
         aria-label="더보기"
         className="p-1 rounded-md hover:bg-gray-100 transition cursor-pointer"
@@ -58,7 +70,10 @@ const MoreDropdown = ({ menuItems, hasIcon = true, align = 'right', type = 'post
           {menuItems.map((item, idx) => (
             <button
               key={idx}
-              onClick={item.onClick}
+              onClick={() => {
+                item.onClick();
+                controlOpen(false);
+              }}
               className={`w-full flex items-center ${
                 hasIcon ? 'gap-2 px-4' : 'justify-center px-3'
               } py-[6px] hover:bg-gray-100 text-left`}

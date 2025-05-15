@@ -48,7 +48,7 @@ const CommentInput = ({
         `}
         rows={1}
       />
-      <div className="flex justify-end mt-2 mb-5">
+      <div className="flex justify-end my-2">
         <button
           onClick={handleSubmit}
           disabled={!value.trim()}
