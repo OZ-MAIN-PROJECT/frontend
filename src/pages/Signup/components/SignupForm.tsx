@@ -9,6 +9,7 @@ import SecurityQuestion from './SecurityQuestion';
 import PasswordConfirm from './PasswordConfirm';
 import { usePasswordValidation } from '@/hooks/auth/usePasswordValidation';
 import { useSignup } from '@/hooks/auth/useSignup';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
   const [userInfo, setUserInfo] = useState({
@@ -20,6 +21,7 @@ const SignupForm = () => {
     question: '',
     answer: '',
   });
+  const navigate = useNavigate();
 
   // 모든 필드에 관한 에러 상태
   const [formError, setFormError] = useState('');
@@ -92,6 +94,7 @@ const SignupForm = () => {
     const { passwordConfirm: _omit, ...signupPayload } = userInfo;
     signup(signupPayload);
     console.log('회원가입 시도:', userInfo);
+    navigate('/login');
   };
 
   useEffect(() => {

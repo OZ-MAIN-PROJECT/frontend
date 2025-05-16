@@ -5,7 +5,7 @@ interface ModalProps {
   onClose: () => void;
 }
 
-const ChangePasswordSuccessModal = ({ isSuccess, onClose }: ModalProps) => {
+const PasswordChangeSuccessModal = ({ isSuccess, onClose }: ModalProps) => {
   return (
     <AlertModal
       isOpen={true}
@@ -16,4 +16,4 @@ const ChangePasswordSuccessModal = ({ isSuccess, onClose }: ModalProps) => {
     />
   );
 };
-export default ChangePasswordSuccessModal;
+export default PasswordChangeSuccessModal;

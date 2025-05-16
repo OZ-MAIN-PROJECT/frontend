@@ -13,7 +13,7 @@ export interface LoginResponse {
   access: string;
   nickname: string;
   refresh: string;
-  role: string;
+  role: 'user' | 'admin';
 }
 
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
@@ -30,11 +30,11 @@ export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
 
 // 로그아웃
 export const logout = async () => {
-  const refresh_token = useAuthStore.getState().refresh_token
+  const refresh_token = useAuthStore.getState().refresh_token;
   const logoutStore = useAuthStore.getState().setLogout;
-  await api.post(END_POINT.USERS_LOGOUT, {refresh : refresh_token});
+  await api.post(END_POINT.USERS_LOGOUT, { refresh: refresh_token });
   logoutStore();
-  console.log('로그아웃 응답 : ', logoutStore)
+  console.log('로그아웃 응답 : ', logoutStore);
 };
 
 // 회원가입
@@ -74,12 +74,22 @@ export const getMyInfo = async (): Promise<User> => {
 
 // 내 정보 수정 (닉네임, 비밀번호)
 export const updateNickname = async (nickname: string) => {
-  const response = await api.patch(END_POINT.USERS_MYPAGE, { nickname });
+  const response = await api.put(END_POINT.USERS_MYPAGE, { nickname });
   return response.data;
 };
 
-export const updatePassword = async (password: string) => {
-  const response = await api.patch(END_POINT.USERS_MYPAGE, { password });
+export const updatePassword = async (currentPassword: string, newPassword: string) => {
+  const response = await api.post(END_POINT.USERS_CHANGE_PASSWORD, {
+    current_password: currentPassword,
+    new_password: newPassword,
+  });
+  return response.data;
+};
+
+// 내 포스트 조회
+export const getMyPosts = async () => {
+  const response = await api.get(END_POINT.MYPAGE_POSTS);
+  console.log(response.data);
   return response.data;
 };
 
@@ -87,6 +97,6 @@ export const updatePassword = async (password: string) => {
 
 // 회원 탈퇴
 export const deleteUser = async (password: string) => {
-  const response = await api.delete(END_POINT.USERS_MYPAGE, { params: { password } });
+  const response = await api.delete(END_POINT.USERS_MYPAGE, { data: { password } });
   return response.data;
 };
