@@ -93,7 +93,7 @@ export interface WalletFormData {
   category: Category | null;
   amount: number;
   title: string;
-  description: string;
+  content: string;
 }
 
 /**
@@ -108,10 +108,12 @@ export type WalletFormChangeHandler = <K extends WalletFormField>(field: K, valu
 export interface walletSelectProps<T> {
   value: T | null;
   items: T[];
-  onChange: (value: T | null) => void;
+  onChange?: (value: T | null) => void;
+  disabled?: boolean; //상세 보기시 필요
 }
 
 export interface walletFormProps<T> {
   value: T;
-  onChange: (value: T) => void;
+  onChange?: (value: T) => void;
+  disabled?: boolean; //상세 보기시 필요
 }

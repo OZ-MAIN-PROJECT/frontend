@@ -23,23 +23,23 @@ export const useWalletEntries = (keyword: string, page: number, size: number) =>
 
 // 가계부 상세 조회
 export const useWalletDetail = (walletUuid: string) => {
-    return useQuery({
-        queryKey: ['walletDetail', walletUuid],
-        queryFn: () => getWalletDetail(walletUuid),
-        enabled: !!walletUuid, // uuid가 있을 때만 실행
-    });
+  return useQuery({
+      queryKey: ['walletDetail', walletUuid],
+      queryFn: () => getWalletDetail(walletUuid),
+      enabled: !!walletUuid,
+  });
 };
 
 // 가계부 등록
 export const useCreateWalletEntry = () => {
-    const queryClient = useQueryClient();
-  
-    return useMutation({
-      mutationFn: createWalletEntry,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['walletEntries'] });
-      },
-    });
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createWalletEntry,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['walletEntries'] });
+    },
+  });
 };
 
 // 가계부 수정
@@ -52,8 +52,8 @@ export const useUpdateWalletEntry = () => {
         content: string;
         amount: number;
         type: "INCOME" | "EXPENSE";
-        category: number;
-        emotion: number;
+        walletCategory: string;
+        emotion: string;
         date: string;
       } }) =>
         updateWalletEntry(walletUuid, data),

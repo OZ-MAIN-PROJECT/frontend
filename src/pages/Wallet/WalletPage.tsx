@@ -23,8 +23,8 @@ const WalletPage = () => {
     return(
         <div className="space-y-4">
             <h2 className="text-2xl font-semibold text-primary-800">수입/지출 내역</h2>
-            <div className="flex justify-between">
-                <p className="text-base">총 <span className="text-accent-blue">{data.totalItems}</span>건</p>
+            <div className="flex justify-between items-center">
+                <p className="text-lg">총 <span className="text-accent-blue">{data.totalItems}</span>건</p>
                 <SearchInput
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}

@@ -9,7 +9,7 @@ export const createWalletEntry = (data: {
   content: string;
   amount: number;
   type: "INCOME" | "EXPENSE";
-  category: string;
+  walletCategory: string;
   emotion: string;
   date: string;
 }) => {
@@ -18,12 +18,11 @@ export const createWalletEntry = (data: {
 
 // 가계부 리스트/캘린더 조회 (월별)
 export const getWalletMontly = async(year: number, month: number): Promise<MonthlyWalletList> => {
-  console.log("월별 캘린더 요청:", { year, month });
   const res = await api.get<SMonthlyWalletList>(END_POINT.WALLET, {
     params: { year, month },
   });
 
-  console.log("월별 캘린더 조회:",res.data.monthly);
+  //console.log("월별 캘린더 조회:",res.data.monthly);
 
   const result: MonthlyWalletList = {
     list: res.data.monthly.map((day): DailyWalletList => ({
@@ -54,8 +53,8 @@ export const getWalletEntries = async(keyword: string, page:number, size: number
 
 // 가계부 상세 조회
 export const getWalletDetail = async (walletUuid: string): Promise<Wallet> => {
+  console.log("가계부 상세 조회:",walletUuid);
   const res = await api.get<SWallet>(END_POINT.WALLET_DETAIL(walletUuid));
-
   console.log(res.data);
   return transformSWalletToWallet(res.data);
 };
@@ -68,8 +67,8 @@ export const updateWalletEntry = (
     content: string;
     amount: number;
     type: "INCOME" | "EXPENSE";
-    category: number;
-    emotion: number;
+    walletCategory: string;
+    emotion: string;
     date: string;
   }
 ) => {
