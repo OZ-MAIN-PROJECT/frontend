@@ -21,7 +21,7 @@ export const getEmotionStatistics = async(year: number, month: number): Promise<
 
 // 카테고리별 소비 통계
 export const getCategoryStatistics = async(year: number, month: number): Promise<categoryStatistics[]> => {
-  const res = await api.get(END_POINT.STATISTICS_CATEGORY, { 
+  const res = await api.get<categoryStatistics[]>(END_POINT.STATISTICS_CATEGORY, { 
     params: { year, month } 
   });
   return res.data;

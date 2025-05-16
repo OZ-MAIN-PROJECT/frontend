@@ -3,13 +3,14 @@ import { Category, Emotion } from "./wallet";
 export type Statistic = {
     totalIncomeAmount: number;
     totalExpenseAmount: number;
-    totalConsumptionAmount: number;
     mainEmotion: Emotion;
     mainEmotionRate: number;
     mainEmotionAmount: number;
     mainCategory: Category;
     mainCategoryRate: number;
     mainCategoryAmount: number;
+    increaseAmount: number; // 이번달 - 저번달
+    increaseRate: number; // ((이번달 - 저번달) / 저번달) * 100
 }
 
 export type MonthlyTotal = {
