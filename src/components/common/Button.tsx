@@ -1,7 +1,7 @@
 import React from 'react';
 
 type ButtonProps = {
-  className?: ''
+  className?: string;
   color?: 'blue' | 'gray' | 'primary';
   variant?: 'fill' | 'outline';
   fontSize?: 'small' | 'large';

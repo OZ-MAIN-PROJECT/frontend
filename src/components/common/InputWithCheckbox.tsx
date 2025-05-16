@@ -65,8 +65,9 @@ const InputWithCheckButton = ({
           className="flex-1 px-4 py-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none"
         />
         <Button
-          width="w-[110px]"
-          height="h-[48px]"
+          className="mr-2 font-normal"
+          width="w-[80px]"
+          height="h-[35px]"
           fontSize="small"
           color="primary"
           onClick={handleCheck}
@@ -76,11 +77,7 @@ const InputWithCheckButton = ({
       </div>
 
       {statusMessage && (
-        <p
-          className={`text-sm mt-1 ${
-            statusType === 'error' ? 'text-accent-red' : 'text-accent-blue'
-          }`}
-        >
+        <p className={`text-sm mt-1 ${statusType === 'error' ? 'text-accent-red' : 'text-accent-blue'}`}>
           {statusMessage}
         </p>
       )}
