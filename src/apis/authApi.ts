@@ -57,6 +57,17 @@ export const signup = async (payload: SignupPayload): Promise<SignupResponse> =>
   return response.data;
 };
 
+// 이메일&닉네임 중복 확인
+export const emailDuplicateCheck = async (email: string) => {
+  const response = await api.get(END_POINT.USERS_DUPLICATE_CHECK, { params: { email } });
+  return response.data;
+};
+
+export const nicknameDuplicateCheck = async (nickname: string) => {
+  const response = await api.get(END_POINT.USERS_DUPLICATE_CHECK, { params: { nickname } });
+  return response.data;
+};
+
 // refresh 토큰 재발급 요청
 export const getRefreshToken = async () => {
   const refresh_token = useAuthStore.getState().refresh_token;
@@ -94,6 +105,17 @@ export const getMyPosts = async () => {
 };
 
 // 비밀번호 찾기
+export interface FindPasswordPayload {
+  email: string;
+  question : string;
+  answer : string;
+}
+
+export const findPassword = async (payload : FindPasswordPayload) => {
+  const response = await api.post(END_POINT.USERS_FIND_PASSWORD, payload);
+  console.log(response.data);
+  return response.data;
+}
 
 // 회원 탈퇴
 export const deleteUser = async (password: string) => {

@@ -16,6 +16,7 @@ export const END_POINT = {
   WALLET_DETAIL: (walletUuid: string | number) => `/api/wallet/${walletUuid}`, // 가계부 상세 내역 접근
   WALLET_TOTAL: '/api/wallet/total', // 월별 총 수입/지출 조회
 
+
   // statistics : 통계 관련 api
   STATISTICS_MONTHLY: '/api/wallet/statistics/monthly',
   STATISTICS_EMOTION: '/api/wallet/statistics/emotion',
@@ -24,12 +25,13 @@ export const END_POINT = {
 
   // users : 회원 관련 api
   USERS_SIGNUP: '/api/users/signup/',
+  USERS_DUPLICATE_CHECK : '/api/users/mypage/check-duplicate/',
   USERS_LOGIN: '/api/users/login/',
   USERS_MYPAGE: '/api/users/mypage/',
   USERS_LOGOUT: '/api/users/logout/',
   MYPAGE_POSTS: '/api/mypage/posts/',
   USERS_FIND_PASSWORD: '/api/users/find-password/',
-  USERS_CHANGE_PASSWORD : 'api/users/mypage/change-password/',
+  USERS_CHANGE_PASSWORD : '/api/users/mypage/change-password/',
   TOKEN_REFRESH : '/api/token/refresh/',
 
   // notice : 공지사항 관련 api
