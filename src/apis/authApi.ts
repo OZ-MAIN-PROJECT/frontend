@@ -57,6 +57,17 @@ export const signup = async (payload: SignupPayload): Promise<SignupResponse> =>
   return response.data;
 };
 
+// 이메일&닉네임 중복 확인
+export const emailDuplicateCheck = async (email: string) => {
+  const response = await api.get(END_POINT.USERS_DUPLICATE_CHECK, { params: { email } });
+  return response.data;
+};
+
+export const nicknameDuplicateCheck = async (nickname: string) => {
+  const response = await api.get(END_POINT.USERS_DUPLICATE_CHECK, { params: { nickname } });
+  return response.data;
+};
+
 // refresh 토큰 재발급 요청
 export const getRefreshToken = async () => {
   const refresh_token = useAuthStore.getState().refresh_token;

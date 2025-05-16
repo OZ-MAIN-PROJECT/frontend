@@ -5,6 +5,7 @@ interface InputWithCheckButtonProps {
   placeholder: string;
   type?: string;
   value: string;
+  filed : 'email' | 'nickname';
   onChange: (value: string) => void;
   validate?: (value: string) => string | null;
   checkAvailability: (value: string) => Promise<string | null>;
