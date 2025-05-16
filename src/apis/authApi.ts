@@ -105,6 +105,17 @@ export const getMyPosts = async () => {
 };
 
 // 비밀번호 찾기
+export interface FindPasswordPayload {
+  email: string;
+  question : string;
+  answer : string;
+}
+
+export const findPassword = async (payload : FindPasswordPayload) => {
+  const response = await api.post(END_POINT.USERS_FIND_PASSWORD, payload);
+  console.log(response.data);
+  return response.data;
+}
 
 // 회원 탈퇴
 export const deleteUser = async (password: string) => {
