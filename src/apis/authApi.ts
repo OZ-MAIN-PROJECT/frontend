@@ -13,7 +13,7 @@ export interface LoginResponse {
   access: string;
   nickname: string;
   refresh: string;
-  role: string;
+  role: 'user' | 'admin';
 }
 
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
@@ -88,7 +88,7 @@ export const updatePassword = async (currentPassword: string, newPassword: strin
 
 // 내 포스트 조회
 export const getMyPosts = async () => {
-  const response = await api.get(END_POINT.MYPAGE_POSTS, {});
+  const response = await api.get(END_POINT.MYPAGE_POSTS);
   console.log(response.data);
   return response.data;
 };

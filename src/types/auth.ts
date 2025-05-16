@@ -12,5 +12,5 @@ export type User = {
 // 로그인 시 가져오는 User 타입
 export type SimpleUser = {
   nickname : string;
-  role : string;
+  role : 'user' | 'admin';
 }
