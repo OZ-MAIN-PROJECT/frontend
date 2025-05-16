@@ -1,14 +1,17 @@
 import { getCategoryStatistics, getEmotionStatistics, getMonthlyStatistics, getSummaryStatistics } from '@/apis/statisticsApi';
-import { createWalletEntry, deleteWalletEntry, getWalletDetail, getWalletEntries, getWalletTotal, updateWalletEntry } from '@/apis/walletApi';
+import { createWalletEntry, deleteWalletEntry, getWalletDetail, getWalletMontly, getWalletTotal, updateWalletEntry } from '@/apis/walletApi';
+import { MonthlyWalletList } from '@/types/wallet';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // 가계부 리스트/캘린더 조회 (월별)
-export const useWalletEntries = (year: number, month: number) => {
-  return useQuery({
-    queryKey: ['walletEntries', year, month],
-    queryFn: () => getWalletEntries(year, month),
+export const useWalletMonthly = (year: number, month: number) => {
+  return useQuery<MonthlyWalletList>({
+    queryKey: ['walletMonthly', year, month],
+    queryFn: () => getWalletMontly(year, month),
+    enabled: !!year && !!month,
   });
 };
+
 
 
 // 가계부 상세 조회

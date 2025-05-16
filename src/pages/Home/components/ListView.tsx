@@ -3,13 +3,22 @@ import { MonthlyWalletList } from "@/types/wallet";
 
 type ListViewProps = {
   onDateSelect: (date: Date) => void;
-  data: MonthlyWalletList;
+  data?: MonthlyWalletList;
 };
 
 const ListView = ({ onDateSelect, data }: ListViewProps) => {
+  const visibleEntries = data?.list.filter((entry) => entry.totalAmount > 0) ?? [];
+
+  if (visibleEntries.length === 0) {
+    return (
+      <div className="text-center text-gray-400 py-10">
+        등록된 데이터가 없습니다.
+      </div>
+    );
+  }
   return (
     <div className="space-y-3">
-      {data.list.map((entry) => {
+      {data?.list.map((entry) => {
         if (entry.totalAmount === 0) return null;
 
         const { date, entries: transactions } = entry;
@@ -41,7 +50,7 @@ const ListView = ({ onDateSelect, data }: ListViewProps) => {
             <div className="flex items-center justify-around text-xs md:text-sm text-primary-500 px-5 flex-1">
               <div className="w-1/3">Income<span className="block text-base md:text-lg text-primary-800 2xl:ml-2 font-medium 2xl:inline-block">{income.toLocaleString()}원</span></div>
               <div className="w-1/3">Expense<span className="block text-base md:text-lg text-primary-800 2xl:ml-2 font-medium 2xl:inline-block">{expense.toLocaleString()}원</span></div>
-              <div className="w-1/3">Total <span className="block text-base md:text-lg text-primary-800 2xl:ml-2 font-medium 2xl:inline-block">{entry.totalAmount.toLocaleString()}원</span></div>
+              <div className="w-1/3">Total <span className="block text-base md:text-lg text-primary-800 2xl:ml-2 font-medium 2xl:inline-block">{entry.totalAmount?.toLocaleString()}원</span></div>
             </div>
           </div>
         );

@@ -12,6 +12,11 @@ export type Statistic = {
     mainCategoryAmount: number;
 }
 
+export type MonthlyTotal = {
+    income: number;
+    expense: number;
+}
+
 export type YearlyStatistics = {
     monthlyStatistics: MonthlyStatistics[];
 }

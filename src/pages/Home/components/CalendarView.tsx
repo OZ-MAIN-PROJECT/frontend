@@ -8,7 +8,7 @@ type CalendarViewProps = {
   year: number;
   month: number;
   onDateSelect: (date: Date) => void;
-  data: MonthlyWalletList;
+  data?: MonthlyWalletList;
 };
 
 
@@ -27,25 +27,27 @@ const CalendarView = ({ year, month, onDateSelect, data }: CalendarViewProps) =>
           onClickDay={onDateSelect}
           tileClassName={() => "relative aspect-square p-0 border-none bg-gray-300"}
           tileContent={({ date }) => {
-            const match = data.list.find(
+            const match = data?.list.find(
               (entry) => formatDate(entry.date) === formatDate(date)
             );
 
             if (!match || match.totalAmount === 0) return null;
 
             const maxEntry = match.entries.reduce((prev, curr) =>
-              Math.abs(curr.amount) > Math.abs(prev.amount) ? curr : prev
+              Math.abs(curr.amount) > Math.abs(prev.amount) ? curr : prev,
+              match.entries[0]
             );
+
+            if (!maxEntry || !maxEntry.emotion) return null;
 
             const bgClass = getEmotionBgClass(maxEntry.emotion);
 
             return (
-              <button
-                type="button"
+              <div
                 className={`w-full h-full flex items-center justify-center text-sm text-white ${bgClass}`}
               >
-                {match.totalAmount.toLocaleString()}
-              </button>
+                {match.totalAmount.toLocaleString()}원
+              </div>
             );
           }}
         />

@@ -1,9 +1,10 @@
 import { categoryStatistics, EmotionStatistics, Statistic, YearlyStatistics } from "@/types/statistic";
 import api from "./api";
+import { END_POINT } from "@/constants/route";
 
 // 월별 수입/지출 그래프
 export const getMonthlyStatistics = async ( year: number ): Promise<YearlyStatistics> => {
-  const res = await api.get<YearlyStatistics>("/api/wallet/statistics/monthly", {
+  const res = await api.get<YearlyStatistics>(END_POINT.STATISTICS_MONTHLY, {
     params: { year },
   });
   return res.data;
@@ -12,7 +13,7 @@ export const getMonthlyStatistics = async ( year: number ): Promise<YearlyStatis
 
 // 감정별 소비 통계
 export const getEmotionStatistics = async(year: number, month: number): Promise<EmotionStatistics[]> => {
-  const res = await api.get<EmotionStatistics[]>("/api/wallet/statistics/emotion", { 
+  const res = await api.get<EmotionStatistics[]>(END_POINT.STATISTICS_EMOTION, { 
     params: { year, month } 
   });
   return res.data;
@@ -20,7 +21,7 @@ export const getEmotionStatistics = async(year: number, month: number): Promise<
 
 // 카테고리별 소비 통계
 export const getCategoryStatistics = async(year: number, month: number): Promise<categoryStatistics[]> => {
-  const res = await api.get("/api/wallet/statistics/category", { 
+  const res = await api.get(END_POINT.STATISTICS_CATEGORY, { 
     params: { year, month } 
   });
   return res.data;
@@ -28,7 +29,7 @@ export const getCategoryStatistics = async(year: number, month: number): Promise
 
 // 소비 요약 카드
 export const getSummaryStatistics = async(year: number, month: number): Promise<Statistic> => {
-  const res =  await api.get("/api/wallet/statistics/summary", { 
+  const res =  await api.get(END_POINT.STATISTICS_SUMMARY, { 
     params: { year, month } 
   });
   return res.data;

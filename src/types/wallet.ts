@@ -67,7 +67,7 @@ export type MonthlyWalletList = {
 
 // (서버) 월별 WalletList 타입 정의
 export type SMonthlyWalletList = {
-  list: SDailyWalletList[];
+  monthly: SDailyWalletList[];
 }
 
 // AddWalletModal에서 입력받는 form 데이터 타입 정의
