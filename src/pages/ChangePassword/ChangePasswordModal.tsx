@@ -1,46 +1,43 @@
-import { useNavigate } from 'react-router-dom';
-import { useUpdatePassword } from '@/hooks/auth/useUpdateProfile';
-import ChangePasswordSuccessModal from './components/ChangePasswordSuccessModal';
-import { useState } from 'react';
+import BlankModal from '@/components/common/Modal/BlankModal';
 import ChangePasswordForm from './components/ChangePasswordForm';
-import BaseModal from '@/components/common/Modal/BaseModal';
+import PasswordChangeSuccessModal from './components/PasswordChangeSuccessModal';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useUpdatePassword } from '@/hooks/auth/useUpdateProfile';
 
-interface ModalProps {
-  fromFindPassword?: boolean;
-  isOpen : boolean;
+interface Props {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const ChangePasswordModal = ({ fromFindPassword, isOpen, onClose }: ModalProps) => {
+const ChangePasswordModal = ({ isOpen, onClose }: Props) => {
   const navigate = useNavigate();
   const { update } = useUpdatePassword();
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
 
-  const handleChangePassword = async (password: string) => {
-    const success = await update(password);
+  const handleChangePassword = async (currentPassword: string, newPassword: string) => {
+    const success = await update(currentPassword, newPassword);
     setIsSuccess(success);
     return success;
   };
 
   const handleClose = () => {
     setIsSuccess(null);
-    if (isSuccess) {
-      if (fromFindPassword) {
-        navigate('/login');
-      } else {
-        navigate('/mypage');
-      }
-    } else {
-      onClose();
-    }
+    onClose(); // 모달 닫기
+
+    if (isSuccess) navigate('/mypage');
   };
 
   return (
     <>
-      <BaseModal isOpen={isOpen} onClose={handleClose}>
-      <ChangePasswordForm onSubmit={handleChangePassword} />
-      </BaseModal>
-      {isSuccess !== null && <ChangePasswordSuccessModal isSuccess={isSuccess} onClose={handleClose} />}
+      <BlankModal isOpen={isOpen} onClose={handleClose}>
+        <div className="flex flex-col justify-center items-center w-[500px]">
+          <h2 className='text-2xl font-semibold mb-10'>비밀번호 변경</h2>
+          <ChangePasswordForm onSubmit={handleChangePassword} />
+        </div>
+      </BlankModal>
+
+      {isSuccess !== null && <PasswordChangeSuccessModal isSuccess={isSuccess} onClose={handleClose} />}
     </>
   );
 };

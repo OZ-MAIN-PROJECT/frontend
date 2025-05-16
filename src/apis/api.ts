@@ -49,7 +49,7 @@ api.interceptors.response.use(
         return axios(originalRequest);
       } catch(refreshError) {
         console.log('토큰 갱신 실패', refreshError);
-        useAuthStore.getState().logout();
+        useAuthStore.getState().setLogout();
         window.location.href = '/login';
       }
     }

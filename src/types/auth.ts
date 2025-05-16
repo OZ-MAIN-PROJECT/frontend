@@ -6,11 +6,11 @@ export type User = {
   email: string; // 이메일
   phone: string; // 휴대전화번호
   profileImage?: string;
-  role?:string; // 관리자 여부
+  role:string; // 관리자 여부
 };
 
 // 로그인 시 가져오는 User 타입
 export type SimpleUser = {
   nickname : string;
-  role : string;
+  role : 'user' | 'admin';
 }

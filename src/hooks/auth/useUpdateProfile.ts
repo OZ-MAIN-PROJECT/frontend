@@ -33,8 +33,8 @@ export const useUpdatePassword = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const update = async (password: string): Promise<boolean> => {
-    if (!password.trim()) {
+  const update = async (currentPassword: string, newPassword : string): Promise<boolean> => {
+    if (!currentPassword.trim() || !newPassword.trim()) {
       setError('비밀번호를 입력해주세요!');
       return false;
     }
@@ -42,7 +42,7 @@ export const useUpdatePassword = () => {
       setLoading(true);
       setError('');
 
-      await updatePassword(password);
+      await updatePassword(currentPassword, newPassword);
       return true;
     } catch (err) {
       setError('비밀번호 변경에 실패했습니다.');
