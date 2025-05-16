@@ -74,7 +74,7 @@ export type SMonthlyWalletList = {
 export interface WalletFormData {
   date: Date;
   emotion: Emotion;
-  category: Category | null;
+  walletCategory: Category | null;
   amount: number;
   title: string;
   description: string;
@@ -82,7 +82,7 @@ export interface WalletFormData {
 
 /**
  * @description
- * 'date' | 'emotion' | 'category' | 'amount' | 'title' | 'description'
+ * 'date' | 'emotion' | 'walletCategory' | 'amount' | 'title' | 'description'
  */
 export type WalletFormField = keyof WalletFormData;
 
