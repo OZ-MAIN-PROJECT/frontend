@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
+import { useLogout } from '@/hooks/auth/useLogout';
 
 // NavLink
 const NavItem = ({ to, icon: Icon, text }: { to: string; icon: React.ElementType; text: string }) => {
@@ -83,7 +84,7 @@ const Sidebar = ({ isVisible, toggleSidebar }: { isVisible: boolean; toggleSideb
 
         <div className="flex flex-col gap-5 lg:gap-6 px-[26px] pb-4">
           <ButtonItem icon={Settings} text="설정" />
-          <ButtonItem icon={LogOut} text="로그아웃" />
+          <ButtonItem icon={LogOut} text="로그아웃" onClick={useLogout()}/>
         </div>
       </nav>
     </div>
