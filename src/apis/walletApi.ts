@@ -1,4 +1,4 @@
-import { DailyWalletList, MonthlyWalletList, SMonthlyWalletList, SWallet, transformSWalletToWallet, Wallet } from "@/types/wallet";
+import { DailyWalletList, MonthlyWalletList, SMonthlyWalletList, SWallet, SWalletList, transformSWalletToWallet, Wallet, WalletList } from "@/types/wallet";
 import api from "./api";
 import { END_POINT } from "@/constants/route";
 import { MonthlyTotal } from "@/types/statistic";
@@ -36,6 +36,21 @@ export const getWalletMontly = async(year: number, month: number): Promise<Month
   return result;
 };
 
+// 가계부 리스트 조회 (전체)
+export const getWalletEntries = async(keyword: string, page:number, size: number): Promise<WalletList> => {
+  const res = await api.get<SWalletList>(END_POINT.WALLET_ENTRIES, {
+    params: { keyword, page, size },
+  });
+
+  console.log("전체 리스트 조회:",res.data);
+
+  const result: WalletList = {
+    ...res.data,
+    result: res.data.result.map(transformSWalletToWallet),
+  };
+
+  return result;
+};
 
 // 가계부 상세 조회
 export const getWalletDetail = async (walletUuid: string): Promise<Wallet> => {

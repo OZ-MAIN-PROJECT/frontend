@@ -28,7 +28,7 @@ export type SWallet = {
   content?: string;
   amount: number;
   type: "INCOME" | "EXPENSE";
-  category: ExpenseCategory | IncomeCategory;
+  walletCategory: ExpenseCategory | IncomeCategory;
   emotion: Emotion;
   date: string;
 }
@@ -39,7 +39,7 @@ export const transformSWalletToWallet = (s: SWallet): Wallet => {
     title: s.title,
     content: s.content,
     amount: s.amount,
-    category: s.category,
+    category: s.walletCategory,
     emotion: s.emotion,
     date: new Date(s.date),
     type: s.type === "INCOME" ? "income" : "expense",
@@ -68,6 +68,22 @@ export type MonthlyWalletList = {
 // (서버) 월별 WalletList 타입 정의
 export type SMonthlyWalletList = {
   monthly: SDailyWalletList[];
+}
+
+// 전체 리스트 조회
+export type WalletList = {
+  page: number,
+  totalPages: number,
+  totalItems: number,
+  result: Wallet[]
+}
+
+// 전체 리스트 조회
+export type SWalletList = {
+  page: number,
+  totalPages: number,
+  totalItems: number,
+  result: SWallet[]
 }
 
 // AddWalletModal에서 입력받는 form 데이터 타입 정의
