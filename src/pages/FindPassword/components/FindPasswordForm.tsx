@@ -1,7 +1,7 @@
+import { findPassword } from '@/apis/authApi';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import { SECURITY_QUESTIONS } from '@/constants/questions';
-import { users } from '@/data/users';
 import SecurityQuestion from '@/pages/Signup/components/SecurityQuestion';
 import { isValidEmail } from '@/utils/validators';
 import { useState } from 'react';
@@ -21,7 +21,7 @@ const FindPasswordForm = ({onVerified} : {onVerified : () => void}) => {
     setEmailError(error);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log({ email, question, answer });
 
@@ -31,12 +31,11 @@ const FindPasswordForm = ({onVerified} : {onVerified : () => void}) => {
       return;
     }
     // TODO 서버에 검증 요청
-    const foundUser = users.find(u => u.email === email && u.question === question && u.answer === answer);
-    if (foundUser) {
+    try {
+      await findPassword({email, question, answer});
       onVerified();
-      console.log('본인확인 성공');
-    } else {
-      console.log('본인확인 실패');
+    } catch (err) {
+      console.log('본인 확인 싶패', err);
       setFormError('등록된 회원 정보를 찾을 수 없습니다.')
     }
   };

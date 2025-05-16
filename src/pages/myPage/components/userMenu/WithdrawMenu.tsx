@@ -2,7 +2,7 @@ import AlertModal from '@/components/common/Modal/AlertModal';
 import BlankModal from '@/components/common/Modal/BlankModal';
 import { Ban } from 'lucide-react';
 import { useState } from 'react';
-import ConfirmModal from '../ConfirmModal';
+import ConfirmModal from './ConfirmModal';
 
 const WithdrawMenu = () => {
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);

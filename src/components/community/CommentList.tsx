@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Comment } from '@/types/Post';
+import { useState, useEffect } from 'react';
+import { Comment } from '@/types/Post';
 import AuthorInfo from './AuthorInfo';
 import CommentInput from './CommentInput';
+import CommentInput from './CommentInput';
 import CommentMoreButton from './CommentMoreButton';
+import IconWrapper from './IconWrapper';
+import { CornerDownRight } from 'lucide-react';
 import IconWrapper from './IconWrapper';
 import { CornerDownRight } from 'lucide-react';
 
@@ -12,6 +17,7 @@ const CommentList = () => {
       id: '1',
       content: '오 어디카페예요? 너무 맛있겠네요!',
       createdAt: '2025-05-13 08:24',
+      createdAt: '2025-05-13 08:24',
       isMine: true,
       author: {
         id: 'user1',
@@ -19,10 +25,13 @@ const CommentList = () => {
         profileImageUrl: '',
       },
       parentId: null,
+      parentId: null,
     },
     {
       id: '2',
       content: '칭찬이 빵보다 달다구리합니다 ☕️',
+      createdAt: '2025-05-13 08:25',
+      isMine: true,
       createdAt: '2025-05-13 08:25',
       isMine: true,
       author: {
@@ -30,6 +39,7 @@ const CommentList = () => {
         nickname: '유저2',
         profileImageUrl: '',
       },
+      parentId: null,
       parentId: null,
     },
   ]);
@@ -40,9 +50,17 @@ const CommentList = () => {
   useEffect(() => {
     console.log('현재 comments 배열 상태:', comments);
   }, [comments]);
+  const [replyTargetId, setReplyTargetId] = useState<string | null>(null);
+
+  useEffect(() => {
+    console.log('현재 comments 배열 상태:', comments);
+  }, [comments]);
 
   const handleAddComment = (content: string, parentId: string | null = null) => {
+  const handleAddComment = (content: string, parentId: string | null = null) => {
     const newComment: Comment = {
+      id: Date.now().toString(),
+      content,
       id: Date.now().toString(),
       content,
       createdAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
@@ -53,7 +71,10 @@ const CommentList = () => {
         profileImageUrl: '',
       },
       parentId,
+      parentId,
     };
+    setComments(prev => [...prev, newComment]);
+    setReplyTargetId(null);
     setComments(prev => [...prev, newComment]);
     setReplyTargetId(null);
   };
