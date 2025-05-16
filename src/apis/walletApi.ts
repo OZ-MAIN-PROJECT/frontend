@@ -7,6 +7,7 @@ import {
   Wallet,
 } from '@/types/wallet';
 import api from './api';
+import { END_POINT } from '@/constants/route';
 
 // 가계부 등록
 export const createWalletEntry = async (data: {
@@ -18,7 +19,7 @@ export const createWalletEntry = async (data: {
   emotion: string;
   date: string;
 }) => {
-  const response = await api.post('/api/wallet', data);
+  const response = await api.post(END_POINT.WALLET, data);
   return response.data;
 };
 
