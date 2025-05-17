@@ -1,5 +1,5 @@
 import { getCategoryStatistics, getEmotionStatistics, getMonthlyStatistics, getSummaryStatistics } from '@/apis/statisticsApi';
-import { createWalletEntry, deleteWalletEntry, getWalletDetail, getWalletEntries, getWalletMontly, getWalletTotal, updateWalletEntry } from '@/apis/walletApi';
+import { createWalletEntry, deleteWalletEntry, getWalletDetail, getWalletEntries, getWalletMonthly, getWalletTotal, updateWalletEntry } from '@/apis/walletApi';
 import { MonthlyWalletList, WalletList } from '@/types/wallet';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 export const useWalletMonthly = (year: number, month: number) => {
   return useQuery<MonthlyWalletList>({
     queryKey: ['walletMonthly', year, month],
-    queryFn: () => getWalletMontly(year, month),
+    queryFn: () => getWalletMonthly(year, month),
     enabled: !!year && !!month,
   });
 };

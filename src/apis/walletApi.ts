@@ -29,7 +29,7 @@ export const createWalletEntry = async (data: {
 };
 
 // 가계부 리스트/캘린더 조회 (월별)
-export const getWalletEntries = async (year: number, month: number): Promise<MonthlyWalletList> => {
+export const getWalletMonthly = async (year: number, month: number): Promise<MonthlyWalletList> => {
   const res = await api.get<SMonthlyWalletList>('/api/wallet', {
     params: { year, month },
   });
