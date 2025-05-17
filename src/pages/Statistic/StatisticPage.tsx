@@ -16,7 +16,7 @@ const StatisticsPage = () => {
 
   const monthLabel = `${selectedMonth + 1}`.padStart(2, "0");
 
-  const { isLoading, isError, statistic, list } = useStatisticsData(selectedYear, selectedMonth);
+  const { isLoading, isError, statistic, list } = useStatisticsData(selectedYear, selectedMonth + 1);
 
   if (isLoading) return <p className="text-center py-10">통계를 불러오는 중...</p>;
   if (isError) return <p className="text-center py-10 text-red-500">데이터를 불러오는 데 실패했습니다.</p>;
