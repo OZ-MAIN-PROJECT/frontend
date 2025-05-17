@@ -1,22 +1,20 @@
 import { Wallet } from "@/types/wallet";
 import EmotionBadge from "./EmotionBadge";
 import { formatDate } from "@/utils/utils";
+import { useModalStore } from "@/stores/useModalStore";
 
 type WalletListProps = {
   data: Wallet[];
-  isPaginated?: boolean;
-  totalPages?: number;
-  currentPage?: number;
-  onPageChange?: (page: number) => void;
 };
 
-const WalletList = ({
-  data,
-  isPaginated = false,
-  totalPages = 1,
-  currentPage = 1,
-  onPageChange,
-}: WalletListProps) => {
+const WalletList = ({ data }: WalletListProps) => {
+
+  const { openModal } = useModalStore();
+
+  const openDetailModal= (walletUuid: string) => {
+    openModal("walletDetail", { walletUuid });
+  };
+
   return (
     <div className="w-full space-y-4 sm:space-y-0">
       {/* 헤더 */}
@@ -39,7 +37,7 @@ const WalletList = ({
           </div>
 
           {/* 제목 */}
-          <div className="text-gray-700 w-full sm:w-auto text-left">
+          <div className="text-gray-700 w-full sm:w-auto text-left cursor-pointer" onClick={() => openDetailModal(item.id)}>
             {item.title}
           </div>
           {/* 금액 */}
@@ -63,25 +61,6 @@ const WalletList = ({
           </div>
         </div>
       ))}
-
-      {/* 페이지네이션 */}
-      {isPaginated && (
-        <div className="flex justify-center mt-6 space-x-2">
-          {Array.from({ length: totalPages }, (_, idx) => (
-            <button
-              key={idx + 1}
-              onClick={() => onPageChange?.(idx + 1)}
-              className={`px-3 py-1 border rounded ${
-                currentPage === idx + 1
-                  ? "bg-accent-blue text-white"
-                  : "bg-white text-gray-700"
-              }`}
-            >
-              {idx + 1}
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

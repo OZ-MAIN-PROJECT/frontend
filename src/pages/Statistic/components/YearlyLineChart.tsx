@@ -1,4 +1,4 @@
-import { sampleYearlyStatistics } from "@/data/wallet";
+import { useStatisticsData } from "@/hooks/useStatisticData";
 import {
   LineChart,
   Line,
@@ -10,12 +10,21 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-const YearlyLineChart = () => {
-  const chartData = sampleYearlyStatistics.monthlyStatistics.map((m) => ({
+interface YearlyLineChartProps {
+  year: number;
+  month: number;
+}
+
+const YearlyLineChart = ({ year, month }:YearlyLineChartProps) => {
+  
+  const { yearly } = useStatisticsData(year, month);
+
+  const chartData = yearly.data?.monthlyStatistics.map((m) => ({
     month: `${m.month}월`,
     income: m.incomeAmount,
     expense: m.expenseAmount,
-  }));
+  })) ?? [];
+  
 
   return (
     <ResponsiveContainer width="100%" height={300} className={`pr-5`}>
