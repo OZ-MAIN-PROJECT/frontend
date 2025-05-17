@@ -7,8 +7,6 @@ import { BanknoteArrowDown, BanknoteArrowUp, Plus } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import SelectLayer from '../components/common/SelectLayer';
 import AddWalletModal from '@/components/wallet/AddWalletModal';
-import WalletDetailModal from '@/components/wallet/WalletDetailModal';
-import WalletFormModal from '@/components/wallet/WalletFormModal';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
@@ -104,8 +102,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           )}
         </div>
       )}
-      <WalletDetailModal />
-      <WalletFormModal />
     </div>
   );
 };

@@ -5,14 +5,14 @@ import "swiper/css/pagination";
 import { getEmotionBgClass, getEmotionTextClass } from "@/utils/emotionColor";
 import { getCategoryIcons } from "@/utils/categoryIcons";
 import { Autoplay, Pagination } from "swiper/modules";
-import { Statistic } from "@/types/statistic";
+import { sampleStatistic } from "@/data/wallet";
 
 interface SummarySwiperProps {
   month: number;
-  stat: Statistic;
 }
 
-const SummarySwiper = ({ month, stat }:SummarySwiperProps) => {
+const SummarySwiper = ({ month }:SummarySwiperProps) => {
+  const stat = sampleStatistic;
   const monthLabel = `${month + 1}`.padStart(2, "0");
 
   const CategoryIcon = getCategoryIcons[stat.mainCategory];
@@ -45,8 +45,8 @@ const SummarySwiper = ({ month, stat }:SummarySwiperProps) => {
       <SwiperSlide>
         <Frame className="bg-accent-blue space-y-3 text-white h-full">
           <h2 className="text-lg font-medium">{monthLabel}월 소비 금액</h2>
-          <p className="text-2xl font-semibold">총 {formatAmount(stat.totalExpenseAmount)}</p>
-          <p className="opacity-50 text-sm">저번달보다 {formatAmount(stat.increaseRate)}% 늘었어요!</p>
+          <p className="text-2xl font-semibold">총 {formatAmount(stat.totalConsumptionAmount)}</p>
+          <p className="opacity-50 text-sm">저번달보다 0% 늘었어요!</p>
         </Frame>
       </SwiperSlide>
       <SwiperSlide>
