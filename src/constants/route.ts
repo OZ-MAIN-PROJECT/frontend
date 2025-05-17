@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://sussyoo.kro.kr/';
+export const BASE_URL = 'https://sussyoo.kro.kr';
 
 /**
  * @example
@@ -9,11 +9,11 @@ export const BASE_URL = 'https://sussyoo.kro.kr/';
 
 export const END_POINT = {
   // wallet : 가계부 관련 api
-  WALLET: '/api/wallet', // 가계부
-  WALLET_DAILY: '/api/wallet/daily', // 가계부 일별 내역
-  WALLET_ENTRIES: '/api/wallet/entries', // 가계부 수입/지출 전체 내역
-  WALLET_DETAIL: (walletUuid: string | number) => `/api/wallet/${walletUuid}`, // 가계부 상세 내역 접근
-  WALLET_TOTAL: '/api/wallet/total', // 월별 총 수입/지출 조회
+  WALLET: '/api/wallet/', // 가계부
+  WALLET_DAILY: '/api/wallet/daily/', // 가계부 일별 내역
+  WALLET_ENTRIES: '/api/wallet/entries/', // 가계부 수입/지출 전체 내역
+  WALLET_DETAIL: (walletId: string | number) => `/wallet/${walletId}`, // 가계부 상세 내역 접근
+  WALLET_TOTAL: '/api/wallet/total/', // 월별 총 수입/지출 조회
 
   // statistics : 통계 관련 api
   STATISTICS_MONTHLY: '/api/wallet/statistics/monthly',
@@ -23,12 +23,14 @@ export const END_POINT = {
 
   // users : 회원 관련 api
   USERS_SIGNUP: '/api/users/signup/',
+  USERS_DUPLICATE_CHECK : '/api/users/mypage/check-duplicate/',
   USERS_LOGIN: '/api/users/login/',
-  USERS_MYPAGE: '/api/users/mypage',
+  USERS_MYPAGE: '/api/users/mypage/',
   USERS_LOGOUT: '/api/users/logout/',
   MYPAGE_POSTS: '/api/mypage/posts/',
   USERS_FIND_PASSWORD: '/api/users/find-password/',
-  TOKEN_REFRESH : '/api/token/refresh',
+  USERS_CHANGE_PASSWORD : '/api/users/mypage/change-password/',
+  TOKEN_REFRESH : '/api/token/refresh/',
 
   // notice : 공지사항 관련 api
   NOTICE: '/notice', // 공지사항 목록 조회

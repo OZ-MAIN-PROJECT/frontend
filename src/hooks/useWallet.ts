@@ -1,45 +1,35 @@
 import { getCategoryStatistics, getEmotionStatistics, getMonthlyStatistics, getSummaryStatistics } from '@/apis/statisticsApi';
-import { createWalletEntry, deleteWalletEntry, getWalletDetail, getWalletEntries, getWalletMontly, getWalletTotal, updateWalletEntry } from '@/apis/walletApi';
-import { MonthlyWalletList, WalletList } from '@/types/wallet';
+import { createWalletEntry, deleteWalletEntry, getWalletDetail, getWalletEntries, getWalletTotal, updateWalletEntry } from '@/apis/walletApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // 가계부 리스트/캘린더 조회 (월별)
-export const useWalletMonthly = (year: number, month: number) => {
-  return useQuery<MonthlyWalletList>({
-    queryKey: ['walletMonthly', year, month],
-    queryFn: () => getWalletMontly(year, month),
-    enabled: !!year && !!month,
-  });
-};
-
-// 가계부 전체내역 조회
-export const useWalletEntries = (keyword: string, page: number, size: number) => {
-  return useQuery<WalletList>({
-    queryKey: ["walletEntries", keyword, page, size],
-    queryFn: () => getWalletEntries(keyword, page, size),
+export const useWalletEntries = (year: number, month: number) => {
+  return useQuery({
+    queryKey: ['walletEntries', year, month],
+    queryFn: () => getWalletEntries(year, month),
   });
 };
 
 
 // 가계부 상세 조회
 export const useWalletDetail = (walletUuid: string) => {
-  return useQuery({
-      queryKey: ['walletDetail', walletUuid],
-      queryFn: () => getWalletDetail(walletUuid),
-      enabled: !!walletUuid,
-  });
+    return useQuery({
+        queryKey: ['walletDetail', walletUuid],
+        queryFn: () => getWalletDetail(walletUuid),
+        enabled: !!walletUuid, // uuid가 있을 때만 실행
+    });
 };
 
 // 가계부 등록
 export const useCreateWalletEntry = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: createWalletEntry,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['walletEntries'] });
-    },
-  });
+    const queryClient = useQueryClient();
+  
+    return useMutation({
+      mutationFn: createWalletEntry,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['walletEntries'] });
+      },
+    });
 };
 
 // 가계부 수정
@@ -52,8 +42,8 @@ export const useUpdateWalletEntry = () => {
         content: string;
         amount: number;
         type: "INCOME" | "EXPENSE";
-        walletCategory: string;
-        emotion: string;
+        category: number;
+        emotion: number;
         date: string;
       } }) =>
         updateWalletEntry(walletUuid, data),

@@ -18,7 +18,7 @@ const FindPasswordPage = () => {
         <FindPasswordForm onVerified={() => setIsOpen(true)} />
       </div>
       {isOpen && (
-        <ChangePasswordModal fromFindPassword isOpen={isOpen} onClose={() => setIsOpen(false)}/>
+        <ChangePasswordModal isOpen={isOpen} onClose={() => setIsOpen(false)}/>
       )}
     </div>
   );

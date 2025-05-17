@@ -13,9 +13,7 @@ export const useConfirmWithdraw = () => {
     try {
       setLoading(true);
       setError('');
-
       await deleteUser(password);
-
       return true;
     } catch (err) {
       setError('비밀번호가 올바르지 않습니다.');

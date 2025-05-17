@@ -1,8 +1,8 @@
 import React from 'react';
 
 type ButtonProps = {
-  className?: ''
-  color?: 'blue' | 'gray' | 'primary' | 'red' ;
+  className?: string;
+  color?: 'blue' | 'gray' | 'primary';
   variant?: 'fill' | 'outline';
   fontSize?: 'small' | 'large';
   width?: string;
@@ -27,10 +27,6 @@ const colorMap = {
     fill: 'bg-primary-800 text-white hover:bg-primary-800 active:bg-primary-900',
     outline:
       'bg-transparent border border-primary-800 text-primary-800 hover:bg-transparent active:text-white active:bg-primary-800',
-  },
-  red: {
-    fill: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700',
-    outline: 'bg-transparent border border-red-500 text-red-500 hover:bg-transparent active:bg-red-600',
   },
 };
 

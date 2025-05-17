@@ -7,8 +7,6 @@ import { BanknoteArrowDown, BanknoteArrowUp, Plus } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import SelectLayer from '../components/common/SelectLayer';
 import AddWalletModal from '@/components/wallet/AddWalletModal';
-import WalletDetailModal from '@/components/wallet/WalletDetailModal';
-import WalletFormModal from '@/components/wallet/WalletFormModal';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
@@ -20,9 +18,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const showWalletButton = !currentPath.includes('/community');
 
   const [isOpen, setIsOpen] = useState(false);
-  const [type, setType] = useState<'income' | 'expense' | null>(null);
+  const [type, setType] = useState<'INCOME' | 'EXPENSE' | null>(null);
 
-  const openModal = (type: 'income' | 'expense') => {
+  const openModal = (type: 'INCOME' | 'EXPENSE') => {
     setType(type);
     setIsOpen(true);
   };
@@ -66,7 +64,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                   icon: BanknoteArrowUp,
                   label: '수입 추가',
                   onClick: () => {
-                    openModal('income');
+                    openModal('INCOME');
                   },
                   className: 'text-primary-500 hover:text-accent-blue',
                 },
@@ -74,7 +72,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                   icon: BanknoteArrowDown,
                   label: '지출 추가',
                   onClick: () => {
-                    openModal('expense');
+                    openModal('EXPENSE');
                   },
                   className: 'text-primary-500 hover:text-accent-red',
                 },
@@ -104,8 +102,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           )}
         </div>
       )}
-      <WalletDetailModal />
-      <WalletFormModal />
     </div>
   );
 };

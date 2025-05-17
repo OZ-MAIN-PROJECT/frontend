@@ -2,7 +2,7 @@ import CloseButton from '../common/Modal/CloseButton';
 import AddWalletForm from './AddWalletForm';
 
 interface AddWalletModalProps {
-  type : 'expense' | 'income';
+  type: 'INCOME' | 'EXPENSE';
   isOpen : boolean;
   onClose : () => void;
 }
