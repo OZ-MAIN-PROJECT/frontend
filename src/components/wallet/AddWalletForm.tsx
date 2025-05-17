@@ -22,7 +22,7 @@ const AddWalletForm = ({ type }: AddWalletFormProps) => {
     walletCategory: null,
     amount: 0,
     title: '',
-    description: '',
+    content: '',
   });
   const [error, setError] = useState('');
   const categoryItems = type === 'INCOME' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
@@ -82,7 +82,7 @@ const AddWalletForm = ({ type }: AddWalletFormProps) => {
       </div>
       <div className="flex flex-col gap-6">
         <LabeledInput value={form.title} onChange={v => handleChange('title', v)} />
-        <LabeledTextArea value={form.description} onChange={v => handleChange('description', v)} />
+        <LabeledTextArea value={form.content} onChange={v => handleChange('content', v)} />
       </div>
       {error && <p className="text-sm text-accent-red text-center mt-1 mb-4">{error}</p>}
       <div className="flex w-full justify-center mb-4">
