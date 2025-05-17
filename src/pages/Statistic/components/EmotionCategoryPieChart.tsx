@@ -12,15 +12,22 @@ import {
 } from "../../../types/statistic";
 import { getEmotionColorMap } from "../../../utils/emotionColor";
 import { Dot } from "lucide-react";
-import { sampleCategoryStatistics, sampleEmotionStatistics } from "@/data/wallet";
+import { useStatisticsData } from "@/hooks/useStatisticData";
 
 const CATEGORY_COLORS = [
   "#60a5fa", "#fbbf24", "#f87171", "#a78bfa", "#34d399", "#fb7185", "#7dd3fc", "#fde68a", "#fca5a5"
 ];
 
-const EmotionCategoryPieChart = () => {
+interface EmotionCategoryPieChartProps {
+  year: number;
+  month: number;
+}
+
+const EmotionCategoryPieChart = ({ year, month }:EmotionCategoryPieChartProps) => {
   const [activeTab, setActiveTab] = useState<"emotion" | "category">("emotion");
   const [isMobile, setIsMobile] = useState(false);
+
+  const { emotion, category } = useStatisticsData(year, month);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
@@ -29,8 +36,7 @@ const EmotionCategoryPieChart = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const data: (EmotionStatistics | categoryStatistics)[] =
-    activeTab === "emotion" ? sampleEmotionStatistics : sampleCategoryStatistics;
+  const data: (EmotionStatistics | categoryStatistics)[] = activeTab === "emotion" ? (emotion.data ?? []) : (category.data ?? []);
 
   const CustomLegend = ({ payload }: { payload?: { value: string; color: string; payload: EmotionStatistics | categoryStatistics; }[] }) => {
     if (!payload) return null;

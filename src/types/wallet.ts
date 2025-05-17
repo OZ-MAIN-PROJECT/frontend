@@ -28,7 +28,7 @@ export type SWallet = {
   content?: string;
   amount: number;
   type: "INCOME" | "EXPENSE";
-  category: ExpenseCategory | IncomeCategory;
+  walletCategory: ExpenseCategory | IncomeCategory;
   emotion: Emotion;
   date: string;
 }
@@ -39,7 +39,7 @@ export const transformSWalletToWallet = (s: SWallet): Wallet => {
     title: s.title,
     content: s.content,
     amount: s.amount,
-    category: s.category,
+    category: s.walletCategory,
     emotion: s.emotion,
     date: new Date(s.date),
     type: s.type === "INCOME" ? "income" : "expense",
@@ -67,7 +67,23 @@ export type MonthlyWalletList = {
 
 // (서버) 월별 WalletList 타입 정의
 export type SMonthlyWalletList = {
-  list: SDailyWalletList[];
+  monthly: SDailyWalletList[];
+}
+
+// 전체 리스트 조회
+export type WalletList = {
+  page: number,
+  totalPages: number,
+  totalItems: number,
+  result: Wallet[]
+}
+
+// 전체 리스트 조회
+export type SWalletList = {
+  page: number,
+  totalPages: number,
+  totalItems: number,
+  result: SWallet[]
 }
 
 // AddWalletModal에서 입력받는 form 데이터 타입 정의
@@ -77,7 +93,7 @@ export interface WalletFormData {
   walletCategory: Category | null;
   amount: number;
   title: string;
-  description: string;
+  content: string;
 }
 
 /**
@@ -92,10 +108,12 @@ export type WalletFormChangeHandler = <K extends WalletFormField>(field: K, valu
 export interface walletSelectProps<T> {
   value: T | null;
   items: T[];
-  onChange: (value: T | null) => void;
+  onChange?: (value: T | null) => void;
+  disabled?: boolean; //상세 보기시 필요
 }
 
 export interface walletFormProps<T> {
   value: T;
-  onChange: (value: T) => void;
+  onChange?: (value: T) => void;
+  disabled?: boolean; //상세 보기시 필요
 }

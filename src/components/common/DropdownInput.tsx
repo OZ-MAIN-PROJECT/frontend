@@ -8,6 +8,7 @@ interface DropdownProps<T extends string> {
   placeholder?: string;
   onSelect: (item: T) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 const getWrapperClass = (style: 'outline' | 'underline') => {
@@ -16,7 +17,7 @@ const getWrapperClass = (style: 'outline' | 'underline') => {
     : 'border border-gray-300 rounded-md bg-white';
 };
 
-const DropdownInput = <T extends string>({ items, selected, style, placeholder, onSelect, className }: DropdownProps<T>) => {
+const DropdownInput = <T extends string>({ items, selected, style, placeholder, onSelect, className, disabled }: DropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -40,7 +41,7 @@ const DropdownInput = <T extends string>({ items, selected, style, placeholder, 
         <ChevronDown />
       </div>
 
-      {isOpen && (
+      {isOpen && !disabled && (
         <ul className="absolute left-0 w-full border rounded bg-white shadow z-10 text-gray-600 max-h-[200px] overflow-auto">
           {items.map(item => (
             <li
