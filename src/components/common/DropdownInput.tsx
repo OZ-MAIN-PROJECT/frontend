@@ -31,7 +31,7 @@ const DropdownInput = <T extends string>({ items, selected, style, placeholder, 
   }, []);
 
   return (
-    <div ref={ref} className={clsx("relative inline-block mb-4", className || 'w-[500px]')}>
+    <div ref={ref} className={clsx("relative inline-block mb-4", className || 'w-full')}>
       <div
         className={`flex items-center h-[60px] px-3 py-2 text-sm cursor-pointer ${getWrapperClass(style)}`}
         onClick={() => setIsOpen(prev => !prev)}
