@@ -4,29 +4,34 @@ import AlertModal from '@/components/common/Modal/AlertModal';
 import { useConfirmWithdraw } from '@/hooks/auth/useConfirmWithdraw';
 import { Lock } from 'lucide-react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ConfirmModal = ({ onConfirm }: { onConfirm: () => void }) => {
   const [password, setPassword] = useState('');
   const { confirmWithdraw, loading, error } = useConfirmWithdraw();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await confirmWithdraw(password);
     if (success) {
       onConfirm();
       setIsAlertOpen(true);
+      navigate('/');
     }
   };
 
   return (
-    <div className="flex justify-center w-[500px] flex-col items-center text-center mb-10">
+    <div className="flex justify-center w-[300px] sm:w-[500px] flex-col items-center text-center mb-10">
       <Lock size={60} color="#2D60FF" />
-      <h2 className="text-xl text-gray-800 mt-[34px]">본인 확인을 위해 비밀번호를 입력해주세요.</h2>
-      <div className="min-h-[20px] mt-[14px] text-accent-red">
-        탈퇴 후 30일 이내에 같은 계정으로 해당 서비스에 가입할 수 없습니다.
-        </div>
-      <form className="flex flex-col w-[500px] my-8" onSubmit={handleSubmit}>
+      <h2 className="text-xl text-gray-800 mt-[34px] flex flex-wrap justify-center">
+        본인 확인을 위해<br className="sm:hidden" /> 비밀번호를 입력해주세요.
+      </h2>
+      <div className="min-h-[20px] mt-[14px] text-accent-red flex flex-wrap justify-center">
+        탈퇴 후 30일 이내에 같은 계정으로<br className="sm:hidden" />해당 서비스에 가입할 수 없습니다.
+      </div>
+      <form className="flex flex-col w-full my-8" onSubmit={handleSubmit}>
         <Input
           className="w-full h-[60px]"
           value={password}

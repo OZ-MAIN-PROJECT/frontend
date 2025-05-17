@@ -42,10 +42,10 @@ const ChangePasswordForm = ({ onSubmit }: Props) => {
   }
 
   return (
-    <form className="flex flex-col items-center gap-4 w-full mb-10" >
-      <p className='text-gray-600 '>현재 비밀번호 입력</p>
+    <form className="flex flex-col items-center justify-center gap-4 w-full mb-10" >
+      <p className='text-gray-600'>현재 비밀번호 입력</p>
       <Input 
-        className='h-[60px] w-[500px]'
+        className='h-[60px] w-full'
         type='password'
         value={currentPassword}
         placeholder='현재 비밀번호를 입력해주세요.'
@@ -59,7 +59,7 @@ const ChangePasswordForm = ({ onSubmit }: Props) => {
         error={passwordError}
       />
       {error && <p className="text-sm text-accent-red my-1">{error}</p>}
-      <Button type="button" width="w-[500px]" onClick={handleSubmit}>
+      <Button type="button" width="w-full" onClick={handleSubmit}>
         비밀번호 변경하기
       </Button>
       
