@@ -6,8 +6,7 @@ import ListView from "./components/ListView";
 import YearMonthDropdown from "./components/YearMonthDropdown";
 import { formatDate } from "../../utils/utils";
 import { getEmotionBgClass } from "../../utils/emotionColor";
-import { useWalletTotal } from "@/hooks/useWallet";
-import { sampleData } from "@/data/wallet";
+import { useWalletMonthly, useWalletTotal } from "@/hooks/useWallet";
 
 const HomePage = () => {
   const [viewMode, setViewMode] = useState<"calendar" | "list">("calendar");
@@ -20,12 +19,12 @@ const HomePage = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  // const { data: walletData } = useWalletEntries(selectedYear, selectedMonth + 1);
+  const { data: walletData } = useWalletMonthly(selectedYear, selectedMonth + 1);
   const { data: totalData } = useWalletTotal(selectedYear, selectedMonth + 1);
 
   // 해당 날짜의 상세 내역 필터링
   const selectedWalletEntries =
-    sampleData?.list.find(
+    walletData?.list.find(
       (entry) =>
         selectedDate && formatDate(entry.date) === formatDate(selectedDate)
     )?.entries || [];
@@ -89,12 +88,12 @@ const HomePage = () => {
                     year={selectedYear}
                     month={selectedMonth}
                     onDateSelect={setSelectedDate}
-                    data={sampleData}
+                    data={walletData}
                 />
                 ) : (
                 <ListView
                     onDateSelect={setSelectedDate}
-                    data={sampleData}
+                    data={walletData}
                 />
                 )}
             </div>
@@ -108,14 +107,14 @@ const HomePage = () => {
             <div className="flex justify-between">
                 <h3 className="flex gap-1"><BanknoteArrowUp />총 수입</h3>
                 <p className="text-accent-blue text-lg font-medium">
-                  {totalData?.data?.income?.toLocaleString() || 0}원
+                  {totalData?.income?.toLocaleString() || 0}원
                 </p>
             </div>
             <div className="border-b"></div>
             <div className="flex justify-between">
                 <h3 className="flex gap-1"><BanknoteArrowDown />총 지출</h3>
                 <p className="text-accent-red text-lg font-medium">
-                  {totalData?.data?.expense?.toLocaleString() || 0}원
+                  -{totalData?.expense?.toLocaleString() || 0}원
                 </p>
             </div>
         </Frame>
@@ -137,8 +136,8 @@ const HomePage = () => {
                   <div className="flex font-medium gap-2 items-center h-10">
                   <span className={`w-5 h-5 rounded-md ${getEmotionBgClass(entry.emotion)}`}></span>
                     <span>{entry.title}</span>
-                        <span className={`ml-auto ${entry.amount > 0 ? "text-accent-blue" : "text-accent-red"}`}>
-                        {entry.amount.toLocaleString()}원
+                        <span className={`ml-auto ${entry.type == "income" ? "text-accent-blue" : "text-accent-red"}`}>
+                        {(entry.type === "income" ? entry.amount : -entry.amount).toLocaleString()}원
                     </span>
 
                   </div>
