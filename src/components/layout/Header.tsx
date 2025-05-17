@@ -1,9 +1,7 @@
 import { Menu, UserRound } from 'lucide-react';
 import logo from '../../assets/logo.svg';
-import { useAuthStore } from '@/stores/useAuthStore';
 
 const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
-  const { user } = useAuthStore();
   return (
     <header className="flex justify-between items-center bg-white h-16 px-5 lg:px-10">
       <div className="flex items-center">
@@ -21,7 +19,7 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
           <UserRound size={20} className="text-white" />
         </div>
         <p className="text-primary-500">
-          <span className="text-primary-800 font-medium mr-0.5">{user?.nickname}</span>님
+          <span className="text-primary-800 font-medium mr-0.5">User</span>님
         </p>
       </a>
     </header>

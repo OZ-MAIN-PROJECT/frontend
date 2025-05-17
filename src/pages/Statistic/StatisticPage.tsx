@@ -5,7 +5,7 @@ import YearlyLineChart from "./components/YearlyLineChart";
 import EmotionCategoryPieChart from "./components/EmotionCategoryPieChart";
 import SummarySwiper from "./components/SummarySwiper";
 import WalletList from "../Wallet/components/WalletList";
-import { useStatisticsData } from "@/hooks/useStatisticData";
+import { sampleListData } from "@/data/wallet";
 
 const StatisticsPage = () => {
 
@@ -16,11 +16,6 @@ const StatisticsPage = () => {
 
   const monthLabel = `${selectedMonth + 1}`.padStart(2, "0");
 
-  const { isLoading, isError, statistic, list } = useStatisticsData(selectedYear, selectedMonth);
-
-  if (isLoading) return <p className="text-center py-10">통계를 불러오는 중...</p>;
-  if (isError) return <p className="text-center py-10 text-red-500">데이터를 불러오는 데 실패했습니다.</p>;
-  
   return (
     <div className="space-y-4">
       <div className="flex items-center text-2xl text-primary-900 font-bold">
@@ -39,19 +34,19 @@ const StatisticsPage = () => {
       </div>
       {/* 상단 요약 영역 */}
       <div className="w-full">
-      {statistic &&
-        <SummarySwiper month={selectedMonth} stat={statistic} />
-      }
+        <SummarySwiper
+          month={selectedMonth}
+        />
       </div>
 
       {/* 중단 차트 영역 */}
       <div className="grid gap-4 2xl:grid-cols-[3fr_2fr]">
         <Frame className="bg-white px-0">
           <h2 className="text-lg font-semibold mb-4 mx-7">{selectedYear}년 월별 소비</h2>
-          <YearlyLineChart year={selectedYear} month={selectedMonth} />
+          <YearlyLineChart />
         </Frame>
         <Frame className="bg-white px-0">
-          <EmotionCategoryPieChart year={selectedYear} month={selectedMonth}  />
+          <EmotionCategoryPieChart />
         </Frame>
       </div>
 
@@ -59,7 +54,9 @@ const StatisticsPage = () => {
       <Frame>
         <h2 className="text-lg font-semibold mb-4">{monthLabel}월 소비 내역</h2>
         <div className="overflow-x-auto">
-          <WalletList data={list.data?.list.flatMap(day => day.entries) ?? []} />
+          <WalletList
+            data={sampleListData}
+          />
         </div>
       </Frame>
     </div>

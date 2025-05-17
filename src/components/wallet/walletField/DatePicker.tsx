@@ -4,13 +4,8 @@ import { useState } from 'react';
 import DatePickerModal from './DatePickerModal';
 import { walletFormProps } from '@/types/wallet';
 
-export default function DatePicker({ value, onChange, disabled }: walletFormProps<Date>) {
+export default function DatePicker({ value, onChange }: walletFormProps<Date>) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleToggle = () => {
-    if (disabled) return; // disabled면 동작 안함
-    setIsOpen(prev => !prev);
-  };
 
   return (
     <>
@@ -18,20 +13,21 @@ export default function DatePicker({ value, onChange, disabled }: walletFormProp
         <Calendar />
         <span>{formatDate(value)}</span>
         <button
-          className="flex items-center justify-center w-6 h-6 bg-gray-300 rounded-md text-gray-800 disabled:opacity-50"
-          onClick={handleToggle}
+          className="flex items-center justify-center w-8 h-8 bg-gray-300 rounded-md text-gray-800"
+          onClick={() => {
+            setIsOpen(prev => !prev);
+          }}
           type="button"
-          disabled={disabled} // 🔒 시각적 피드백도 줄 수 있음
         >
           <ChevronDown />
         </button>
       </div>
-      {isOpen && !disabled && (
+      {isOpen && (
         <DatePickerModal
           selected={value}
           onChange={newDate => {
             if (newDate) {
-              onChange?.(newDate);
+              onChange(newDate);
               setIsOpen(false);
             }
           }}
