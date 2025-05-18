@@ -1,4 +1,4 @@
-import { categoryStatistics, EmotionStatistics, Statistic, YearlyStatistics } from "@/types/statistic";
+import { categoryStatistics, EmotionStatistics, YearlyStatistics } from "@/types/statistic";
 import { MonthlyWalletList, Wallet } from "@/types/wallet";
 
 // 예시 데이터
@@ -25,21 +25,6 @@ export const sampleData: MonthlyWalletList = {
         entries: [{ id: "b6dd7945-bf31-4d20-b07a-45a59f42995e", type: "EXPENSE", amount: -250000, walletCategory: "식비", title: "식비", emotion: "만족", date: new Date("2025-04-24") }],
       },
     ],
-  };
-
-
-
-// 단일 월 통계
-export const sampleStatistic: Statistic = {
-    totalIncomeAmount: 5000000,
-    totalExpenseAmount: 2300000,
-    totalConsumptionAmount: 2700000, // 나머지는 저축 등으로 추정
-    mainEmotion: "만족",
-    mainEmotionRate: 45.5,
-    mainEmotionAmount: 200000,
-    mainCategory: "식비",
-    mainCategoryRate: 30.2,
-    mainCategoryAmount: 180000,
   };
   
 // 연간 월별 통계

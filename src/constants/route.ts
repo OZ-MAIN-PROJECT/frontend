@@ -12,8 +12,8 @@ export const END_POINT = {
   // wallet : 가계부 관련 api
   WALLET: '/api/wallet/', // 가계부
   WALLET_DAILY: '/api/wallet/daily/', // 가계부 일별 내역
-  WALLET_ENTRIES: '/api/wallet/entries/', // 가계부 수입/지출 전체 내역
-  WALLET_DETAIL: (walletUuid: string | number) => `/api/wallet/${walletUuid}/`, // 가계부 상세 내역 접근
+  WALLET_ENTRIES: '/api/wallet/entries', // 가계부 수입/지출 전체 내역
+  WALLET_DETAIL: (walletUuid: string | number) => `/api/wallet/${walletUuid}`, // 가계부 상세 내역 접근
   WALLET_TOTAL: '/api/wallet/total/', // 월별 총 수입/지출 조회
 
 
