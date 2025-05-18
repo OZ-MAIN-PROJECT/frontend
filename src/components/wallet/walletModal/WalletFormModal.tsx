@@ -1,14 +1,14 @@
 import { useModalStore } from "@/stores/useModalStore";
-import Modal from "../common/Modal/Modal";
-import WalletForm from "./WalletForm";
+import Modal from "../../common/Modal/Modal";
+import WalletForm from "../WalletForm";
 import { useCreateWalletEntry, useUpdateWalletEntry, useWalletDetail } from "@/hooks/useWallet";
 import { WalletFormData } from "@/types/wallet";
 
 export default function WalletFormModal() {
   const { modalData, closeModal } = useModalStore();
-  const modalDataEntry = modalData["walletForm"] as { walletUuid?: string; type?: "income" | "expense" } | undefined;
+  const modalDataEntry = modalData["walletForm"] as { walletUuid?: string; type?: "INCOME" | "EXPENSE" } | undefined;
   const walletUuid = modalDataEntry?.walletUuid;
-  const type = modalDataEntry?.type || "expense";
+  const type = modalDataEntry?.type || "EXPENSE";
 
   const { data, isLoading } = useWalletDetail(walletUuid || "");
 
@@ -21,7 +21,7 @@ export default function WalletFormModal() {
       content: form.content,
       amount: form.amount,
       type: type.toUpperCase() as "INCOME" | "EXPENSE",
-      walletCategory: form.category ?? "",
+      walletCategory: form.walletCategory ?? "",
       emotion: form.emotion,
       date: form.date.toISOString().split("T")[0], // YYYY-MM-DD 형식
     };
@@ -30,9 +30,12 @@ export default function WalletFormModal() {
       if (walletUuid && data) {
         // 수정
         await updateMutation.mutateAsync({ walletUuid, data: payload });
+        console.log('수정')
+
       } else {
         // 등록
         await createMutation.mutateAsync(payload);
+        console.log('등록')
       }
       closeModal("walletForm");
     } catch (error) {

@@ -1,4 +1,4 @@
-import { categoryStatistics, EmotionStatistics, Statistic, YearlyStatistics } from "@/types/statistic";
+import { categoryStatistics, EmotionStatistics, YearlyStatistics } from "@/types/statistic";
 import { MonthlyWalletList, Wallet } from "@/types/wallet";
 
 // 예시 데이터
@@ -7,39 +7,24 @@ export const sampleData: MonthlyWalletList = {
       {
         date: new Date("2025-05-01"),
         totalAmount: 4000000,
-        entries: [{ id: "b6dd7945-bf31-4d20-b07a-63a59f42995e", type: "income", amount: 4000000, category: "급여", title: "급여", emotion: "기대", date: new Date("2025-04-01") }],
+        entries: [{ id: "b6dd7945-bf31-4d20-b07a-63a59f42995e", type: "INCOME", amount: 4000000, walletCategory: "급여", title: "급여", emotion: "기대", date: new Date("2025-04-01") }],
       },
       {
         date: new Date("2025-05-11"),
         totalAmount: -300000,
-        entries: [{ id: "b6dd7945-bf31-4d20-b07a-63a59f42195e", type: "expense", amount: -300000, category: "쇼핑", title: "쇼핑", emotion: "기대", date: new Date("2025-04-11") }],
+        entries: [{ id: "b6dd7945-bf31-4d20-b07a-63a59f42195e", type: "EXPENSE", amount: -300000, walletCategory: "쇼핑", title: "쇼핑", emotion: "기대", date: new Date("2025-04-11") }],
       },
       {
         date: new Date("2025-05-19"),
         totalAmount: -12000,
-        entries: [{ id: "b6dd7945-bf31-4d20-b07a-63a54f42995e", type: "expense", amount: -12000, category: "생활", title: "커피", emotion: "위로", date: new Date("2025-04-19") }],
+        entries: [{ id: "b6dd7945-bf31-4d20-b07a-63a54f42995e", type: "EXPENSE", amount: -12000, walletCategory: "생활", title: "커피", emotion: "위로", date: new Date("2025-04-19") }],
       },
       {
         date: new Date("2025-05-24"),
         totalAmount: -250000,
-        entries: [{ id: "b6dd7945-bf31-4d20-b07a-45a59f42995e", type: "expense", amount: -250000, category: "식비", title: "식비", emotion: "만족", date: new Date("2025-04-24") }],
+        entries: [{ id: "b6dd7945-bf31-4d20-b07a-45a59f42995e", type: "EXPENSE", amount: -250000, walletCategory: "식비", title: "식비", emotion: "만족", date: new Date("2025-04-24") }],
       },
     ],
-  };
-
-
-
-// 단일 월 통계
-export const sampleStatistic: Statistic = {
-    totalIncomeAmount: 5000000,
-    totalExpenseAmount: 2300000,
-    totalConsumptionAmount: 2700000, // 나머지는 저축 등으로 추정
-    mainEmotion: "만족",
-    mainEmotionRate: 45.5,
-    mainEmotionAmount: 200000,
-    mainCategory: "식비",
-    mainCategoryRate: 30.2,
-    mainCategoryAmount: 180000,
   };
   
 // 연간 월별 통계
@@ -87,19 +72,19 @@ export const sampleCategoryStatistics: categoryStatistics[] = [
 export const sampleListData: Wallet[] = [
   {
     id: "b6dd7945-bf31-4d20-b07a-63a59f42995e",
-    type: "expense",
+    type: "EXPENSE",
     amount: 4800,
     title: "스타벅스 아메리카노",
-    category: "식비",
+    walletCategory: "식비",
     emotion: "슬픔",
     date: new Date("2025-04-23"),
   },
   {
     id: "b6dd7945-bf31-4d20-b07a-63a59f42915e",
-    type: "income",
+    type: "INCOME",
     amount: 100000,
     title: "급여 입금",
-    category: "급여",
+    walletCategory: "급여",
     emotion: "행복",
     date: new Date("2025-04-23"),
   },

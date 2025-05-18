@@ -1,4 +1,4 @@
-import { Category, Emotion } from "./wallet";
+import { Emotion, WalletCategory } from "./wallet";
 
 export type Statistic = {
     totalIncomeAmount: number;
@@ -6,7 +6,7 @@ export type Statistic = {
     mainEmotion: Emotion;
     mainEmotionRate: number;
     mainEmotionAmount: number;
-    mainCategory: Category;
+    mainCategory: WalletCategory;
     mainCategoryRate: number;
     mainCategoryAmount: number;
     increaseAmount: number; // 이번달 - 저번달
@@ -35,7 +35,7 @@ export type EmotionStatistics = {
 }
 
 export type categoryStatistics = {
-    category: Category;
+    category: WalletCategory;
     rate: number;
     amount: number;
 }

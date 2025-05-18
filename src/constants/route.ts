@@ -9,18 +9,18 @@ export const BASE_URL = import.meta.env.VITE_API_URL
 
 export const END_POINT = {
   // wallet : 가계부 관련 api
-  WALLET: '/api/wallet', // 가계부
-  WALLET_DAILY: '/api/wallet/daily', // 가계부 일별 내역
+  WALLET: '/api/wallet/', // 가계부
+  WALLET_DAILY: '/api/wallet/daily/', // 가계부 일별 내역
   WALLET_ENTRIES: '/api/wallet/entries', // 가계부 수입/지출 전체 내역
   WALLET_DETAIL: (walletUuid: string | number) => `/api/wallet/${walletUuid}`, // 가계부 상세 내역 접근
   WALLET_TOTAL: '/api/wallet/total', // 월별 총 수입/지출 조회
 
 
   // statistics : 통계 관련 api
-  STATISTICS_MONTHLY: '/api/wallet/statistics/monthly',
-  STATISTICS_EMOTION: '/api/wallet/statistics/emotion',
-  STATISTICS_CATEGORY: '/api/wallet/statistics/category',
-  STATISTICS_SUMMARY: '/api/wallet/statistics/summary',
+  STATISTICS_MONTHLY: '/api/wallet/statistics/monthly/',
+  STATISTICS_EMOTION: '/api/wallet/statistics/emotion/',
+  STATISTICS_CATEGORY: '/api/wallet/statistics/category/',
+  STATISTICS_SUMMARY: '/api/wallet/statistics/summary/',
 
   // users : 회원 관련 api
   USERS_SIGNUP: '/api/users/signup/',
