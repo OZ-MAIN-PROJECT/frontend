@@ -24,29 +24,32 @@ export const useStatisticsData = (year: number, month: number) => {
     const increaseAmount = thisExpense - prevExpense;
     const increaseRate = prevExpense === 0 ? 100 : (increaseAmount / prevExpense) * 100;
 
-    const mainEmotionData = emotion.data?.reduce((prev, curr) => {
-        return curr.rate > prev.rate ? curr : prev;
-    });
+    // 빈 배열일 때 reduce 호출 X
+    const mainEmotionData =
+    emotion.data.length > 0
+      ? emotion.data.reduce((prev, curr) => (curr.rate > prev.rate ? curr : prev))
+      : null;
 
-    const mainCategoryData = category.data.reduce((prev, curr) => {
-        return curr.rate > prev.rate ? curr : prev;
-    });
+  const mainCategoryData =
+    category.data.length > 0
+      ? category.data.reduce((prev, curr) => (curr.rate > prev.rate ? curr : prev))
+      : null;
       
 
     return {
-        totalIncomeAmount: monthly.data.income ?? 0,
-        totalExpenseAmount: monthly.data.expense ?? 0,
-
-        mainEmotion: mainEmotionData?.emotion ?? "",
-        mainEmotionRate: mainEmotionData?.rate ?? 0,
-        mainEmotionAmount: mainEmotionData?.amount ?? 0,
-
-        mainCategory: mainCategoryData?.category ?? "",
-        mainCategoryRate: mainCategoryData?.rate ?? 0,
-        mainCategoryAmount: mainCategoryData?.amount ?? 0,
-
-        increaseAmount: increaseAmount,
-        increaseRate: increaseRate,
+      totalIncomeAmount: monthly.data.income ?? 0,
+      totalExpenseAmount: monthly.data.expense ?? 0,
+  
+      mainEmotion: mainEmotionData?.emotion ?? "행복",
+      mainEmotionRate: mainEmotionData?.rate ?? 0,
+      mainEmotionAmount: mainEmotionData?.amount ?? 0,
+  
+      mainCategory: mainCategoryData?.category ?? "식비",
+      mainCategoryRate: mainCategoryData?.rate ?? 0,
+      mainCategoryAmount: mainCategoryData?.amount ?? 0,
+  
+      increaseAmount,
+      increaseRate,
     };
   })();
 
