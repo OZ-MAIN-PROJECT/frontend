@@ -17,29 +17,73 @@ function App() {
     <Router>
       <Routes>
         {/* 메인 페이지 */}
-        <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
-
+        <Route
+          path="/"
+          element={
+            <MainLayout>
+              <HomePage />
+            </MainLayout>
+          }
+        />
         {/* 내역 페이지 */}
-        <Route path="/wallet" element={<MainLayout><WalletPage /></MainLayout>} />
-
+        <Route
+          path="/wallet"
+          element={
+            <MainLayout>
+              <WalletPage />
+            </MainLayout>
+          }
+        />
         {/* 통계 페이지 */}
-        <Route path="/statistic" element={<MainLayout><StatisticsPage /></MainLayout>} />
-
+        <Route
+          path="/statistic"
+          element={
+            <MainLayout>
+              <StatisticsPage />
+            </MainLayout>
+          }
+        />
         {/* 마이페이지 */}
         <Route path="/mypage" element={<MyPage />} />
-
         {/* 회원 관련 페이지 */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/find-password" element={<FindPasswordPage />} />
-
         {/* 게시글 관련 페이지 */}
-        <Route path="/community/:type/:postId" element={<MainLayout><PostDetail /></MainLayout>} /> {/* 게시글 상세 먼저! */}
-        <Route path="/community/:type" element={<MainLayout><CommunityList /></MainLayout>} /> {/* 게시판 리스트 */}
-        <Route path="/community/write" element={<MainLayout><PostWrite /></MainLayout>} />
-
+        <Route
+          path="/community/:type/write"
+          element={
+            <MainLayout>
+              <PostWrite />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/community/:type/:postId"
+          element={
+            <MainLayout>
+              <PostDetail />
+            </MainLayout>
+          }
+        />{' '}
+        {/* 게시글 상세 먼저 */}
+        <Route
+          path="/community/:type"
+          element={
+            <MainLayout>
+              <CommunityList />
+            </MainLayout>
+          }
+        />{' '}
         {/* 테스트용 페이지 (개발 완료 후 제거 예정) */}
-        <Route path="/community-test" element={<MainLayout><TestPostCard /></MainLayout>} />
+        <Route
+          path="/community-test"
+          element={
+            <MainLayout>
+              <TestPostCard />
+            </MainLayout>
+          }
+        />
       </Routes>
     </Router>
   );

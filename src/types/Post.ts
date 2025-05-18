@@ -1,42 +1,112 @@
-// 게시글 타입 (질문 게시판, 감정 소비 이야기, 공지사항)
-export type PostType = 'question' | 'emotion' | 'notice';
+import { User } from '@/types/auth';
 
-// 작성자 정보 타입
-export interface Author {
-  id: string; // 작성자 고유 ID
-  nickname: string; // 작성자 닉네임
-  profileImageUrl?: string; // 프로필 이미지 URL
-}
+export type ServerPostType = 'NOTICE' | 'QUESTION' | 'EMOTION';
+export type ClientPostType = 'notice' | 'question' | 'emotion';
+export type PostType = ClientPostType;
 
-// 게시글 데이터 구조 정의
+export const toServerPostType = (type: ClientPostType): ServerPostType => {
+  switch (type) {
+    case 'notice':
+      return 'NOTICE';
+    case 'question':
+      return 'QUESTION';
+    case 'emotion':
+      return 'EMOTION';
+  }
+};
+
+export const toClientPostType = (type: ServerPostType): ClientPostType => {
+  switch (type) {
+    case 'NOTICE':
+      return 'notice';
+    case 'QUESTION':
+      return 'question';
+    case 'EMOTION':
+      return 'emotion';
+  }
+};
+
+export const getPostTypeLabel = (type: PostType): string => {
+  switch (type) {
+    case 'emotion':
+      return '감정 소비 이야기';
+    case 'question':
+      return '질문 게시판';
+    case 'notice':
+      return '공지사항';
+    default:
+      return '';
+  }
+};
+
+// 작성자 정보 타입 (사용자 정보 중 일부만 사용)
+export type Author = Pick<User, 'id' | 'nickname' | 'profileImage'>;
+
+// 게시글 타입
 export interface Post {
-  id: string; // 게시글 고유 ID
-  type: PostType; // 게시글 유형
-  title: string; // 제목
-  content: string; // 본문 내용
-  imageUrl?: string; // 첨부 이미지 URL (선택)
-  createdAt: string; // 생성일
-  updatedAt: string; // 수정일
-  author: Author; // 작성자 정보
-  isMine: boolean; // '내가 쓴 글' 여부
-  likes?: number; // 좋아요
-  comments?: number; // 댓글
-  views?: number; // 조회
-  isPinned?: boolean; // 고정글 여부
+  id: string; // communityUuid
+  type: PostType;
+  title: string;
+  content: string;
+  imageUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+  author: Author;
+  isOwner: boolean;
+  likes: number;
+  comments?: number;
+  views: number;
+  isLiked?: boolean;
 }
 
-// 댓글 데이터 구조 정의
+// 게시글 생성용
+export interface CommunityCreateRequest {
+  title: string;
+  content: string;
+  type: ServerPostType;
+  image?: File;
+}
+
+// 게시글 목록 응답
+export interface CommunityListResponse {
+  results: Post[];
+  page: number;
+  size: number;
+  totalPages: number;
+  totalElements: number;
+}
+
+// 게시글 타입
+export interface Post {
+  id: string; // communityUuid
+  type: PostType;
+  title: string;
+  content: string;
+  imageUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+  author: Author;
+  isOwner: boolean;
+  likes: number;
+  comments?: number;
+  views: number;
+  isLiked?: boolean;
+}
 export interface Comment {
-  id: string; // 댓글 고유 ID
-  content: string; // 댓글 내용
-  createdAt: string; // 작성일
-  author: Author; // 작성자
-  isMine?: boolean; // 본인이 작성한 댓글인지 여부 (옵션)
-  parentId: string | null; // 부모 댓글 ID (루트 댓글이면 null)
+  id: number;
+  parentId: number | null;
+  content: string;
+  createdAt: string;
+  updatedAt?: string;
+  deletedAt?: string | null;
+  isOwner: boolean;
+  isLiked?: boolean;
+  likes?: number;
+  author: Author & { nickname: string };
+  children?: Comment[];
 }
 
-// PostCard 컴포넌트에 전달할 props 타입
 export interface PostCardProps {
-  post: Post; // 게시글 정보
-  onClick?: (postId: string) => void; // 카드 클릭 시 실행될 함수
+  post: Post;
+  onClick?: (postId: string) => void;
 }

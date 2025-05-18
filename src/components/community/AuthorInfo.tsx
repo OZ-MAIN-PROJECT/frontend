@@ -1,4 +1,4 @@
-import { Author } from '../../types/Post';
+import { Author } from '@/types/Post';
 import AuthorProfileImage from './AuthorProfileImage';
 
 interface AuthorInfoProps {
@@ -9,12 +9,10 @@ interface AuthorInfoProps {
 }
 
 const AuthorInfo = ({ author, size = 30, fontSize = 'text-sm', textColor = 'text-primary-800' }: AuthorInfoProps) => {
-  const { profileImageUrl, nickname } = author;
-
   return (
     <div className="flex items-center gap-2">
-      <AuthorProfileImage profileImageUrl={profileImageUrl} size={size} altText={`${nickname}님의 프로필`} />
-      <span className={`${fontSize} font-medium ${textColor}`}>{nickname}</span>
+      <AuthorProfileImage size={size} imageUrl={author.profileImage} />
+      <span className={`${fontSize} font-medium ${textColor}`}>{author.nickname}</span>
     </div>
   );
 };

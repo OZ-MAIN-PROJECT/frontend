@@ -1,65 +1,46 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { getCommunityList } from '@/apis/communityApi';
+import { PostType, toServerPostType, getPostTypeLabel } from '@/types/Post';
+import PostList from '@/components/community/PostList';
+import ViewToggleButton from '@/components/community/ViewToggleButton';
 import CommunityTitle from '@/components/community/CommunityTitle';
 import CommunityNewPostButton from '@/components/community/CommunityNewPostButton';
-import ViewToggleButton from '@/components/community/ViewToggleButton';
-import PostList from '@/components/community/PostList';
-import { dummyPosts } from '@/constants/dummyPosts';
-import { PostType } from '@/types/Post';
+
+const VALID_TYPES: PostType[] = ['emotion', 'notice', 'question'];
 
 const CommunityList = () => {
   const { type } = useParams<{ type: PostType }>();
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [sortType, setSortType] = useState<'recent' | 'popular'>('recent');
 
-  const getBoardTitle = () => {
-    switch (type) {
-      case 'question':
-        return '질문 게시판';
-      case 'emotion':
-        return '감정 소비 이야기';
-      case 'notice':
-        return '공지사항';
-      default:
-        return '알 수 없는 게시판';
-    }
-  };
+  if (!type || !VALID_TYPES.includes(type)) {
+    return <p className="text-center pt-10 text-red-500">잘못된 게시판 접근입니다.</p>;
+  }
 
-  const getWritePageLink = () => {
-    if (type === 'notice') {
-      return '/community/notice/write';
-    }
-    return '/community/write';
-  };
+  const { data, isLoading } = useQuery({
+    queryKey: ['communityList', type, sortType],
+    queryFn: () => getCommunityList({ type: toServerPostType(type), page: 1, size: 50 }),
+    enabled: true,
+    retry: 1,
+    staleTime: 1000 * 60,
+  });
 
-  // 게시판 타입별 게시글 필터링
-  const filteredPosts = dummyPosts.filter((post) => post.type === type);
+  const posts = data?.results ?? [];
 
-  // 고정글과 일반글 분리 (공지사항만 해당)
-  const pinnedPosts = type === 'notice' ? filteredPosts.filter(post => post.isPinned) : [];
-  const normalPosts = type === 'notice' ? filteredPosts.filter(post => !post.isPinned) : filteredPosts;
-
-  // 일반글 정렬
-  const sortedNormalPosts = [...normalPosts].sort((a, b) => {
+  const sortedPosts = [...posts].sort((a, b) => {
     if (sortType === 'recent') {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     }
-    if (sortType === 'popular') {
-      const aLikes = typeof a.likes === 'number' ? a.likes : 0;
-      const bLikes = typeof b.likes === 'number' ? b.likes : 0;
-      return bLikes - aLikes;
-    }
-    return 0;
+    return (b.likes ?? 0) - (a.likes ?? 0);
   });
-
-  // 고정글 + 일반글 병합한 최종 리스트
-  const finalPosts = [...pinnedPosts, ...sortedNormalPosts];
 
   return (
     <div className="relative w-full max-w-[800px] mx-auto px-4 sm:px-6">
-      <CommunityTitle title={getBoardTitle()} />
+      <CommunityTitle title={getPostTypeLabel(type)} />
 
-      {/* 정렬 및 뷰토글 */}
+      {/* 정렬/뷰토글 */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-sm text-primary-500">
           <button
@@ -76,25 +57,18 @@ const CommunityList = () => {
             인기순
           </button>
         </div>
-
         <ViewToggleButton viewType={viewType} onChange={setViewType} />
       </div>
 
-      {/* 게시글 목록 */}
-      {type && (
-        <PostList
-          posts={finalPosts}
-          viewType={viewType}
-          boardType={type}
-        />
+      {isLoading ? (
+        <p className="text-center pt-10">불러오는 중...</p>
+      ) : (
+        <PostList posts={sortedPosts} viewType={viewType} boardType={type} />
       )}
 
-      {/* 글쓰기 버튼 */}
-      {type !== 'notice' && type && (
-        <div className="fixed bottom-8 right-8 z-50">
-          <CommunityNewPostButton to={getWritePageLink()} postType={type} />
-        </div>
-      )}
+      <div className="fixed bottom-8 right-8 z-50">
+        <CommunityNewPostButton to={`/community/${type}/write`} postType={type} />
+      </div>
     </div>
   );
 };
