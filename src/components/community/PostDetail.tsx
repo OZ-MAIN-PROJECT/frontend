@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { Eye } from 'lucide-react';
-import { getCommunityDetail } from '@/apis/communityApi';
+import { deleteCommunityPost, getCommunityDetail } from '@/apis/communityApi';
 import { PostType, getPostTypeLabel } from '@/types/Post';
 import { useAuthStore } from '@/stores/useAuthStore';
 import AuthorInfo from './AuthorInfo';
@@ -17,6 +17,7 @@ import CommunityNewPostButton from '@/components/community/CommunityNewPostButto
 const PostDetail = () => {
   const { postId, type } = useParams<{ postId: string; type: PostType }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { user } = useAuthStore();
 
   const {
@@ -46,9 +47,17 @@ const PostDetail = () => {
     });
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!confirm('정말로 이 게시글을 삭제하시겠습니까?')) return;
-    console.log('삭제 로직 미구현 - 게시글 ID:', id);
+
+    try {
+      await deleteCommunityPost(id);
+      alert('게시글이 삭제되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['communityList'] });
+      navigate(`/community/${type}`);
+    } catch (error) {
+      alert('게시글 삭제 중 오류가 발생했습니다.');
+    }
   };
 
   return (
