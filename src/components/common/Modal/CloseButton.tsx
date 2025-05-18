@@ -1,4 +1,4 @@
-import closeIcon from '../../../assets/icons/modal-close.svg';
+import closeIcon from '@/assets/icons/modal-close.svg';
 
 const CloseButton = ({ onClick }: { onClick: () => void }) => (
   <button onClick={onClick} className="absolute top-6 right-6 w-[32px] h-[32px] p-1" aria-label="닫기">

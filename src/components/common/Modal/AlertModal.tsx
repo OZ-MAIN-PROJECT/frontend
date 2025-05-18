@@ -1,8 +1,8 @@
+import { AlertModalProps } from '@/types/Modal';
 import BaseModal from './BaseModal';
 import Icon from './Icon';
-import { AlertModalProps } from '../../types/modal';
 
-const AlertModal = ({ isOpen, onClose, status, title, description, confirmContent, onConfirm }: AlertModalProps) => {
+const AlertModal = ({ isOpen, onClose, status, title, description, confirmText, onConfirm }: AlertModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -14,7 +14,7 @@ const AlertModal = ({ isOpen, onClose, status, title, description, confirmConten
           {description ? <p className="text-sm text-gray-500 whitespace-pre-line">{description}</p> : null}
         </div>
         <div className="mt-[112px]">
-          {confirmContent || (
+          {confirmText || (
             <button onClick={onConfirm || onClose} className="text-primary-500 underline text-sm">
               확인
             </button>
