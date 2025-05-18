@@ -13,8 +13,8 @@ const HomePage = () => {
 
   const today = new Date();
 
-  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
-  const [selectedMonth, setSelectedMonth] = useState(today.getMonth()); // 0-based
+  const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth()); // 0-based
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
