@@ -1,8 +1,8 @@
 import { useModalStore } from "@/stores/useModalStore";
-import Modal from "../common/Modal/Modal";
-import WalletDetailView from "./WalletDetail";
 import { useWalletDetail } from "@/hooks/useWallet";
-import Button from "../common/Button";
+import Modal from "@/components/common/Modal/Modal";
+import Button from "@/components/common/Button";
+import WalletDetailView from "../WalletDetailView";
 
 export default function WalletDetailModal() {
   const { modalData, openModal, closeModal } = useModalStore();

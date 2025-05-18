@@ -136,8 +136,8 @@ const HomePage = () => {
                   <div className="flex font-medium gap-2 items-center h-10">
                   <span className={`w-5 h-5 rounded-md ${getEmotionBgClass(entry.emotion)}`}></span>
                     <span>{entry.title}</span>
-                        <span className={`ml-auto ${entry.type == "income" ? "text-accent-blue" : "text-accent-red"}`}>
-                        {(entry.type === "income" ? entry.amount : -entry.amount).toLocaleString()}원
+                        <span className={`ml-auto ${entry.type == "INCOME" ? "text-accent-blue" : "text-accent-red"}`}>
+                        {(entry.type === "INCOME" ? entry.amount : -entry.amount).toLocaleString()}원
                     </span>
 
                   </div>

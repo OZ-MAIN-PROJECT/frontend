@@ -2,20 +2,20 @@
 import { Wallet } from "@/types/wallet";
 import DatePicker from "./walletField/DatePicker";
 import CategorySelector from "./walletField/CategorySelector";
-import AmountInput from "./walletField/AmoundInput";
+import AmountInput from "./walletField/AmountInput";
 import LabeledInput from "./walletField/LabeledInput";
 import LabeledTextArea from "./walletField/LabeledTextArea";
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from "@/constants/category";
 import EmotionBadge from "@/pages/Wallet/components/EmotionBadge";
 
-interface WalletDetailProps {
+interface WalletDetailViewProps {
   data: Wallet;
   disabled: boolean;
 }
 
-const WalletDetail = ({ data, disabled }: WalletDetailProps) => {
+const WalletDetailView = ({ data, disabled }: WalletDetailViewProps) => {
 
-  const categoryItems = data.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
+  const categoryItems = data.type === 'INCOME' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
 
   return (
     <div className="space-y-2">
@@ -23,7 +23,7 @@ const WalletDetail = ({ data, disabled }: WalletDetailProps) => {
       <EmotionBadge emotion={data.emotion} />
 
       <div className="py-2 flex flex-wrap gap-4 justify-start">
-        <CategorySelector value={data.category} items={categoryItems} disabled={disabled} />
+        <CategorySelector value={data.walletCategory} items={categoryItems} disabled={disabled} />
         <AmountInput value={data.amount} disabled={disabled} type={data.type} />
       </div>
 
@@ -35,4 +35,4 @@ const WalletDetail = ({ data, disabled }: WalletDetailProps) => {
   );
 };
 
-export default WalletDetail;
+export default WalletDetailView;
