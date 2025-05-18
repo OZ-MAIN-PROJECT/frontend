@@ -8,7 +8,7 @@ const LabeledTextArea = ({ value, onChange, disabled }: walletFormProps<string>)
 
   return (
     <textarea
-      className="outline-none h-40 w-full resize-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+      className="outline-none h-20 sm:h-40 w-full resize-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
       placeholder="내용을 입력하세요."
       value={value}
       onChange={handleChange}
