@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/Home/HomePage';
 import MainLayout from './layouts/MainLayout';
 import StatisticsPage from './pages/Statistic/StatisticPage';
-import TestPostCard from './pages/TestPostCard';
 import PostDetail from './components/community/PostDetail';
 import PostWrite from './pages/Community/PostWrite';
 import LoginPage from './pages/Login/LoginPage';
@@ -75,15 +74,6 @@ function App() {
             </MainLayout>
           }
         />{' '}
-        {/* 테스트용 페이지 (개발 완료 후 제거 예정) */}
-        <Route
-          path="/community-test"
-          element={
-            <MainLayout>
-              <TestPostCard />
-            </MainLayout>
-          }
-        />
       </Routes>
     </Router>
   );
