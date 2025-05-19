@@ -70,19 +70,24 @@ const WalletForm = ({ type, data, onSubmit }: WalletFormProps) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-[220px] sm:w-[500px] lg:w-[920px] h-[400px] md:h-auto overflow-auto p-1"
-    >
+    <form onSubmit={handleSubmit}>
       <DatePicker value={form.date} onChange={v => handleChange('date', v)} />
       <EmotionSelector value={form.emotion} onChange={v => handleChange('emotion', v)} />
-      <div className="py-4 flex flex-wrap gap-4 justify-start">
-        <CategorySelector
-          value={form.walletCategory}
-          items={categoryItems}
-          onChange={v => handleChange('walletCategory', v)}
-        />
-        <AmountInput value={form.amount} onChange={v => handleChange('amount', v)} type={type} />
+      <div className="py-4 grid grid-cols-1 md:grid-cols-3 md:gap-4 items-start">
+        <div className="col-span-1">
+          <CategorySelector
+            value={form.walletCategory}
+            items={categoryItems}
+            onChange={(v) => handleChange("walletCategory", v)}
+          />
+        </div>
+        <div className="col-span-2">
+          <AmountInput
+            value={form.amount}
+            onChange={(v) => handleChange("amount", v)}
+            type={type}
+          />
+        </div>
       </div>
       <div className="flex flex-col gap-6">
         <LabeledInput value={form.title} onChange={v => handleChange('title', v)} />

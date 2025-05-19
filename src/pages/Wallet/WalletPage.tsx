@@ -18,14 +18,14 @@ const WalletPage = () => {
     setPage(1); // 페이지 초기화
   };
 
-  if (isError || !data) return <div>데이터를 불러오지 못했습니다.</div>;
+  if (isError || !data) return <div className="dark:text-dark-500">데이터를 불러오지 못했습니다.</div>;
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-semibold text-primary-800">수입/지출 내역</h2>
+      <h2 className="text-2xl font-semibold text-primary-800 dark:text-white">수입/지출 내역</h2>
 
       <div className="flex justify-between items-center">
-        <p className="text-lg">
+        <p className="text-lg dark:text-dark-500">
           총 <span className="text-accent-blue">{data.totalItems}</span>건
         </p>
         <SearchInput

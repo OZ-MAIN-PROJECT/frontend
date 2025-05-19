@@ -25,7 +25,7 @@ const CalendarView = ({ year, month, onDateSelect, data }: CalendarViewProps) =>
           locale="en"
           calendarType="hebrew"
           onClickDay={onDateSelect}
-          tileClassName={() => "relative aspect-square p-0 border-none bg-gray-300"}
+          tileClassName={() => "relative aspect-square p-0 border-none bg-gray-300 dark:bg-gray-600"}
           tileContent={({ date }) => {
             const match = data?.list.find(
               (entry) => formatDate(entry.date) === formatDate(date)

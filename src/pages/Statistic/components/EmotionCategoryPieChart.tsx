@@ -49,10 +49,10 @@ const EmotionCategoryPieChart = ({ year, month }:EmotionCategoryPieChartProps) =
                 style={{ backgroundColor: entry.color }}
                 className="w-3 h-3 mt-1 inline-block rounded-full"
               />
-              <div className="text-xs">
+              <div className="text-xs dark:text-dark-200">
                 <p className="truncate">{entry.value} {entry.payload.rate}%</p>
                 {"amount" in entry.payload && (
-                  <p className="text-gray-600 text-xs">
+                  <p className="text-gray-600 dark:text-dark-500 text-xs">
                     {entry.payload.amount.toLocaleString()}원
                   </p>
                 )}
@@ -67,14 +67,14 @@ const EmotionCategoryPieChart = ({ year, month }:EmotionCategoryPieChartProps) =
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center mb-2 mx-7">
-        <h2 className="text-lg font-semibold">소비 통계</h2>
+        <h2 className="text-lg font-semibold dark:text-white">소비 통계</h2>
         <div className="flex items-center">
           <button
             onClick={() => setActiveTab("emotion")}
-            className={`h-auto p-0 bg-white ${
+            className={`h-auto p-0  ${
               activeTab === "emotion"
-                ? "text-primary-900 underline"
-                : "text-primary-500 hover:text-primary-900 hover:underline"
+                ? "text-primary-900 underline dark:text-white"
+                : "text-primary-500 hover:text-primary-900 dark:hover:text-white hover:underline"
             }`}
           >
             감정별 통계
@@ -82,10 +82,10 @@ const EmotionCategoryPieChart = ({ year, month }:EmotionCategoryPieChartProps) =
           <Dot size={16} className="text-primary-500" />
           <button
             onClick={() => setActiveTab("category")}
-            className={`h-auto p-0 bg-white ${
+            className={`h-auto p-0  ${
               activeTab === "category"
-                ? "text-primary-900 underline"
-                : "text-primary-500 hover:text-primary-900 hover:underline"
+                ? "text-primary-900 underline dark:text-white"
+                : "text-primary-500 hover:text-primary-900 dark:hover:text-white hover:underline"
             }`}
           >
             카테고리별 통계

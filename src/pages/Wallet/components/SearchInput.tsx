@@ -15,7 +15,7 @@ const SearchInput = ({ value, onChange, onSubmit, placeholder = "검색어를 �
   };
 
   return (
-    <div className="flex items-center w-full max-w-sm bg-gray-100 rounded-md px-4 py-2">
+    <div className="flex items-center w-full max-w-sm bg-white dark:bg-white/10 rounded-md px-4 py-2">
       <input
         type="text"
         value={value}
@@ -24,7 +24,7 @@ const SearchInput = ({ value, onChange, onSubmit, placeholder = "검색어를 �
         placeholder={placeholder}
         className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
       />
-      <button onClick={onSubmit} type="button" className="text-primary-800 hover:text-blue-600">
+      <button onClick={onSubmit} type="button" className="text-primary-800 dark:text-accent-blue">
         <Search size={20} />
       </button>
     </div>

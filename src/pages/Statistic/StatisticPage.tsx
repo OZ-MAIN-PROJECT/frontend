@@ -23,7 +23,7 @@ const StatisticsPage = () => {
   
   return (
     <div className="space-y-4">
-      <div className="flex items-center text-2xl text-primary-900 font-bold">
+      <div className="flex items-center text-2xl text-primary-900 dark:text-white font-bold">
       <YearMonthDropdown
         year={selectedYear}
         month={selectedMonth}
@@ -46,18 +46,18 @@ const StatisticsPage = () => {
 
       {/* 중단 차트 영역 */}
       <div className="grid gap-4 2xl:grid-cols-[3fr_2fr]">
-        <Frame className="bg-white px-0">
-          <h2 className="text-lg font-semibold mb-4 mx-7">{selectedYear}년 월별 소비</h2>
+        <Frame className="bg-white dark:bg-white/10 px-0">
+          <h2 className="text-lg font-semibold mb-4 mx-7 dark:text-white">{selectedYear}년 월별 소비</h2>
           <YearlyLineChart year={selectedYear} month={selectedMonth} />
         </Frame>
-        <Frame className="bg-white px-0">
+        <Frame className="bg-white dark:bg-white/10 px-0">
           <EmotionCategoryPieChart year={selectedYear} month={selectedMonth + 1}  />
         </Frame>
       </div>
 
       {/* 하단 리스트 영역 */}
       <Frame>
-        <h2 className="text-lg font-semibold mb-4">{monthLabel}월 소비 내역</h2>
+        <h2 className="text-lg font-semibold mb-4 dark:text-white">{monthLabel}월 소비 내역</h2>
         <div className="overflow-x-auto lg:max-h-[300px]">
           <WalletList data={list.data?.list.flatMap(day => day.entries) ?? []} />
         </div>

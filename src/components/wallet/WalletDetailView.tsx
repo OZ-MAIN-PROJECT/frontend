@@ -1,11 +1,9 @@
 // WalletDetail.tsx
 import { Wallet } from "@/types/wallet";
 import DatePicker from "./walletField/DatePicker";
-import CategorySelector from "./walletField/CategorySelector";
 import AmountInput from "./walletField/AmountInput";
 import LabeledInput from "./walletField/LabeledInput";
 import LabeledTextArea from "./walletField/LabeledTextArea";
-import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from "@/constants/category";
 import EmotionBadge from "@/pages/Wallet/components/EmotionBadge";
 
 interface WalletDetailViewProps {
@@ -15,19 +13,24 @@ interface WalletDetailViewProps {
 
 const WalletDetailView = ({ data, disabled }: WalletDetailViewProps) => {
 
-  const categoryItems = data.type === 'INCOME' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
 
   return (
     <div className="space-y-2">
       <DatePicker value={data.date} disabled={disabled} />
       <EmotionBadge emotion={data.emotion} />
 
-      <div className="py-2 flex flex-wrap gap-4 justify-start">
-        <CategorySelector value={data.walletCategory} items={categoryItems} disabled={disabled} />
-        <AmountInput value={data.amount} disabled={disabled} type={data.type} />
+      <div className="py-4 grid grid-cols-1 md:grid-cols-3 md:gap-4 items-start">
+        <div className="col-span-1">
+          <div className="flex items-center h-[60px] px-3 py-2 text-sm cursor-pointer border-b-2 border-primary-800 rounded-none">
+            <span className="flex-grow text-gray-900 dark:text-white text-lg">{data.walletCategory}</span>
+          </div>
+        </div>
+        <div className="col-span-2">
+          <AmountInput value={data.amount} disabled={disabled} type={data.type} />
+        </div>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         <LabeledInput value={data.title} disabled={disabled} />
         <LabeledTextArea value={data.content ?? ""} disabled={disabled} />
       </div>

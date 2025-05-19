@@ -12,8 +12,20 @@ import MyPage from './pages/myPage/MyPage';
 import WalletPage from './pages/Wallet/WalletPage';
 import CommunityList from './pages/Community/CommunityList';
 import MyPostsPage from './pages/myPage/MyPostsPage';
+import { useDarkModeStore } from './stores/useDarkModeStore';
+import { useEffect } from 'react';
 
 function App() {
+  const setDarkMode = useDarkModeStore((state) => state.setDarkMode);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('darkMode');
+    if (stored !== null) {
+      const parsed = JSON.parse(stored);
+      setDarkMode(parsed);
+    }
+  }, [setDarkMode]);
+
   return (
     <Router>
       <Routes>

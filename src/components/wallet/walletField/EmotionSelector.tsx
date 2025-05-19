@@ -11,7 +11,7 @@ const EmotionSelector = ({ value, onChange, disabled }: walletFormProps<Emotion>
   };
 
   return (
-    <div className="flex gap-2 items-center py-4 flex-wrap">
+    <div className="flex gap-2 items-center py-4 flex-wrap px-1">
       {EMOTIONS.map((emotion) => {
         const isSelected = value === emotion;
 
