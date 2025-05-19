@@ -28,15 +28,25 @@ export type MonthlyStatistics = {
     expenseAmount: number;
 }
 
-export type EmotionStatistics = {
+export type EmotionStatisticsList = {
+    emotionStatistics: EmotionStatistic[]
+}
+
+export type EmotionStatistic = {
     emotion: Emotion;
     rate: number;
     amount: number;
+    count: number;
 }
 
-export type categoryStatistics = {
+export type CategoryStatisticsList = {
+    categoryStatistics: CategoryStatistic[]
+}
+
+export type CategoryStatistic = {
     category: WalletCategory;
     rate: number;
     amount: number;
+    
 }
 

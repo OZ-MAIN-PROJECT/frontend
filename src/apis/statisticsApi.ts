@@ -1,4 +1,4 @@
-import { categoryStatistics, EmotionStatistics, Statistic, YearlyStatistics } from "@/types/statistic";
+import { CategoryStatisticsList, EmotionStatisticsList, YearlyStatistics } from "@/types/statistic";
 import api from "./api";
 import { END_POINT } from "@/constants/route";
 
@@ -12,24 +12,16 @@ export const getMonthlyStatistics = async ( year: number ): Promise<YearlyStatis
 
 
 // 감정별 소비 통계
-export const getEmotionStatistics = async(year: number, month: number): Promise<EmotionStatistics[]> => {
-  const res = await api.get<EmotionStatistics[]>(END_POINT.STATISTICS_EMOTION, { 
+export const getEmotionStatistics = async(year: number, month: number): Promise<EmotionStatisticsList> => {
+  const res = await api.get<EmotionStatisticsList>(END_POINT.STATISTICS_EMOTION, { 
     params: { year, month } 
   });
   return res.data;
 };
 
 // 카테고리별 소비 통계
-export const getCategoryStatistics = async(year: number, month: number): Promise<categoryStatistics[]> => {
-  const res = await api.get<categoryStatistics[]>(END_POINT.STATISTICS_CATEGORY, { 
-    params: { year, month } 
-  });
-  return res.data;
-};
-
-// 소비 요약 카드
-export const getSummaryStatistics = async(year: number, month: number): Promise<Statistic> => {
-  const res =  await api.get(END_POINT.STATISTICS_SUMMARY, { 
+export const getCategoryStatistics = async(year: number, month: number): Promise<CategoryStatisticsList> => {
+  const res = await api.get<CategoryStatisticsList>(END_POINT.STATISTICS_CATEGORY, { 
     params: { year, month } 
   });
   return res.data;
