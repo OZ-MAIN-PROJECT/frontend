@@ -1,6 +1,6 @@
-import successIcon from '../../../assets/icons/modal-success.svg';
-import errorIcon from '../../../assets/icons/modal-error.svg';
-import forbiddenIcon from '../../../assets/icons/modal-forbidden.svg';
+import successIcon from '@/assets/icons/modal-success.svg';
+import errorIcon from '@/assets/icons/modal-error.svg';
+import forbiddenIcon from '@/assets/icons/modal-forbidden.svg';
 
 const iconMap = {
   success: successIcon,

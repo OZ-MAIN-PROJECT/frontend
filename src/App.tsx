@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/Home/HomePage';
 import MainLayout from './layouts/MainLayout';
 import StatisticsPage from './pages/Statistic/StatisticPage';
-import TestPostCard from './pages/TestPostCard';
 import PostDetail from './components/community/PostDetail';
 import PostWrite from './pages/Community/PostWrite';
 import LoginPage from './pages/Login/LoginPage';
@@ -39,9 +38,6 @@ function App() {
         <Route path="/community/:type/:postId" element={<MainLayout><PostDetail /></MainLayout>} /> {/* 게시글 상세 먼저! */}
         <Route path="/community/:type" element={<MainLayout><CommunityList /></MainLayout>} /> {/* 게시판 리스트 */}
         <Route path="/community/write" element={<MainLayout><PostWrite /></MainLayout>} />
-
-        {/* 테스트용 페이지 (개발 완료 후 제거 예정) */}
-        <Route path="/community-test" element={<MainLayout><TestPostCard /></MainLayout>} />
       </Routes>
     </Router>
   );
