@@ -8,17 +8,15 @@ const CategorySelector = ({ value, items, onChange, disabled }: walletSelectProp
   };
 
   return (
-    <div className='w-full sm:w-auto'>
       <DropdownInput
         selected={value}
         onSelect={handleSelect}
         style="underline"
         items={items}
-        className="w-full sm:w-[280px]"
+        className=""
         placeholder="카테고리 선택"
         disabled={disabled}
       />
-    </div>
   );
 };
 

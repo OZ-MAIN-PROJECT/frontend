@@ -29,17 +29,18 @@ export default function WalletDetailModal() {
       await deleteMutation.mutateAsync(walletUuid); 
       closeModal('walletDetail');
       openModal('walletDeleteConfirm');
+      window.location.reload();
     } catch (err) {
       console.error('삭제 실패:', err);
     }
   };
   return (
     <>
-      <Modal modalKey="walletDetail">
+      <Modal modalKey="walletDetail" className="w-[800px]">
         {isError && <p className="text-center py-10 text-red-500">데이터를 불러오지 못했습니다.</p>}
 
         {data && (
-          <div className="w-[220px] sm:w-[500px] lg:w-[920px] h-[400px] md:h-auto overflow-auto p-1">
+          <div className="overflow-auto">
             <WalletDetailView data={data} disabled={true} />
 
             <div className="flex flex-wrap justify-center gap-4 mt-6">

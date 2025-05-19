@@ -9,6 +9,7 @@ import SelectLayer from '../components/common/SelectLayer';
 import WalletFormModal from '@/components/wallet/walletModal/WalletFormModal';
 import { useModalStore } from '@/stores/useModalStore';
 import WalletDetailModal from '@/components/wallet/walletModal/WalletDetailModal';
+import ThemeSettingModal from '@/components/layout/ThemeSettingModal';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
@@ -44,7 +45,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="flex bg-gray-200 justify-end">
+    <div className="flex bg-gray-200 dark:bg-dark-900 justify-end">
       <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
       <div className="w-full lg:w-[calc(100%-250px)] flex flex-col min-h-screen">
         <Header toggleSidebar={toggleSidebar} />
@@ -88,6 +89,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       )}
       <WalletDetailModal />
       <WalletFormModal />
+      <ThemeSettingModal />
     </div>
   );
 };

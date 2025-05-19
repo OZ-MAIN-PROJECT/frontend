@@ -30,11 +30,13 @@ export default function WalletFormModal() {
       if (walletUuid && data) {
         // 수정
         await updateMutation.mutateAsync({ walletUuid, data: payload });
+        window.location.reload();
         console.log('수정')
 
       } else {
-        // 등록
+        // 등록 
         await createMutation.mutateAsync(payload);
+        window.location.reload();
         console.log('등록')
       }
       closeModal("walletForm");
@@ -44,7 +46,7 @@ export default function WalletFormModal() {
   };
 
   return (
-    <Modal modalKey="walletForm">
+    <Modal modalKey="walletForm" className="w-[800px]">
       {isLoading ? (
         <p className="text-center py-10">불러오는 중...</p>
       ) : (

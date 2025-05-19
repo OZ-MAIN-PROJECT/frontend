@@ -29,12 +29,20 @@
   opacity: 0.5;
 }
 
+.dark react-calendar__month-view__days__day--neighboringMonth {
+  opacity: 0.3;
+}
+
 .react-calendar__month-view__days__day--neighboringMonth > * {
   display: none;
 }
 
 .react-calendar__tile {
   border-radius: 0.75rem;
+}
+
+.dark .react-calendar__month-view__weekdays {
+  color: #aaa;
 }
 
 

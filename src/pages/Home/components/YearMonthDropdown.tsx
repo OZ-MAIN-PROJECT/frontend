@@ -23,7 +23,7 @@ const YearMonthDropdown = ({
   }, [year]);
 
   return (
-    <div className={`${className} flex gap-4 w-fit font-bold text-primary-900`}>
+    <div className={`${className} flex gap-4 w-fit font-bold dark:bg-dark-900 dark:border-none text-primary-900 dark:text-white`}>
       {/* 연도 선택 */}
       {showYear && (
         <div className="flex items-center">
@@ -31,7 +31,7 @@ const YearMonthDropdown = ({
             <select
               value={year}
               onChange={(e) => onChange(parseInt(e.target.value), month)}
-              className="appearance-none text-accent-blue border-b-4 border-primary-800 pl-1 pr-6 pb-1 bg-transparent focus:outline-none"
+              className="appearance-none text-accent-blue border-b-4 border-primary-800 dark:border-white pl-1 pr-6 pb-1 bg-transparent focus:outline-none"
             >
               {yearRange.map((y) => (
                 <option key={y} value={y}>
@@ -41,10 +41,10 @@ const YearMonthDropdown = ({
             </select>
             <Triangle
               size={10}
-              className="absolute right-1 bottom-1/2 text-primary-800 pointer-events-none rotate-180 fill-current translate-y-1/2"
+              className="absolute right-1 bottom-1/2 text-primary-800 dark:text-white pointer-events-none rotate-180 fill-current translate-y-1/2"
             />
             </div>
-          <span className="ml-1 text-primary-900">년</span>
+          <span className="ml-1 text-primary-900 dark:text-white">년</span>
         </div>
       )}
 
@@ -55,7 +55,7 @@ const YearMonthDropdown = ({
             <select
               value={month}
               onChange={(e) => onChange(year, parseInt(e.target.value))}
-              className="appearance-none text-accent-blue border-b-4 border-primary-800 pl-1 pr-6 pb-1 bg-transparent focus:outline-none"
+              className="appearance-none text-accent-blue border-b-4 border-primary-800 dark:border-white pl-1 pr-6 pb-1 bg-transparent focus:outline-none"
             >
               {Array.from({ length: 12 }, (_, i) => (
                 <option key={i} value={i}>
@@ -65,10 +65,10 @@ const YearMonthDropdown = ({
             </select>
             <Triangle
               size={10}
-              className="absolute right-1 bottom-1/2 text-primary-800 pointer-events-none rotate-180 fill-current translate-y-1/2"
+              className="absolute right-1 bottom-1/2 text-primary-800 dark:text-white pointer-events-none rotate-180 fill-current translate-y-1/2"
             />
           </div>
-          <span className="ml-1 text-primary-900">월</span>
+          <span className="ml-1 text-primary-900 dark:text-white">월</span>
         </div>
       )}
     </div>
