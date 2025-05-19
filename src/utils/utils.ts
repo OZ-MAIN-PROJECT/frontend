@@ -5,8 +5,14 @@
  * @param {Date} date - 변환할 Date 객체
  * @returns {string} `YYYY-MM-DD` 형식의 날짜 문자열
  */
-export const formatDate = (date: Date) => date.toISOString().split("T")[0];
-
+export const formatDate = (value: string | Date): string => {
+    const date = new Date(value);
+  
+    // 유효한 날짜인지 체크
+    if (isNaN(date.getTime())) return 'Invalid Date';
+  
+    return date.toISOString().split('T')[0]; // YYYY-MM-DD 형식
+  };
 /**
  * 숫자 회계형식 포맷팅 함수
  * @param data - 숫자 값
