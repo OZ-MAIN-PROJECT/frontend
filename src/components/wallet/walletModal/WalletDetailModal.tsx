@@ -39,7 +39,7 @@ export default function WalletDetailModal() {
         {isError && <p className="text-center py-10 text-red-500">데이터를 불러오지 못했습니다.</p>}
 
         {data && (
-          <div className="w-[220px] sm:w-[500px] lg:w-[920px] h-[400px] md:h-auto overflow-scroll p-1">
+          <div className="w-[220px] sm:w-[500px] lg:w-[920px] h-[400px] md:h-auto overflow-auto p-1">
             <WalletDetailView data={data} disabled={true} />
 
             <div className="flex flex-wrap justify-center gap-4 mt-6">

@@ -1,4 +1,4 @@
-import { getCategoryStatistics, getEmotionStatistics, getMonthlyStatistics, getSummaryStatistics } from '@/apis/statisticsApi';
+import { getCategoryStatistics, getEmotionStatistics, getMonthlyStatistics } from '@/apis/statisticsApi';
 import { createWalletEntry, deleteWalletEntry, getWalletDetail, getWalletEntries, getWalletMonthly, getWalletTotal, updateWalletEntry } from '@/apis/walletApi';
 import { MonthlyWalletList, WalletList } from '@/types/wallet';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -85,39 +85,29 @@ export const useWalletTotal = (year: number, month: number) => {
     });
 };
 
-// 월별 수입/지출 그래프
+// 월별 수입/지출 통계 (연간)
 export const useMonthlyStatistics = (year: number) => {
-    return useQuery({
-      queryKey: ['walletMonthlyStatistics', year],
-      queryFn: () => getMonthlyStatistics(year),
-      enabled: !!year,
-    });
+  return useQuery({
+    queryKey: ["walletMonthlyStatistics", year],
+    queryFn: () => getMonthlyStatistics(year),
+    enabled: !!year,
+  });
 };
 
-// 감정별 소비 통계
+// 감정별 통계 (월간)
 export const useEmotionStatistics = (year: number, month: number) => {
-    return useQuery({
-      queryKey: ['walletEmotionStatistics', year, month],
-      queryFn: () => getEmotionStatistics(year, month),
-      enabled: !!year && !!month,
-    });
+  return useQuery({
+    queryKey: ["walletEmotionStatistics", year, month],
+    queryFn: () => getEmotionStatistics(year, month),
+    enabled: !!year && !!month,
+  });
 };
 
-// 카테고리별 소비 통계
+// 카테고리별 통계 (월간)
 export const useCategoryStatistics = (year: number, month: number) => {
-    return useQuery({
-      queryKey: ['walletCategoryStatistics', year, month],
-      queryFn: () => getCategoryStatistics(year, month),
-      enabled: !!year && !!month,
-    });
+  return useQuery({
+    queryKey: ["walletCategoryStatistics", year, month],
+    queryFn: () => getCategoryStatistics(year, month),
+    enabled: !!year && !!month,
+  });
 };
-
-// 소비 요약 카드
-export const useSummaryStatistics = (year: number, month: number) => {
-    return useQuery({
-      queryKey: ['walletSummaryStatistics', year, month],
-      queryFn: () => getSummaryStatistics(year, month),
-      enabled: !!year && !!month,
-    });
-};
-

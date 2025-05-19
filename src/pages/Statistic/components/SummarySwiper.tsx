@@ -18,6 +18,7 @@ const SummarySwiper = ({ month, stat }:SummarySwiperProps) => {
   const CategoryIcon = getCategoryIcons[stat.mainCategory];
   const formatAmount = (value: number) => `${value.toLocaleString()}원`;
 
+
   return (
     
     <Swiper
@@ -46,7 +47,7 @@ const SummarySwiper = ({ month, stat }:SummarySwiperProps) => {
         <Frame className="bg-accent-blue space-y-3 text-white h-full">
           <h2 className="text-lg font-medium">{monthLabel}월 소비 금액</h2>
           <p className="text-2xl font-semibold">총 {formatAmount(stat.totalExpenseAmount)}</p>
-          <p className="opacity-50 text-sm">저번달보다 {formatAmount(stat.increaseRate)}% 늘었어요!</p>
+          <p className="opacity-50 text-sm">지난달 보다 {stat.increaseRate.toFixed(0)}% {stat.increaseAmount >= 0 ? " 증가" : " 감소"}어요!</p>
         </Frame>
       </SwiperSlide>
       <SwiperSlide>

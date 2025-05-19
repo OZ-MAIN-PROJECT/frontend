@@ -72,7 +72,7 @@ const WalletForm = ({ type, data, onSubmit }: WalletFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-[220px] sm:w-[500px] lg:w-[920px] h-[400px] md:h-auto overflow-scroll p-1"
+      className="w-[220px] sm:w-[500px] lg:w-[920px] h-[400px] md:h-auto overflow-auto p-1"
     >
       <DatePicker value={form.date} onChange={v => handleChange('date', v)} />
       <EmotionSelector value={form.emotion} onChange={v => handleChange('emotion', v)} />
