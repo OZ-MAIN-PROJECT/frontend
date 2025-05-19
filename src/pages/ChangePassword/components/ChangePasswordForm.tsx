@@ -49,7 +49,7 @@ const ChangePasswordForm = ({ onSubmit, isFromFindPassword, email }: Props) => {
 
   return (
     <form className="flex flex-col items-center gap-4 w-full mb-10">
-      {!!isFromFindPassword && (
+      {!isFromFindPassword && (
         <>
           <p className="text-gray-600 ">현재 비밀번호 입력</p>
           <Input
