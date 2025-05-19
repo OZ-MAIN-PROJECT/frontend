@@ -1,30 +1,68 @@
-import { CommunityCreateRequest, CommunityListResponse, Post, Comment } from '@/types/Post';
+import { CommunityCreateRequest, CommunityListResponse, Post, Comment, ClientPostType } from '@/types/Post';
 import { END_POINT } from '@/constants/route';
 import api from './api';
+
+/////////////////////////////////////////////////
+// ✅ 추가: 원시 응답 타입 정의
+/////////////////////////////////////////////////
+
+export interface CommunityListRaw {
+  communityUuid: string;
+  title: string;
+  content: string;
+  type: string;
+  nickname: string;
+  profileImage?: string;
+  createdAt: string;
+  updatedAt: string;
+  likes: number;
+  views: number;
+  comments?: number;
+  isLiked: boolean;
+  isOwner: boolean;
+  userUuid: string;
+  image?: string;
+}
+
+export interface CommentRaw {
+  commentId: number;
+  parentCommentId?: number | null;
+  content: string;
+  createdAt: string;
+  updatedAt?: string;
+  deletedAt?: string | null;
+  isOwner: boolean;
+  isLiked?: boolean;
+  likes?: number;
+  userUuid?: string;
+  nickname: string;
+  profileImage?: string;
+  commentReplies?: CommentRaw[];
+}
 
 /////////////////////////////////////////////////
 // 📝 게시글 관련 API
 /////////////////////////////////////////////////
 
-/** 게시글 등록 */
 export const createCommunityPost = async (data: CommunityCreateRequest): Promise<{ id: string }> => {
   const formData = new FormData();
   formData.append('title', data.title);
   formData.append('content', data.content);
-  formData.append('type', data.type);
+  formData.append('type', data.type); // 이미 ServerPostType
   if (data.image) formData.append('image', data.image);
 
-  const response = await api.post(END_POINT.COMMUNITY, formData);
+  for (const pair of formData.entries()) {
+    console.log('FormData Entry:', pair[0], pair[1]);
+  }
 
-  console.log('[게시글 등록 응답]', response.data);
+  const response = await api.post(END_POINT.COMMUNITY, formData);
+  console.log('[게시글 등록 응답]', response);
 
   const id = response.data?.communityUuid || response.data?.id;
   if (!id) throw new Error('게시글 ID가 응답에 없습니다.');
-
   return { id };
 };
 
-/** 게시글 수정 */
 export const updateCommunityPost = async (communityUuid: string, data: CommunityCreateRequest): Promise<void> => {
   const formData = new FormData();
   formData.append('title', data.title);
@@ -32,17 +70,14 @@ export const updateCommunityPost = async (communityUuid: string, data: Community
   formData.append('type', data.type);
   if (data.image) formData.append('image', data.image);
 
-  // axios가 자동으로 multipart/form-data 설정
   const response = await api.patch(END_POINT.COMMUNITY_DETAIL(communityUuid), formData);
   console.log('[게시글 수정 응답]', response.data);
 };
 
-/** 게시글 삭제 */
 export const deleteCommunityPost = async (communityUuid: string) => {
   await api.delete(END_POINT.COMMUNITY_DETAIL(communityUuid));
 };
 
-/** 게시글 목록 조회 */
 export const getCommunityList = async ({
   type,
   page,
@@ -55,9 +90,9 @@ export const getCommunityList = async ({
   const response = await api.get(END_POINT.COMMUNITY_LIST({ type, page, size }));
 
   const converted = response.data.results.map(
-    (item: any): Post => ({
+    (item: CommunityListRaw): Post => ({
       id: item.communityUuid,
-      type: item.type.toLowerCase(),
+      type: item.type.toLowerCase() as ClientPostType,
       title: item.title,
       content: item.content,
       createdAt: item.createdAt,
@@ -82,7 +117,6 @@ export const getCommunityList = async ({
   };
 };
 
-/** 게시글 상세 조회 */
 export const getCommunityDetail = async (communityUuid: string): Promise<Post> => {
   const response = await api.get(END_POINT.COMMUNITY_DETAIL(communityUuid));
   const item = response.data;
@@ -108,13 +142,11 @@ export const getCommunityDetail = async (communityUuid: string): Promise<Post> =
   };
 };
 
-/** 게시글 좋아요 */
 export const likeCommunityPost = async (communityUuid: string) => {
   const response = await api.post(END_POINT.COMMUNITY_LIKE(communityUuid));
-  return response.data; // { isLiked: boolean, likes: number }
+  return response.data;
 };
 
-/** 게시글 좋아요 취소 */
 export const unlikeCommunityPost = async (communityUuid: string) => {
   await api.delete(END_POINT.COMMUNITY_LIKE(communityUuid));
 };
@@ -123,7 +155,6 @@ export const unlikeCommunityPost = async (communityUuid: string) => {
 // 💬 댓글 관련 API
 /////////////////////////////////////////////////
 
-/** 댓글 등록 */
 export const createComment = async ({
   communityUuid,
   content,
@@ -141,12 +172,11 @@ export const createComment = async ({
   return mapCommentResponse(response.data);
 };
 
-/** 댓글 목록 조회 */
 export const getComments = async (communityUuid: string): Promise<Comment[]> => {
   const response = await api.get(END_POINT.COMMENT(communityUuid));
-  const flatCommentResponses = response.data.results || [];
+  const flatCommentResponses: CommentRaw[] = response.data.results || [];
 
-  return flatCommentResponses.map((parent: any) => {
+  return flatCommentResponses.map((parent: CommentRaw) => {
     const parentComment = mapCommentResponse(parent);
     if (parent.commentReplies && Array.isArray(parent.commentReplies)) {
       parentComment.children = parent.commentReplies.map(mapCommentResponse);
@@ -155,7 +185,6 @@ export const getComments = async (communityUuid: string): Promise<Comment[]> => 
   });
 };
 
-/** 댓글 수정 */
 export const updateComment = async ({
   communityUuid,
   commentId,
@@ -169,13 +198,11 @@ export const updateComment = async ({
   return mapCommentResponse(response.data);
 };
 
-/** 댓글 삭제 */
 export const deleteComment = async ({ communityUuid, commentId }: { communityUuid: string; commentId: number }) => {
   await api.delete(END_POINT.COMMENT_DETAIL(communityUuid, commentId));
 };
 
-/** 댓글 응답 파싱 유틸 */
-const mapCommentResponse = (data: any): Comment => ({
+const mapCommentResponse = (data: CommentRaw): Comment => ({
   id: data.commentId,
   parentId: data.parentCommentId ?? null,
   content: data.content,

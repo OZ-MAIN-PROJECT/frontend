@@ -32,17 +32,17 @@ export const END_POINT = {
   USERS_CHANGE_PASSWORD: '/api/users/mypage/change-password/',
   TOKEN_REFRESH: '/api/token/refresh/',
 
-  //community : 커뮤니티 관련 api
-  COMMUNITY: '/api/community', // 게시글 등록 (POST), 목록 조회 (GET)
+  // community : 커뮤니티 관련 api
+  COMMUNITY: '/api/community/',
   COMMUNITY_LIST: ({ type, page, size }: { type: string; page: number; size: number }) =>
-    `/api/community?type=${type}&page=${page}&size=${size}`, // 게시글 목록 조회
+    `/api/community?type=${type}&page=${page}&size=${size}`,
 
-  COMMUNITY_DETAIL: (communityUuid: string) => `/api/community/${communityUuid}`, // 상세조회, 수정, 삭제
-  COMMUNITY_LIKE: (communityUuid: string) => `/api/community/${communityUuid}/like`, // 좋아요 등록/취소
+  COMMUNITY_DETAIL: (communityUuid: string) => `/api/community/${communityUuid}/`,
+  COMMUNITY_LIKE: (communityUuid: string) => `/api/community/${communityUuid}/like`,
 
   // comment : 커뮤니티 댓글 관련 api
-  COMMENT: (communityUuid: string) => `/api/community/${communityUuid}/comment`, // 댓글 등록/조회
-  COMMENT_DETAIL: (communityUuid: string, commentId: number) => `/api/community/${communityUuid}/comment/${commentId}`, // 댓글 수정/삭제
+  COMMENT: (communityUuid: string) => `/api/community/${communityUuid}/comment/`,
+  COMMENT_DETAIL: (communityUuid: string, commentId: number) => `/api/community/${communityUuid}/comment/${commentId}/`,
 
   // reply : 월요일에 내용 공유 후 추가
 };

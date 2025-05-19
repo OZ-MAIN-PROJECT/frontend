@@ -4,7 +4,7 @@ import Button from '@/components/common/Button';
 import CommunityTitle from '@/components/community/CommunityTitle';
 import { Triangle } from 'lucide-react';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { createCommunityPost, updateCommunityPost, getCommunityList } from '@/apis/communityApi';
+import { createCommunityPost, updateCommunityPost } from '@/apis/communityApi';
 import { ServerPostType, PostType } from '@/types/Post';
 
 const VALID_TYPES: PostType[] = ['emotion', 'notice', 'question'];
@@ -14,19 +14,17 @@ const PostWrite = () => {
   const location = useLocation();
   const { type } = useParams<{ type: PostType }>();
 
+  const isInvalidType = !type || !VALID_TYPES.includes(type);
+
   const existingPost = location.state?.post;
   const { user } = useAuthStore();
   const isEdit = !!existingPost;
   const isAdmin = user?.role === 'admin';
 
-  if (!type || !VALID_TYPES.includes(type)) {
-    return <p className="text-center pt-10 text-red-500">잘못된 게시판 접근입니다.</p>;
-  }
-
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<PostType>(type);
+  const [selectedCategory, setSelectedCategory] = useState<PostType>(type || 'question');
 
   const categoryOptions = [
     { value: 'question', label: '질문 게시판' },
@@ -69,9 +67,7 @@ const PostWrite = () => {
           image: image ?? undefined,
         });
 
-        if (!id) {
-          throw new Error('응답에서 게시글 ID를 가져올 수 없습니다.');
-        }
+        if (!id) throw new Error('응답에서 게시글 ID를 가져올 수 없습니다.');
 
         navigate(`/community/${selectedCategory}/${id}`);
       }
@@ -80,6 +76,10 @@ const PostWrite = () => {
       alert('게시글 처리 중 오류가 발생했습니다.');
     }
   };
+
+  if (isInvalidType) {
+    return <p className="text-center pt-10 text-red-500">잘못된 게시판 접근입니다.</p>;
+  }
 
   return (
     <div className="flex-1 p-5 lg:p-10">
@@ -91,7 +91,7 @@ const PostWrite = () => {
             <div className="relative inline-block w-full">
               <select
                 value={selectedCategory}
-                onChange={e => setSelectedCategory(e.target.value as 'emotion' | 'question' | 'notice')}
+                onChange={e => setSelectedCategory(e.target.value as PostType)}
                 disabled={isEdit}
                 className={`appearance-none w-full text-lg font-semibold text-primary-800 border-b-2 border-primary-800 bg-transparent focus:outline-none pl-2 pr-8 py-2 ${isEdit ? 'cursor-not-allowed opacity-70' : ''}`}
               >
