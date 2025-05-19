@@ -92,64 +92,67 @@ const EmotionCategoryPieChart = ({ year, month }:EmotionCategoryPieChartProps) =
           </button>
         </div>
       </div>
+      {data.length === 0 ? (
+        <p className="text-center text-gray-400 dark:text-dark-500 py-8">등록된 데이터가 없습니다.</p>
+      ) : (
+        <div className={`flex flex-col ${isMobile ? "items-center" : "sm:flex-row sm:items-center sm:gap-4"}`}>
+          <div className="w-full sm:w-1/2">
+            <ResponsiveContainer width="100%" height={isMobile ? 200 : 280}>
+              <PieChart>
+                <Pie
+                  data={data}
+                  dataKey="rate"
+                  nameKey={activeTab === "emotion" ? "emotion" : "category"}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={isMobile ? 80 : 100}
+                  label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+                    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+                    const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
+                    const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
+                    return (
+                      <text
+                        x={x}
+                        y={y}
+                        fill="#fff"
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        fontSize={12}
+                      >
+                        {(percent * 100).toFixed(0)}%
+                      </text>
+                    );
+                  }}
+                  labelLine={false}
+                >
+                  {data.map((entry, index) => {
+                    let color = CATEGORY_COLORS[index % CATEGORY_COLORS.length];
+                    if (activeTab === "emotion" && "emotion" in entry) {
+                      color = getEmotionColorMap[entry.emotion] || color;
+                    }
+                    return <Cell key={`cell-${index}`} fill={color} />;
+                  })}
+                </Pie>
+                <Tooltip
+                  formatter={(_, __, props) => {
+                    const payload = props.payload as EmotionStatistic | CategoryStatistic;
+                    return `${payload.amount.toLocaleString()}원`;
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
 
-      <div className={`flex flex-col ${isMobile ? "items-center" : "sm:flex-row sm:items-center sm:gap-4"}`}>
-        <div className="w-full sm:w-1/2">
-          <ResponsiveContainer width="100%" height={isMobile ? 200 : 280}>
-            <PieChart>
-              <Pie
-                data={data}
-                dataKey="rate"
-                nameKey={activeTab === "emotion" ? "emotion" : "category"}
-                cx="50%"
-                cy="50%"
-                outerRadius={isMobile ? 80 : 100}
-                label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-                  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-                  const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
-                  const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
-                  return (
-                    <text
-                      x={x}
-                      y={y}
-                      fill="#fff"
-                      textAnchor="middle"
-                      dominantBaseline="central"
-                      fontSize={12}
-                    >
-                      {(percent * 100).toFixed(0)}%
-                    </text>
-                  );
-                }}
-                labelLine={false}
-              >
-                {data.map((entry, index) => {
-                  let color = CATEGORY_COLORS[index % CATEGORY_COLORS.length];
-                  if (activeTab === "emotion" && "emotion" in entry) {
-                    color = getEmotionColorMap[entry.emotion] || color;
-                  }
-                  return <Cell key={`cell-${index}`} fill={color} />;
-                })}
-              </Pie>
-              <Tooltip
-                formatter={(_, __, props) => {
-                  const payload = props.payload as EmotionStatistic | CategoryStatistic;
-                  return `${payload.amount.toLocaleString()}원`;
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+          <div className="mt-4 sm:mt-0">
+            <CustomLegend payload={data.map((item, index) => ({
+              value: "emotion" in item ? item.emotion : item.category,
+              color: "emotion" in item ? getEmotionColorMap[item.emotion] : CATEGORY_COLORS[index % CATEGORY_COLORS.length],
+              payload: item,
+            }))} />
+          </div>
         </div>
-
-        <div className="mt-4 sm:mt-0">
-          <CustomLegend payload={data.map((item, index) => ({
-            value: "emotion" in item ? item.emotion : item.category,
-            color: "emotion" in item ? getEmotionColorMap[item.emotion] : CATEGORY_COLORS[index % CATEGORY_COLORS.length],
-            payload: item,
-          }))} />
-        </div>
+      )}
       </div>
-    </div>
   );
 };
 
