@@ -25,14 +25,18 @@ export const useStatisticsData = (year: number, month: number) => {
     const increaseRate = prevExpense === 0 ? 100 : (increaseAmount / prevExpense) * 100;
 
     // 빈 배열일 때 reduce 호출 X
-    const mainEmotionData =
-    emotion.data.length > 0
-      ? emotion.data.reduce((prev, curr) => (curr.rate > prev.rate ? curr : prev))
-      : null;
+    const mainEmotionData = 
+      emotion.data?.emotionStatistics?.length
+        ? emotion.data.emotionStatistics.reduce((prev, curr) =>
+            curr.rate > prev.rate ? curr : prev
+          )
+        : null;
 
-  const mainCategoryData =
-    category.data.length > 0
-      ? category.data.reduce((prev, curr) => (curr.rate > prev.rate ? curr : prev))
+    const mainCategoryData = 
+    category.data?.categoryStatistics?.length
+      ? category.data.categoryStatistics.reduce((prev, curr) =>
+        curr.rate > prev.rate ? curr : prev
+        )
       : null;
       
 

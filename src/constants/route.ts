@@ -20,7 +20,6 @@ export const END_POINT = {
   STATISTICS_MONTHLY: '/api/wallet/statistics/monthly/',
   STATISTICS_EMOTION: '/api/wallet/statistics/emotion/',
   STATISTICS_CATEGORY: '/api/wallet/statistics/category/',
-  STATISTICS_SUMMARY: '/api/wallet/statistics/summary/',
 
   // users : 회원 관련 api
   USERS_SIGNUP: '/api/users/signup/',
@@ -31,6 +30,7 @@ export const END_POINT = {
   MYPAGE_POSTS: '/api/mypage/posts/',
   USERS_FIND_PASSWORD: '/api/users/find-password/',
   USERS_CHANGE_PASSWORD : '/api/users/mypage/change-password/',
+  USERS_RESET_PASSWORD : '/api/users/reset-password/',
   TOKEN_REFRESH : '/api/token/refresh/',
 
   // notice : 공지사항 관련 api

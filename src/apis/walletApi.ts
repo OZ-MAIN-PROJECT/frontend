@@ -28,9 +28,16 @@ export const getWalletMonthly = async(year: number, month: number): Promise<Mont
     list: res.data.monthly.map((day): DailyWalletList => ({
       date: new Date(day.date),
       totalAmount: day.totalAmount,
-      entries: day.entries.map(transformSWalletToWallet),
+      entries: day.entries.map((entry) => {
+        const parsed = transformSWalletToWallet(entry);
+        return {
+          ...parsed,
+          date: new Date(day.date),
+        };
+      }),
     })),
   };
+  
 
   return result;
 };
@@ -82,9 +89,6 @@ export const deleteWalletEntry = (walletUuid: string) => {
 
 // 월별 총 수입/지출 조회
 export const getWalletTotal = async(year: number, month: number): Promise<MonthlyTotal> => {
-  console.log("월별 총 수입/지출 조회요청:", { year, month });
   const res = await api.get<MonthlyTotal>(END_POINT.WALLET_TOTAL, { params: { year, month } });
-
-  console.log("월별 총 수입/지출 조회:", res.data);
   return (res.data)
 };

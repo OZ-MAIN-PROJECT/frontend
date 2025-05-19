@@ -10,7 +10,7 @@ interface SecurityQuestionProps {
 
 const SecurityQuestion = ({questions, question, answer, onChange} : SecurityQuestionProps) => {
   return (
-    <div className="mt-6">
+    <div className="mt-6 w-full">
       <p className="font-semibold text-primary-900 mb-2">본인확인용 질문</p>
       <DropdownInput
         items={questions}
