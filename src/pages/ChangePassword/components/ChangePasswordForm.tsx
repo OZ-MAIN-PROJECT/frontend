@@ -5,10 +5,12 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 
 interface Props {
-  onSubmit: (currentPassword : string, newPassword: string) => Promise<boolean>;
+  onSubmit: (params: { email?: string; currentPassword?: string; newPassword: string }) => Promise<boolean>;
+  isFromFindPassword?: boolean;
+  email?: string;
 }
 
-const ChangePasswordForm = ({ onSubmit }: Props) => {
+const ChangePasswordForm = ({ onSubmit, isFromFindPassword, email }: Props) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -16,42 +18,50 @@ const ChangePasswordForm = ({ onSubmit }: Props) => {
 
   const { passwordError, validatePassword } = usePasswordValidation();
 
-  const handleFiledChange = (filed : 'password' | 'passwordConfirm', value : string) => {
+  const handleFiledChange = (filed: 'password' | 'passwordConfirm', value: string) => {
     if (filed === 'password') setNewPassword(value);
     if (filed === 'passwordConfirm') setConfirm(value);
-  }
+  };
 
   const handleSubmit = async () => {
-    if (!currentPassword || !newPassword || !confirm) {
-        setError('모든 비밀번호를 입력해주세요.');
-        return;
+    if ((!isFromFindPassword && !currentPassword) || !newPassword || !confirm) {
+      setError('모든 비밀번호를 입력해주세요.');
+      return;
     }
     if (newPassword !== confirm) {
-        setError('새로운 비밀번호가 일치하지 않습니다.');
-        return;
+      setError('새로운 비밀번호가 일치하지 않습니다.');
+      return;
     }
     const isValid = validatePassword(newPassword, confirm);
     if (!isValid) return;
 
-    const success = await onSubmit(currentPassword, newPassword);
+    const success = await onSubmit({
+      email,
+      currentPassword: isFromFindPassword ? undefined : currentPassword,
+      newPassword,
+    });
     if (!success) {
-        setError('비밀번호 변경에 실패했습니다.');
+      setError('비밀번호 변경에 실패했습니다.');
     } else {
-        setError('');
+      setError('');
     }
-  }
+  };
 
   return (
-    <form className="flex flex-col items-center gap-4 w-full mb-10" >
-      <p className='text-gray-600 '>현재 비밀번호 입력</p>
-      <Input 
-        className='h-[60px] w-[500px]'
-        type='password'
-        value={currentPassword}
-        placeholder='현재 비밀번호를 입력해주세요.'
-        onChange={e => setCurrentPassword(e.target.value)}
-      />
-      <p className='text-gray-600 '>새로운 비밀번호 입력</p>
+    <form className="flex flex-col items-center gap-4 w-full mb-10">
+      {!!isFromFindPassword && (
+        <>
+          <p className="text-gray-600 ">현재 비밀번호 입력</p>
+          <Input
+            className="h-[60px] w-[500px]"
+            type="password"
+            value={currentPassword}
+            placeholder="현재 비밀번호를 입력해주세요."
+            onChange={e => setCurrentPassword(e.target.value)}
+          />
+        </>
+      )}
+      <p className="text-gray-600 ">새로운 비밀번호 입력</p>
       <PasswordConfirm
         password={newPassword}
         passwordConfirm={confirm}
@@ -62,7 +72,6 @@ const ChangePasswordForm = ({ onSubmit }: Props) => {
       <Button type="button" width="w-[500px]" onClick={handleSubmit}>
         비밀번호 변경하기
       </Button>
-      
     </form>
   );
 };
