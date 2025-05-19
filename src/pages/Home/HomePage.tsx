@@ -13,8 +13,8 @@ const HomePage = () => {
 
   const today = new Date();
 
-  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
-  const [selectedMonth, setSelectedMonth] = useState(today.getMonth()); // 0-based
+  const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth()); // 0-based
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -136,8 +136,8 @@ const HomePage = () => {
                   <div className="flex font-medium gap-2 items-center h-10">
                   <span className={`w-5 h-5 rounded-md ${getEmotionBgClass(entry.emotion)}`}></span>
                     <span>{entry.title}</span>
-                        <span className={`ml-auto ${entry.type == "income" ? "text-accent-blue" : "text-accent-red"}`}>
-                        {(entry.type === "income" ? entry.amount : -entry.amount).toLocaleString()}원
+                        <span className={`ml-auto ${entry.type == "INCOME" ? "text-accent-blue" : "text-accent-red"}`}>
+                        {(entry.type === "INCOME" ? entry.amount : -entry.amount).toLocaleString()}원
                     </span>
 
                   </div>

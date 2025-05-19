@@ -26,11 +26,11 @@ const ListView = ({ onDateSelect, data }: ListViewProps) => {
 
         // 수입/지출 합계 계산
         const income = transactions
-          .filter((e) => e.type === "income")
+          .filter((e) => e.type === "INCOME")
           .reduce((sum, e) => sum + e.amount, 0);
 
         const expense = transactions
-          .filter((e) => e.type === "expense")
+          .filter((e) => e.type === "EXPENSE")
           .reduce((sum, e) => sum + e.amount, 0);
 
         // 가장 큰 금액의 감정 추출

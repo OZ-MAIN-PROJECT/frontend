@@ -43,16 +43,16 @@ const WalletList = ({ data }: WalletListProps) => {
           {/* 금액 */}
           <div
             className={`w-auto text-right ${
-              item.type === "income" ? "text-accent-blue" : "text-accent-red"
+              item.type === "INCOME" ? "text-accent-blue" : "text-accent-red"
             }`}
           >
-            {item.type === "income" ? "+" : "-"}
+            {item.type === "INCOME" ? "+" : "-"}
             {item.amount.toLocaleString()}원
           </div>
 
           {/* 카테고리 */}
           <div className=" w-auto text-center text-gray-600 sm:text-gray-700 text-sm sm:text-base">
-            {item.category}
+            {item.walletCategory}
           </div>
 
           {/* 감정 */}
