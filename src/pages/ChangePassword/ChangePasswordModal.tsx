@@ -3,20 +3,22 @@ import ChangePasswordForm from './components/ChangePasswordForm';
 import PasswordChangeSuccessModal from './components/PasswordChangeSuccessModal';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useUpdatePassword } from '@/hooks/auth/useUpdateProfile';
+import { ChangePasswordParams, useChangePassword } from '@/hooks/auth/useChangePassword';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  isFromFindPassword?: boolean;
+  email?: string;
 }
 
-const ChangePasswordModal = ({ isOpen, onClose }: Props) => {
+const ChangePasswordModal = ({ isOpen, onClose, isFromFindPassword = false, email }: Props) => {
   const navigate = useNavigate();
-  const { update } = useUpdatePassword();
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+  const { changePassword } = useChangePassword();
 
-  const handleChangePassword = async (currentPassword: string, newPassword: string) => {
-    const success = await update(currentPassword, newPassword);
+  const handleChangePassword = async (params: ChangePasswordParams) => {
+    const success = await changePassword(params);
     setIsSuccess(success);
     return success;
   };
@@ -25,15 +27,16 @@ const ChangePasswordModal = ({ isOpen, onClose }: Props) => {
     setIsSuccess(null);
     onClose(); // 모달 닫기
 
-    if (isSuccess) navigate('/mypage');
+    if (isSuccess && isFromFindPassword) navigate('/login');
+    if (isSuccess && !isFromFindPassword) navigate('/mypage');
   };
 
   return (
     <>
       <BlankModal isOpen={isOpen} onClose={handleClose}>
-        <div className="flex flex-col justify-center items-center w-[300px] sm:w-[500px]">
-          <h2 className='text-xl sm:text-2xl font-semibold mb-10'>비밀번호 변경</h2>
-          <ChangePasswordForm onSubmit={handleChangePassword} />
+        <div className="flex flex-col justify-center items-center w-[500px]">
+          <h2 className="text-2xl font-semibold mb-10">비밀번호 변경</h2>
+          <ChangePasswordForm onSubmit={handleChangePassword} isFromFindPassword={isFromFindPassword} email={email} />
         </div>
       </BlankModal>
 
