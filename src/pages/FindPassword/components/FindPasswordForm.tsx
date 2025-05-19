@@ -33,7 +33,7 @@ const FindPasswordForm = ({onVerified} : {onVerified : (email : string) => void}
     // TODO 서버에 검증 요청
     try {
       await findPassword({email, question, answer});
-      onVerified();
+      onVerified(email);
     } catch (err) {
       console.log('본인 확인 싶패', err);
       setFormError('등록된 회원 정보를 찾을 수 없습니다.');
