@@ -35,6 +35,7 @@ export default function WalletFormModal() {
       } else {
         // 등록
         await createMutation.mutateAsync(payload);
+        window.location.reload();
         console.log('등록')
       }
       closeModal("walletForm");

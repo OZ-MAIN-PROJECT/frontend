@@ -20,6 +20,7 @@ export default function WalletDetailModal() {
       type: data.type,
     });
     closeModal('walletDetail');
+    window.location.reload();
   };
 
   const handleDelete = async () => {
@@ -29,6 +30,7 @@ export default function WalletDetailModal() {
       await deleteMutation.mutateAsync(walletUuid); 
       closeModal('walletDetail');
       openModal('walletDeleteConfirm');
+      window.location.reload();
     } catch (err) {
       console.error('삭제 실패:', err);
     }

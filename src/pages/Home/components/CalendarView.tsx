@@ -30,23 +30,33 @@ const CalendarView = ({ year, month, onDateSelect, data }: CalendarViewProps) =>
             const match = data?.list.find(
               (entry) => formatDate(entry.date) === formatDate(date)
             );
-
-            if (!match || match.totalAmount === 0) return null;
-
+          
+            if (!match || match.entries.length === 0) return null;
+          
+            const income = match.entries
+              .filter((e) => e.type === "INCOME")
+              .reduce((sum, e) => sum + e.amount, 0);
+          
+            const expense = match.entries
+              .filter((e) => e.type === "EXPENSE")
+              .reduce((sum, e) => sum + e.amount, 0);
+          
+            const total = income - expense;
+          
+            if (total === 0) return null;
+          
             const maxEntry = match.entries.reduce((prev, curr) =>
               Math.abs(curr.amount) > Math.abs(prev.amount) ? curr : prev,
               match.entries[0]
             );
-
-            if (!maxEntry || !maxEntry.emotion) return null;
-
+          
             const bgClass = getEmotionBgClass(maxEntry.emotion);
-
+          
             return (
               <div
                 className={`w-full h-full flex items-center justify-center text-sm text-white ${bgClass}`}
               >
-                {match.totalAmount.toLocaleString()}원
+                {total.toLocaleString()}원
               </div>
             );
           }}

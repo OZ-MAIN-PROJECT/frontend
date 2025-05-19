@@ -58,7 +58,7 @@ const StatisticsPage = () => {
       {/* 하단 리스트 영역 */}
       <Frame>
         <h2 className="text-lg font-semibold mb-4">{monthLabel}월 소비 내역</h2>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto lg:max-h-[300px]">
           <WalletList data={list.data?.list.flatMap(day => day.entries) ?? []} />
         </div>
       </Frame>
