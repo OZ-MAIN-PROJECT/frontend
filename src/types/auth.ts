@@ -4,13 +4,13 @@ export type User = {
   name: string; // 이름
   nickname: string; // 닉네임
   email: string; // 이메일
-  phone: string; // 휴대전화번호
-  profileImage?: string;
-  role:string; // 관리자 여부
+  written_count: number;  // 내가 작성한 글
+  liked_count: number;  // 좋아요 표시한 글
+  role: string; // 관리자 여부
 };
 
 // 로그인 시 가져오는 User 타입
 export type SimpleUser = {
-  nickname : string;
-  role : 'user' | 'admin';
-}
+  nickname: string;
+  role: 'user' | 'admin';
+};

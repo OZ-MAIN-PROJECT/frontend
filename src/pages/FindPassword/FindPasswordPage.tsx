@@ -5,6 +5,7 @@ import Logo from '@/components/common/Logo';
 
 const FindPasswordPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState('');
 
   return (
     <div className="flex flex-col items-center h-full min-h-screen bg-gray-200">
@@ -15,10 +16,12 @@ const FindPasswordPage = () => {
         입력하신 정보를 확인한 후, 비밀번호 재설정 안내를 드립니다.</p>
       </div>
       <div className="felx felx-col h-full justify-center">
-        <FindPasswordForm onVerified={() => setIsOpen(true)} />
+        <FindPasswordForm onVerified={(verifiedEmail) => {
+          setEmail(verifiedEmail)
+          setIsOpen(true)}} />
       </div>
       {isOpen && (
-        <ChangePasswordModal isOpen={isOpen} onClose={() => setIsOpen(false)}/>
+        <ChangePasswordModal isOpen={isOpen} onClose={() => setIsOpen(false)} isFromFindPassword={true} email={email}/>
       )}
     </div>
   );

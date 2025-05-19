@@ -10,7 +10,7 @@ import PasswordConfirm from './PasswordConfirm';
 import { usePasswordValidation } from '@/hooks/auth/usePasswordValidation';
 import { useSignup } from '@/hooks/auth/useSignup';
 import { useNavigate } from 'react-router-dom';
-import { useDuplicateCheck } from '@/hooks/auth/useCheckDuplicate';
+import { useDuplicateCheck } from '@/hooks/auth/useDuplicateCheck';
 
 const SignupForm = () => {
   const [userInfo, setUserInfo] = useState({
