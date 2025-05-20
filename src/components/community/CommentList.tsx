@@ -20,7 +20,6 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
     queryKey: ['comments', communityUuid],
     queryFn: () => getComments(communityUuid),
   });
-  console.log(comments);
 
   const createMutation = useMutation({
     mutationFn: ({ content, parentCommentId }: { content: string; parentCommentId?: number | null }) =>
@@ -47,18 +46,7 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
   });
 
   const renderComments = () => {
-    // const rootComments = comments.filter(c => c.parentCommentId === null);
-    // const childMap: { [parentCommentId: number]: Comment[] } = {};
-    // comments.forEach(comment => {
-    //   if (comment.parentCommentId !== null) {
-    //     if (!childMap[comment.parentCommentId]) childMap[comment.parentCommentId] = [];
-    //     childMap[comment.parentCommentId].push(comment);
-    //   }
-    // });
-
     return comments.map(root => {
-      // const childComments = childMap[root.id] || [];
-      // console.log(root);
       const isDeletedRoot = root.content === '작성자가 삭제한 댓글입니다.';
       const isOwner = user?.nickname === root.author.nickname;
 
@@ -86,7 +74,7 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
                   <CommentMoreButton
                     onEdit={() => setEditingCommentId(root.id)}
                     onDelete={() => deleteMutation.mutate(root.id)}
-                  />{' '}
+                  />
                 </div>
               )}
             </div>
@@ -94,7 +82,6 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
             {editingCommentId === root.id ? (
               <div className="mt-2 ml-[34px]">
                 <CommentInput
-                  // communityUuid={communityUuid}
                   initialValue={root.content}
                   buttonLabel="수정"
                   isEditMode
@@ -130,7 +117,6 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
                 {editingCommentId === child.id ? (
                   <div className="mt-2 ml-[34px]">
                     <CommentInput
-                      // communityUuid={communityUuid}
                       initialValue={child.content}
                       buttonLabel="수정"
                       isEditMode
@@ -149,10 +135,12 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
               <IconWrapper icon={CornerDownRight} size={16} color="#151d4a" className="mt-2" />
               <div className="flex-1">
                 <CommentInput
-                  // communityUuid={communityUuid}
                   type="reply"
                   buttonLabel="등록"
-                  onComplete={() => setReplyTargetId(null)}
+                  onComplete={value => {
+                    createMutation.mutate({ content: value, parentCommentId: root.id });
+                    setReplyTargetId(null);
+                  }}
                 />
               </div>
             </div>
@@ -165,8 +153,6 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
   return (
     <div className="mt-4">
       <CommentInput
-        // communityUuid={communityUuid}
-        // parentCommentId={null}
         type="comment"
         onComplete={value => createMutation.mutate({ content: value, parentCommentId: null })}
       />

@@ -1,4 +1,4 @@
-export const BASE_URL = import.meta.env.VITE_API_URL
+export const BASE_URL = import.meta.env.VITE_API_URL;
 
 /**
  * @example
@@ -28,16 +28,16 @@ export const END_POINT = {
   USERS_LOGOUT: '/api/users/logout/',
   MYPAGE_POSTS: '/api/mypage/posts/',
   USERS_FIND_PASSWORD: '/api/users/find-password/',
-  USERS_CHANGE_PASSWORD : '/api/users/mypage/change-password/',
-  USERS_RESET_PASSWORD : '/api/users/reset-password/',
-  TOKEN_REFRESH : '/api/token/refresh/',
+  USERS_CHANGE_PASSWORD: '/api/users/mypage/change-password/',
+  USERS_RESET_PASSWORD: '/api/users/reset-password/',
+  TOKEN_REFRESH: '/api/token/refresh/',
 
   // community : 커뮤니티 관련 api
   COMMUNITY: '/api/community/',
   COMMUNITY_LIST: ({ type, page, size }: { type: string; page: number; size: number }) =>
     `/api/community?type=${type}&page=${page}&size=${size}`,
   COMMUNITY_DETAIL: (communityUuid: string) => `/api/community/${communityUuid}/`,
-  COMMUNITY_LIKE: (communityUuid: string) => `/api/community/${communityUuid}/like`,
+  COMMUNITY_LIKE: (communityUuid: string) => `/api/community/${communityUuid}/likes/`,
 
   // comment : 커뮤니티 댓글 관련 api
   COMMENT: (communityUuid: string) => `/api/community/${communityUuid}/comment/`,
