@@ -91,7 +91,11 @@ const CommunityList = () => {
       )}
 
       <div ref={observerRef} />
-      {isFetchingNextPage && <PostCardSkeleton viewType={viewType} />}
+      {isFetchingNextPage && (
+        <div className="mt-2">
+          <PostCardSkeleton viewType={viewType} />{' '}
+        </div>
+      )}
 
       <div className="fixed bottom-8 right-8 z-50">
         <CommunityNewPostButton to={`/community/${type}/write`} postType={type} />
