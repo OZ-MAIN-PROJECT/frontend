@@ -9,7 +9,6 @@ import IconWrapper from './IconWrapper';
 import { CornerDownRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { usePostStatsStore } from '@/stores/usePostStatsStore';
 
 const CommentList = ({ communityUuid }: { communityUuid: string }) => {
   const queryClient = useQueryClient();
@@ -17,29 +16,17 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [replyTargetId, setReplyTargetId] = useState<number | null>(null);
 
-  const handleCommentCreated = () => {
-    usePostStatsStore.getState().incrementComment(communityUuid);
-  };
-
-  const handleReplyDeleted = () => {
-    usePostStatsStore.getState().decrementComment(communityUuid);
-  };
-
-  const handleRootCommentDeleted = (childCount: number) => {
-    usePostStatsStore.getState().decrementComment(communityUuid, 1 + childCount);
-  };
-
   const { data: comments = [], isLoading } = useQuery<Comment[]>({
     queryKey: ['comments', communityUuid],
     queryFn: () => getComments(communityUuid),
   });
+  console.log(comments);
 
   const createMutation = useMutation({
     mutationFn: ({ content, parentCommentId }: { content: string; parentCommentId?: number | null }) =>
       createComment({ communityUuid, content, parentCommentId }),
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', communityUuid] });
-      handleCommentCreated();
     },
   });
 
@@ -54,20 +41,24 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
 
   const deleteMutation = useMutation({
     mutationFn: (commentId: number) => deleteComment({ communityUuid, commentId }),
-    onSuccess: (_, commentId) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', communityUuid] });
-      const isRoot = comments.find(c => c.id === commentId);
-      if (isRoot) {
-        const childCount = isRoot.children?.length ?? 0;
-        handleRootCommentDeleted(childCount);
-      } else {
-        handleReplyDeleted();
-      }
     },
   });
 
   const renderComments = () => {
+    // const rootComments = comments.filter(c => c.parentCommentId === null);
+    // const childMap: { [parentCommentId: number]: Comment[] } = {};
+    // comments.forEach(comment => {
+    //   if (comment.parentCommentId !== null) {
+    //     if (!childMap[comment.parentCommentId]) childMap[comment.parentCommentId] = [];
+    //     childMap[comment.parentCommentId].push(comment);
+    //   }
+    // });
+
     return comments.map(root => {
+      // const childComments = childMap[root.id] || [];
+      // console.log(root);
       const isDeletedRoot = root.content === '작성자가 삭제한 댓글입니다.';
       const isOwner = user?.nickname === root.author.nickname;
 
@@ -95,7 +86,7 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
                   <CommentMoreButton
                     onEdit={() => setEditingCommentId(root.id)}
                     onDelete={() => deleteMutation.mutate(root.id)}
-                  />
+                  />{' '}
                 </div>
               )}
             </div>
@@ -103,6 +94,7 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
             {editingCommentId === root.id ? (
               <div className="mt-2 ml-[34px]">
                 <CommentInput
+                  // communityUuid={communityUuid}
                   initialValue={root.content}
                   buttonLabel="수정"
                   isEditMode
@@ -138,6 +130,7 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
                 {editingCommentId === child.id ? (
                   <div className="mt-2 ml-[34px]">
                     <CommentInput
+                      // communityUuid={communityUuid}
                       initialValue={child.content}
                       buttonLabel="수정"
                       isEditMode
@@ -156,12 +149,10 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
               <IconWrapper icon={CornerDownRight} size={16} color="#151d4a" className="mt-2" />
               <div className="flex-1">
                 <CommentInput
+                  // communityUuid={communityUuid}
                   type="reply"
                   buttonLabel="등록"
-                  onComplete={value => {
-                    createMutation.mutate({ content: value, parentCommentId: root.id });
-                    setReplyTargetId(null);
-                  }}
+                  onComplete={() => setReplyTargetId(null)}
                 />
               </div>
             </div>
@@ -174,6 +165,8 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
   return (
     <div className="mt-4">
       <CommentInput
+        // communityUuid={communityUuid}
+        // parentCommentId={null}
         type="comment"
         onComplete={value => createMutation.mutate({ content: value, parentCommentId: null })}
       />
