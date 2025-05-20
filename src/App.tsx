@@ -36,7 +36,7 @@ function App() {
 
         {/* 통계 페이지 */}
         <Route path="/statistic" element={<MainLayout><StatisticsPage /></MainLayout>} />
-
+        
         {/* 마이페이지 */}
         <Route path="/mypage" element={<MainLayout><MyPage /></MainLayout>} />
         <Route path="/mypage/:type" element={<MainLayout><MyPostsPage /></MainLayout>} />
@@ -45,11 +45,11 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/find-password" element={<FindPasswordPage />} />
-
+        
         {/* 게시글 관련 페이지 */}
         <Route path="/community/:type/:postId" element={<MainLayout><PostDetail /></MainLayout>} /> {/* 게시글 상세 먼저! */}
         <Route path="/community/:type" element={<MainLayout><CommunityList /></MainLayout>} /> {/* 게시판 리스트 */}
-        <Route path="/community/write" element={<MainLayout><PostWrite /></MainLayout>} />
+        <Route path="/community/:type/write" element={<MainLayout><PostWrite /></MainLayout>} />
       </Routes>
     </Router>
   );

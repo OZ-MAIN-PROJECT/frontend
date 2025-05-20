@@ -1,22 +1,13 @@
 import { UserRound } from 'lucide-react';
 
 interface AuthorProfileImageProps {
-  profileImageUrl?: string;
-  altText?: string;
   size?: number;
+  imageUrl?: string;
 }
 
-const AuthorProfileImage = ({ profileImageUrl, altText, size = 30 }: AuthorProfileImageProps) => {
-  const isValidImage = typeof profileImageUrl === 'string' && profileImageUrl.trim().length > 0;
-
-  return isValidImage ? (
-    <img
-      src={profileImageUrl}
-      alt={altText || '작성자 프로필 이미지'}
-      width={size}
-      height={size}
-      className="rounded-full object-cover bg-gray-200"
-    />
+const AuthorProfileImage = ({ size = 30, imageUrl }: AuthorProfileImageProps) => {
+  return imageUrl ? (
+    <img src={imageUrl} alt="프로필 이미지" width={size} height={size} className="rounded-full object-cover" />
   ) : (
     <UserRound size={size} className="rounded-full text-gray-400 bg-primary-500 p-1" />
   );

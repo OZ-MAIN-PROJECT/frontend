@@ -1,154 +1,104 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getComments, createComment, deleteComment, updateComment } from '@/apis/communityApi';
 import { Comment } from '@/types/Post';
 import AuthorInfo from './AuthorInfo';
 import CommentInput from './CommentInput';
 import CommentMoreButton from './CommentMoreButton';
 import IconWrapper from './IconWrapper';
 import { CornerDownRight } from 'lucide-react';
+import { format } from 'date-fns';
+import { useAuthStore } from '@/stores/useAuthStore';
 
-const CommentList = () => {
-  const [comments, setComments] = useState<Comment[]>([
-    {
-      id: '1',
-      content: '오 어디카페예요? 너무 맛있겠네요!',
-      createdAt: '2025-05-13 08:24',
-      isMine: true,
-      author: {
-        id: 'user1',
-        nickname: '유저1',
-        profileImageUrl: '',
-      },
-      parentId: null,
+const CommentList = ({ communityUuid }: { communityUuid: string }) => {
+  const queryClient = useQueryClient();
+  const { user } = useAuthStore();
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  const [replyTargetId, setReplyTargetId] = useState<number | null>(null);
+
+  const { data: comments = [], isLoading } = useQuery<Comment[]>({
+    queryKey: ['comments', communityUuid],
+    queryFn: () => getComments(communityUuid),
+  });
+  console.log(comments);
+
+  const createMutation = useMutation({
+    mutationFn: ({ content, parentCommentId }: { content: string; parentCommentId?: number | null }) =>
+      createComment({ communityUuid, content, parentCommentId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', communityUuid] });
     },
-    {
-      id: '2',
-      content: '칭찬이 빵보다 달다구리합니다 ☕️',
-      createdAt: '2025-05-13 08:25',
-      isMine: true,
-      author: {
-        id: 'user2',
-        nickname: '유저2',
-        profileImageUrl: '',
-      },
-      parentId: null,
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ commentId, content }: { commentId: number; content: string }) =>
+      updateComment({ communityUuid, commentId, content }),
+    onSuccess: () => {
+      setEditingCommentId(null);
+      queryClient.invalidateQueries({ queryKey: ['comments', communityUuid] });
     },
-  ]);
+  });
 
-  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
-  const [replyTargetId, setReplyTargetId] = useState<string | null>(null);
+  const deleteMutation = useMutation({
+    mutationFn: (commentId: number) => deleteComment({ communityUuid, commentId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', communityUuid] });
+    },
+  });
 
-  useEffect(() => {
-    console.log('현재 comments 배열 상태:', comments);
-  }, [comments]);
+  const renderComments = () => {
+    // const rootComments = comments.filter(c => c.parentCommentId === null);
+    // const childMap: { [parentCommentId: number]: Comment[] } = {};
+    // comments.forEach(comment => {
+    //   if (comment.parentCommentId !== null) {
+    //     if (!childMap[comment.parentCommentId]) childMap[comment.parentCommentId] = [];
+    //     childMap[comment.parentCommentId].push(comment);
+    //   }
+    // });
 
-  const handleAddComment = (content: string, parentId: string | null = null) => {
-    const newComment: Comment = {
-      id: Date.now().toString(),
-      content,
-      createdAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
-      isMine: true,
-      author: {
-        id: 'currentUser',
-        nickname: '나',
-        profileImageUrl: '',
-      },
-      parentId,
-    };
-    setComments(prev => [...prev, newComment]);
-    setReplyTargetId(null);
-  };
-
-  const handleEditComment = (updatedContent: string) => {
-    if (!editingCommentId) return;
-    setComments(prev =>
-      prev.map(comment =>
-        comment.id === editingCommentId ? { ...comment, content: updatedContent } : comment
-      )
-    );
-    setEditingCommentId(null);
-  };
-
-  const handleDeleteComment = (commentId: string) => {
-    const confirmed = window.confirm('정말로 이 댓글을 삭제하시겠습니까?');
-    if (!confirmed) return;
-
-    setComments(prev => {
-      const target = prev.find(c => c.id === commentId);
-      if (!target) return prev;
-
-      if (target.parentId === null) {
-        return prev.map(c =>
-          c.id === commentId ? { ...c, content: '작성자가 삭제한 댓글입니다.' } : c
-        );
-      } else {
-        return prev
-          .map(c => (c.parentId === commentId ? { ...c, parentId: target.parentId } : c))
-          .filter(c => c.id !== commentId);
-      }
-    });
-  };
-
-  useEffect(() => {
-    const deletedRootIds = comments
-      .filter(c => c.parentId === null && c.content === '작성자가 삭제한 댓글입니다.')
-      .map(c => c.id);
-
-    deletedRootIds.forEach(rootId => {
-      const hasChildren = comments.some(c => c.parentId === rootId);
-      if (!hasChildren) {
-        setComments(prev => prev.filter(c => c.id !== rootId));
-      }
-    });
-  }, [comments]);
-
-  const renderRootComments = () => {
-    const rootComments = comments.filter(c => c.parentId === null);
-
-    return rootComments.map(root => {
-      const childComments = comments.filter(c => c.parentId === root.id);
+    return comments.map(root => {
+      // const childComments = childMap[root.id] || [];
+      // console.log(root);
       const isDeletedRoot = root.content === '작성자가 삭제한 댓글입니다.';
+      const isOwner = user?.nickname === root.author.nickname;
 
       return (
         <div key={root.id} className="py-4 border-t first:border-t-0">
-          {/* 루트 댓글 */}
           <div
+            className={`flex flex-col ${isDeletedRoot ? 'cursor-default' : 'cursor-pointer'}`}
             onClick={() => {
               if (editingCommentId || isDeletedRoot) return;
               setReplyTargetId(root.id);
             }}
-            className={`flex flex-col ${isDeletedRoot ? 'cursor-default' : 'cursor-pointer'}`}
           >
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center gap-2">
-                <AuthorInfo
-                  author={root.author}
-                  size={24}
-                  fontSize="text-xs"
-                  textColor="text-gray-800"
-                />
-                <span className="text-[10px] text-gray-400">{root.createdAt}</span>
+                <AuthorInfo author={root.author} size={24} fontSize="text-xs" textColor="text-gray-800" />
+                <span className="text-[10px] text-gray-400">
+                  {format(new Date(root.createdAt), 'yyyy.MM.dd HH:mm')}
+                </span>
               </div>
-              {root.isMine && editingCommentId !== root.id && (
+              {isOwner && editingCommentId !== root.id && (
                 <div
-                  className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center"
-                  onClick={(e) => e.stopPropagation()}
+                  className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center group"
+                  onClick={e => e.stopPropagation()}
                 >
                   <CommentMoreButton
                     onEdit={() => setEditingCommentId(root.id)}
-                    onDelete={() => handleDeleteComment(root.id)}
-                  />
+                    onDelete={() => deleteMutation.mutate(root.id)}
+                  />{' '}
                 </div>
               )}
             </div>
 
-            {/* 루트 댓글 내용 */}
             {editingCommentId === root.id ? (
               <div className="mt-2 ml-[34px]">
                 <CommentInput
-                  onSubmit={handleEditComment}
+                  // communityUuid={communityUuid}
                   initialValue={root.content}
                   buttonLabel="수정"
                   isEditMode
+                  onComplete={value => updateMutation.mutate({ commentId: root.id, content: value })}
                 />
               </div>
             ) : (
@@ -156,68 +106,53 @@ const CommentList = () => {
             )}
           </div>
 
-          {/* 대댓글 */}
-          {childComments.map(child => (
-            <div
-              key={child.id}
-              onClick={() => {
-                if (editingCommentId || isDeletedRoot) return;
-                setReplyTargetId(root.id); // 무조건 부모에게 답글 다는 구조
-              }}
-              className="mt-4 ml-6 flex flex-col cursor-pointer"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <IconWrapper
-                    icon={CornerDownRight}
-                    size={16}
-                    color="#151d4a"
-                    className="mt-1"
-                  />
-                  <AuthorInfo
-                    author={child.author}
-                    size={20}
-                    fontSize="text-xs"
-                    textColor="text-gray-800"
-                  />
-                  <span className="text-[10px] text-gray-400">{child.createdAt}</span>
-                </div>
-                {child.isMine && editingCommentId !== child.id && (
-                  <div
-                    className="relative ml-auto w-[24px] h-[24px] flex items-center justify-center"
-                    onClick={(e) => e.stopPropagation()}
-                  >
+          {root.children?.map(child => {
+            const isOwner = user?.nickname === child.author.nickname;
+
+            return (
+              <div key={child.id} className="mt-4 ml-6">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <IconWrapper icon={CornerDownRight} size={16} color="#151d4a" className="mt-1" />
+                    <AuthorInfo author={child.author} size={20} fontSize="text-xs" textColor="text-gray-800" />
+                    <span className="text-[10px] text-gray-400">
+                      {format(new Date(child.createdAt), 'yyyy.MM.dd HH:mm')}
+                    </span>
+                  </div>
+                  {isOwner && editingCommentId !== child.id && (
                     <CommentMoreButton
                       onEdit={() => setEditingCommentId(child.id)}
-                      onDelete={() => handleDeleteComment(child.id)}
+                      onDelete={() => deleteMutation.mutate(child.id)}
+                    />
+                  )}
+                </div>
+
+                {editingCommentId === child.id ? (
+                  <div className="mt-2 ml-[34px]">
+                    <CommentInput
+                      // communityUuid={communityUuid}
+                      initialValue={child.content}
+                      buttonLabel="수정"
+                      isEditMode
+                      onComplete={value => updateMutation.mutate({ commentId: child.id, content: value })}
                     />
                   </div>
+                ) : (
+                  <p className="text-sm text-gray-700 mt-1 ml-[34px] whitespace-pre-line">{child.content}</p>
                 )}
               </div>
+            );
+          })}
 
-              {editingCommentId === child.id ? (
-                <div className="mt-2 ml-[34px]">
-                  <CommentInput
-                    onSubmit={handleEditComment}
-                    initialValue={child.content}
-                    buttonLabel="수정"
-                    isEditMode
-                  />
-                </div>
-              ) : (
-                <p className="text-sm text-gray-700 mt-1 ml-[34px] whitespace-pre-line">{child.content}</p>
-              )}
-            </div>
-          ))}
-
-          {/* 대댓글 입력창 (루트 댓글일 때만) */}
           {replyTargetId === root.id && !isDeletedRoot && (
             <div className="flex items-start gap-2 ml-6 mt-2">
               <IconWrapper icon={CornerDownRight} size={16} color="#151d4a" className="mt-2" />
               <div className="flex-1">
                 <CommentInput
-                  onSubmit={(replyContent) => handleAddComment(replyContent, root.id)}
-                  buttonLabel="답글 등록"
+                  // communityUuid={communityUuid}
+                  type="reply"
+                  buttonLabel="등록"
+                  onComplete={() => setReplyTargetId(null)}
                 />
               </div>
             </div>
@@ -228,9 +163,20 @@ const CommentList = () => {
   };
 
   return (
-    <div>
-      <CommentInput onSubmit={(content) => handleAddComment(content)} buttonLabel="등록" />
-      {renderRootComments()}
+    <div className="mt-4">
+      <CommentInput
+        // communityUuid={communityUuid}
+        // parentCommentId={null}
+        type="comment"
+        onComplete={value => createMutation.mutate({ content: value, parentCommentId: null })}
+      />
+      {isLoading ? (
+        <p className="text-sm text-gray-400 mt-2">댓글 불러오는 중...</p>
+      ) : comments.length === 0 ? (
+        <p className="text-sm text-gray-400 mt-2">댓글이 없습니다.</p>
+      ) : (
+        renderComments()
+      )}
     </div>
   );
 };

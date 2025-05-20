@@ -1,15 +1,13 @@
 import { Pencil, Trash2 } from 'lucide-react';
-import { Post } from '@/types/Post';
-import MoreDropdown from './MoreDropdown';
 import IconWrapper from './IconWrapper';
+import MoreDropdown from './MoreDropdown';
 
 interface PostMoreButtonProps {
-  postData: Post;
   onEdit: () => void;
   onDelete: () => void;
 }
 
-const PostMoreButton = ({ onEdit, onDelete }: Omit<PostMoreButtonProps, 'postData'>) => {
+const PostMoreButton = ({ onEdit, onDelete }: PostMoreButtonProps) => {
   const menuItems = [
     {
       label: '수정',
