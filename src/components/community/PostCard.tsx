@@ -7,6 +7,7 @@ import CommentButton from './CommentButton';
 import AuthorInfo from './AuthorInfo';
 import { Eye } from 'lucide-react';
 import { useLike } from '@/hooks/useLike';
+import altImage from '@/assets/images/altImage.png';
 
 interface ExtendedProps extends PostCardProps {
   viewType: 'list' | 'grid';
@@ -40,11 +41,11 @@ const PostCard = ({ post, viewType, onCommentClick }: ExtendedProps) => {
             <h2 className="text-base font-semibold text-gray-800 line-clamp-1">{post.title}</h2>
             <p className="text-gray-700 text-sm line-clamp-2">{post.content}</p>
           </div>
-          {post.imageUrl && (
-            <div className="flex-shrink-0 rounded-md overflow-hidden w-[100px] h-[100px]">
-              <img src={post.imageUrl} alt="게시글 이미지" className="w-full h-full object-cover" />
-            </div>
-          )}
+          <div className="flex-shrink-0 rounded-md overflow-hidden w-[100px] h-[100px]">
+            {post.imageUrl && (
+              <img src={post.imageUrl || altImage} alt="게시글 이미지" className="w-full h-full object-cover" />
+            )}
+          </div>
         </div>
       ) : (
         <div className="flex flex-col gap-2">

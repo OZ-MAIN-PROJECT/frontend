@@ -1,6 +1,6 @@
 import { END_POINT } from '@/constants/route';
 import api from './api';
-import { MyPostList, MyPostType, User } from '@/types/auth';
+import { MyPostType, User } from '@/types/auth';
 import { useAuthStore } from '@/stores/useAuthStore';
 
 // 로그인
@@ -105,6 +105,7 @@ export interface MyPostListPayload {
 }
 
 export const getMyPosts = async ({ type, page, size }: MyPostListPayload) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const params: any = { page, size };
   if (type === 'liked') params.filter = 'liked';
 

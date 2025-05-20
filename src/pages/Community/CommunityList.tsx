@@ -2,17 +2,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useState, useRef, useEffect } from 'react';
 import { getCommunityList } from '@/apis/communityApi';
-import { PostType, toServerPostType, getPostTypeLabel, CommunityListResponse } from '@/types/Post';
+import { PostType, toServerPostType, getPostTypeLabel, CommunityListResponse, ViewType } from '@/types/Post';
 import PostList from '@/components/community/PostList';
 import ViewToggleButton from '@/components/community/ViewToggleButton';
 import CommunityTitle from '@/components/community/CommunityTitle';
 import CommunityNewPostButton from '@/components/community/CommunityNewPostButton';
+import { PostCardSkeleton } from '@/components/common/SkeletonModels';
 
 const VALID_TYPES: PostType[] = ['emotion', 'notice', 'question'];
 
 const CommunityList = () => {
   const { type: rawType } = useParams<{ type: PostType }>();
-  const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
+  const [viewType, setViewType] = useState<ViewType>('grid');
   const [sortType, setSortType] = useState<'recent' | 'popular'>('recent');
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -84,7 +85,7 @@ const CommunityList = () => {
       </div>
 
       {isLoading ? (
-        <p className="text-center pt-10">불러오는 중...</p>
+        <PostCardSkeleton viewType={viewType} />
       ) : (
         <PostList posts={sortedPosts} viewType={viewType} boardType={type} />
       )}

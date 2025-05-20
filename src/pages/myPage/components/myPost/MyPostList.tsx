@@ -1,15 +1,17 @@
+import { PostCardSkeleton } from '@/components/common/SkeletonModels';
 import PostCard from '@/components/community/PostCard';
 import { useFetchMyPosts } from '@/hooks/myPage/useFetchMyPosts';
 import Pagination from '@/pages/Wallet/components/Pagenation';
 import { MyPostType } from '@/types/auth';
+import { SortType, ViewType } from '@/types/Post';
 import { sortPosts } from '@/utils/communityUtils';
 import { useMemo } from 'react';
 
 interface MyPostListProps {
   type: MyPostType;
   controls: {
-    viewType: 'grid' | 'list';
-    sortType: 'recent' | 'popular';
+    viewType: ViewType;
+    sortType: SortType;
   };
   currentPage: number;
   onPageChange: (page: number) => void;
@@ -25,7 +27,7 @@ const MyPostList = ({ type, controls, currentPage, onPageChange }: MyPostListPro
   return (
     <div>
       {loading ? (
-        <p>로딩중...</p>
+        <PostCardSkeleton viewType={controls.viewType} />
       ) : (
         <>
           <div className={controls.viewType === 'grid' ? 'grid grid-cols-1 gap-2' : 'flex flex-col gap-2'}>
@@ -34,17 +36,12 @@ const MyPostList = ({ type, controls, currentPage, onPageChange }: MyPostListPro
             ))}
           </div>
           {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-            />
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
           )}
         </>
       )}
     </div>
   );
-  
 };
 
 export default MyPostList;

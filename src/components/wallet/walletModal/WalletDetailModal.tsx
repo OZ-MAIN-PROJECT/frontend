@@ -4,13 +4,14 @@ import Modal from '@/components/common/Modal/Modal';
 import Button from '@/components/common/Button';
 import WalletDetailView from '../WalletDetailView';
 import WalletDeleteConfirmModal from './WalletDeleteConfirmModal';
+import { WalletModalSkeleton } from '@/components/common/SkeletonModels';
 
 export default function WalletDetailModal() {
   const { modalData, openModal, closeModal } = useModalStore();
   const modalDataEntry = modalData['walletDetail'] as { walletUuid: string } | undefined;
   const walletUuid = modalDataEntry?.walletUuid;
 
-  const { data, isError } = useWalletDetail(walletUuid || '');
+  const { data, isLoading, isError } = useWalletDetail(walletUuid || '');
   const deleteMutation = useDeleteWalletEntry(); 
 
   const handleEdit = () => {
@@ -37,12 +38,12 @@ export default function WalletDetailModal() {
   return (
     <>
       <Modal modalKey="walletDetail" className="w-[800px]">
+        {isLoading && <WalletModalSkeleton />}
         {isError && <p className="text-center py-10 text-red-500">데이터를 불러오지 못했습니다.</p>}
 
         {data && (
           <div className="overflow-auto">
             <WalletDetailView data={data} disabled={true} />
-
             <div className="flex flex-wrap justify-center gap-4 mt-6">
               <Button color="primary" variant="fill" onClick={handleEdit}>
                 수정
