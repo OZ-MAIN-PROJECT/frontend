@@ -8,7 +8,7 @@ const FindPasswordPage = () => {
   const [email, setEmail] = useState('');
 
   return (
-    <div className="flex flex-col items-center h-full min-h-screen bg-gray-200">
+    <div className="flex flex-col items-center h-full min-h-screen bg-gray-200 dark:bg-gray-900">
       <div className="my-10 flex flex-col items-center w-[350px] sm:min-w-[700px] border-b-2 border-gr">
         <Logo />
         <h2 className='text-center font-semibold text-xl sm:text-3xl'>비밀번호 찾기</h2>

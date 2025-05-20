@@ -24,7 +24,7 @@ const PostCard = ({ post, viewType, onCommentClick }: ExtendedProps) => {
 
   return (
     <div
-      className={`w-full bg-white rounded-lg border p-5 shadow-sm cursor-pointer ${
+      className={`w-full bg-white dark:bg-gray-700 rounded-lg border p-5 shadow-sm cursor-pointer ${
         viewType === 'list' ? 'flex flex-col gap-2' : 'flex flex-col gap-4'
       }`}
       onClick={() => navigate(`/community/${post.type}/${post.id}`, { state: { type: post.type } })}

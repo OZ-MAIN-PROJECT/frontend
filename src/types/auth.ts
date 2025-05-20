@@ -1,3 +1,5 @@
+import { Post } from "./Post";
+
 // 마이페이지 조회 시 가져오는 User 타입
 export type User = {
   id: string; // 사용자 uuid
@@ -18,3 +20,12 @@ export type SimpleUser = {
 
 // 내가 작성한 글 타입
 export type MyPostType = 'written' | 'liked';
+
+// 내가 작성한 글 조회
+export type MyPostList = {
+  page: number,
+  results: Post[];
+  size:number,
+  totalElements: number,
+  totalPages: number,
+}

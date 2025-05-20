@@ -14,6 +14,7 @@ import PostMoreButton from './PostMoreButton';
 import CommunityTitle from './CommunityTitle';
 import CommunityNewPostButton from '@/components/community/CommunityNewPostButton';
 import { useLike } from '@/hooks/useLike';
+import { PostDetailSkeleton } from '../common/SkeletonModels';
 
 const PostDetail = () => {
   const { postId, type } = useParams<{ postId: string; type: PostType }>();
@@ -34,7 +35,7 @@ const PostDetail = () => {
 
   const { isLiked, likes, toggleLike } = useLike(post?.isLiked ?? false, post?.likes ?? 0, post?.id ?? '');
 
-  if (isLoading) return <p className="p-4">로딩 중...</p>;
+  if (isLoading) return <PostDetailSkeleton />;
   if (isError || !post) return <p className="p-4">게시글을 찾을 수 없습니다.</p>;
 
   const { id, title, imageUrl, content, createdAt, comments, views, author } = post;
@@ -69,7 +70,7 @@ const PostDetail = () => {
     <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6">
       <CommunityTitle title={getPostTypeLabel(type!)} />
 
-      <div className="border bg-white rounded-lg p-[30px] shadow-sm">
+      <div className="border bg-white dark:bg-gray-700 rounded-lg p-[30px] shadow-sm">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <AuthorInfo author={author} />

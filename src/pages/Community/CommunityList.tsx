@@ -2,17 +2,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useState, useRef, useEffect } from 'react';
 import { getCommunityList } from '@/apis/communityApi';
-import { PostType, toServerPostType, getPostTypeLabel, CommunityListResponse } from '@/types/Post';
+import { PostType, toServerPostType, getPostTypeLabel, CommunityListResponse, ViewType } from '@/types/Post';
 import PostList from '@/components/community/PostList';
 import ViewToggleButton from '@/components/community/ViewToggleButton';
 import CommunityTitle from '@/components/community/CommunityTitle';
 import CommunityNewPostButton from '@/components/community/CommunityNewPostButton';
+import { PostCardSkeleton } from '@/components/common/SkeletonModels';
 
 const VALID_TYPES: PostType[] = ['emotion', 'notice', 'question'];
 
 const CommunityList = () => {
   const { type: rawType } = useParams<{ type: PostType }>();
-  const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
+  const [viewType, setViewType] = useState<ViewType>('grid');
   const [sortType, setSortType] = useState<'recent' | 'popular'>('recent');
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,14 +68,14 @@ const CommunityList = () => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-sm text-primary-500">
           <button
-            className={`${sortType === 'recent' ? 'font-semibold text-primary-800' : ''}`}
+            className={`${sortType === 'recent' ? 'font-semibold text-primary-800 dark:text-primary-300' : ''}`}
             onClick={() => setSortType('recent')}
           >
             최신순
           </button>
           <span className="text-gray-400">·</span>
           <button
-            className={`${sortType === 'popular' ? 'font-semibold text-primary-800' : ''}`}
+            className={`${sortType === 'popular' ? 'font-semibold text-primary-800 dark:text-primary-300' : ''}`}
             onClick={() => setSortType('popular')}
           >
             인기순
@@ -84,13 +85,13 @@ const CommunityList = () => {
       </div>
 
       {isLoading ? (
-        <p className="text-center pt-10">불러오는 중...</p>
+        <PostCardSkeleton viewType={viewType} />
       ) : (
         <PostList posts={sortedPosts} viewType={viewType} boardType={type} />
       )}
 
-      <div ref={observerRef} className="h-12" />
-      {isFetchingNextPage && <p className="text-center text-sm text-gray-400">불러오는 중...</p>}
+      <div ref={observerRef} />
+      {isFetchingNextPage && <PostCardSkeleton viewType={viewType} />}
 
       <div className="fixed bottom-8 right-8 z-50">
         <CommunityNewPostButton to={`/community/${type}/write`} postType={type} />

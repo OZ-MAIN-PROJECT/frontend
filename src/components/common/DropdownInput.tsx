@@ -34,7 +34,7 @@ const DropdownInput = <T extends string>({ items, selected, style, placeholder, 
   return (
     <div ref={ref} className={clsx("relative inline-block mb-4", className || 'w-full')}>
       <div
-        className={`flex items-center h-[60px] px-3 py-2 cursor-pointer ${getWrapperClass(style)}`}
+        className={`flex items-center h-[60px] px-3 py-2 cursor-pointer dark:bg-gray-700 border-none ${getWrapperClass(style)}`}
         onClick={() => setIsOpen(prev => !prev)}
       >
         <span className={`flex-grow ${selected ? 'text-gray-900 dark:text-white' : 'text-gray-500'}`}>{selected || placeholder}</span>
