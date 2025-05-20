@@ -13,6 +13,7 @@ import CommunityList from './pages/Community/CommunityList';
 import MyPostsPage from './pages/myPage/MyPostsPage';
 import { useDarkModeStore } from './stores/useDarkModeStore';
 import { useEffect } from 'react';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const setDarkMode = useDarkModeStore((state) => state.setDarkMode);
@@ -49,7 +50,10 @@ function App() {
         {/* 게시글 관련 페이지 */}
         <Route path="/community/:type/:postId" element={<MainLayout><PostDetail /></MainLayout>} /> {/* 게시글 상세 먼저! */}
         <Route path="/community/:type" element={<MainLayout><CommunityList /></MainLayout>} /> {/* 게시판 리스트 */}
-        <Route path="/community/:type/write" element={<MainLayout><PostWrite /></MainLayout>} />
+        <Route path="/community/write" element={<MainLayout><PostWrite /></MainLayout>} />
+
+        {/* 404 처리 라우트 추가 */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
