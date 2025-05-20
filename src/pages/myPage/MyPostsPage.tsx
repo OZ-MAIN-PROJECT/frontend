@@ -8,6 +8,7 @@ import { SortType, ViewType } from '@/types/Post';
 const MyPostsPage = () => {
   const { type } = useParams<{ type: MyPostType }>();
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [sortType, setSortType] = useState<SortType>('recent');
@@ -26,7 +27,12 @@ const MyPostsPage = () => {
         onSortTypeChange={setSortType}
       />
       {/* 게시글 리스트 출력 */}
-      <MyPostList type={type} controls={{ viewType, sortType }} />
+      <MyPostList
+        type={type}
+        controls={{ viewType, sortType }}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };

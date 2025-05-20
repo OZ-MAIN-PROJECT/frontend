@@ -212,11 +212,13 @@ const mapCommentResponse = (data: CommentRaw): Comment => ({
   children: [],
 });
 
+// 좋아요 추가
 export const postLike = async ({ communityUuid }: { communityUuid: string }) => {
   const response = await api.post(END_POINT.COMMUNITY_LIKE(communityUuid));
   return response.data;
 };
 
+// 좋아요 취소
 export const deleteLike = async ({ communityUuid }: { communityUuid: string }) => {
   const response = await api.delete(END_POINT.COMMUNITY_LIKE(communityUuid));
   return response.data;

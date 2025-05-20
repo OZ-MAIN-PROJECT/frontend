@@ -1,6 +1,6 @@
 import { END_POINT } from '@/constants/route';
 import api from './api';
-import { User } from '@/types/auth';
+import { MyPostList, MyPostType, User } from '@/types/auth';
 import { useAuthStore } from '@/stores/useAuthStore';
 
 // 로그인
@@ -98,13 +98,20 @@ export const updatePassword = async (currentPassword: string, newPassword: strin
 };
 
 // 내 포스트 조회
-export const getMyPosts = async (type : 'written' | 'liked') => {
-  const response = await api.get(END_POINT.MYPAGE_POSTS, { 
-    params : type === 'liked' ? {filter : 'liked'} : undefined,
-  });
-  console.log(response.data);
-  return response.data.results;
+export interface MyPostListPayload {
+  type: MyPostType;
+  page: number;
+  size: number;
+}
+
+export const getMyPosts = async ({ type, page, size }: MyPostListPayload) => {
+  const params: any = { page, size };
+  if (type === 'liked') params.filter = 'liked';
+
+  const response = await api.get(END_POINT.MYPAGE_POSTS, { params });
+  return response.data;
 };
+
 
 // 비밀번호 찾기
 export interface FindPasswordPayload {
