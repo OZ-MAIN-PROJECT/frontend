@@ -7,6 +7,7 @@ export type User = {
   writtenCount: number; // 내가 작성한 글
   likedCount: number; // 좋아요 표시한 글
   role: string; // 관리자 여부
+  profileImage?: string;
 };
 
 // 로그인 시 가져오는 User 타입

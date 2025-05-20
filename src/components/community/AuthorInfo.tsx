@@ -1,4 +1,4 @@
-import { Author } from '@/types/Author';
+import { Author } from '@/types/Post';
 import AuthorProfileImage from './AuthorProfileImage';
 
 interface AuthorInfoProps {

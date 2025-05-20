@@ -1,5 +1,6 @@
 import { Post, SortType } from '@/types/Post';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const mapToPost = (raw: any): Post => ({
   id: raw.communityUuid,
   type: raw.type.toLowerCase(), // "QUESTION" → "question"

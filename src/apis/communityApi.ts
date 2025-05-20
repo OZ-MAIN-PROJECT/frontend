@@ -98,7 +98,6 @@ export const getCommunityList = async ({
       views: item.views,
       comments: item.comments ?? 0,
       author: {
-        id: item.userUuid ?? '',
         nickname: item.nickname,
         profileImage: item.profileImage ?? '',
       },
@@ -129,7 +128,6 @@ export const getCommunityDetail = async (communityUuid: string): Promise<Post> =
     views: item.views,
     comments: item.comments ?? 0,
     author: {
-      id: item.userUuid ?? '',
       nickname: item.nickname,
       profileImage: item.profileImage ?? '',
     },
@@ -208,7 +206,6 @@ const mapCommentResponse = (data: CommentRaw): Comment => ({
   updatedAt: data.updatedAt,
   deletedAt: data.deletedAt ?? null,
   author: {
-    id: data.userUuid ?? '',
     nickname: data.nickname,
     profileImage: data.profileImage ?? '',
   },
