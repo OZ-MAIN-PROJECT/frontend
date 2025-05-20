@@ -9,7 +9,7 @@ interface InformationCardProps {
 
 const InformationCard = ({ nickname, email, role }: InformationCardProps) => {
   return (
-    <>
+    <div>
       {role === 'admin' && (
         <div className="flex items-center py-1 justify-center gap-1 bg-primary-800 w-[90px] text-center text-sm rounded-full text-white">
           <Crown size={16}/>
@@ -26,7 +26,7 @@ const InformationCard = ({ nickname, email, role }: InformationCardProps) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

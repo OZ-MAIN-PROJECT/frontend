@@ -1,140 +1,77 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Eye, Pin } from 'lucide-react'; // ★ 여기 Pin 추가
 import { PostCardProps } from '@/types/Post';
+import IconWrapper from './IconWrapper';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
-import IconWrapper from './IconWrapper';
 import AuthorInfo from './AuthorInfo';
+import { Eye } from 'lucide-react';
+import { useLike } from '@/hooks/useLike';
 
 interface ExtendedProps extends PostCardProps {
   viewType: 'list' | 'grid';
-  onLikeToggle?: () => void;
   onCommentClick?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProps) => {
+const PostCard = ({ post, viewType, onCommentClick }: ExtendedProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { title, imageUrl, content, createdAt, likes, comments, views, author, isPinned } = post;
-  const formattedDate = format(new Date(createdAt), 'yyyy.MM.dd HH:mm');
+  const formattedDate = format(new Date(post.createdAt), 'yyyy.MM.dd HH:mm');
+  const isNotice = post.type === 'notice';
 
-  const isInDetailPage =
-    location.pathname.startsWith('/community/') &&
-    location.pathname !== '/community/emotion' &&
-    location.pathname !== '/community/question';
+  const { isLiked, likes, toggleLike } = useLike(post?.isLiked ?? false, post?.likes ?? 0, post?.id ?? '');
 
-  const handleClick = () => {
-    if (!isInDetailPage) navigate(`/community/${post.type}/${post.id}`);
-  };
-
-  if (viewType === 'list') {
-    // 리스트 뷰
-    return (
-      <div
-        className="w-full bg-white rounded-lg border p-5 shadow-sm flex justify-between items-center gap-4 cursor-pointer"
-        onClick={handleClick}
-      >
-        {/* 왼쪽 텍스트 */}
-        <div className="flex flex-col flex-1">
-          <AuthorInfo author={author} />
-          <h2 className="text-base font-semibold text-gray-800 mt-2 line-clamp-1">{title}</h2>
-          <p className="text-gray-600 text-sm mt-1 line-clamp-2">{content}</p>
-          <div className="flex items-center gap-6 text-primary-500 text-xs mt-3">
-            <div className="flex items-center gap-1">
-              <LikeButton size={14} onToggle={onLikeToggle} />
-              <span>{likes}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <CommentButton size={14} onClick={onCommentClick} />
-              <span>{comments}</span>
-            </div>
-            {isInDetailPage && (
-              <div className="flex items-center gap-1 ml-auto text-gray-400">
-                <IconWrapper icon={Eye} size={14} />
-                <span>{views}</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* 오른쪽 썸네일 */}
-        {imageUrl && (
-          <div className="w-[100px] h-[100px] overflow-hidden rounded-md flex-shrink-0">
-            <img src={imageUrl} alt="썸네일" className="object-cover w-full h-full" />
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // 피드 뷰
   return (
     <div
-      className="w-full bg-white rounded-lg border p-5 shadow-sm flex flex-col gap-4 cursor-pointer"
-      onClick={handleClick}
+      className={`w-full bg-white dark:bg-gray-700 rounded-lg border p-5 shadow-sm cursor-pointer ${
+        viewType === 'list' ? 'flex flex-col gap-2' : 'flex flex-col gap-4'
+      }`}
+      onClick={() => navigate(`/community/${post.type}/${post.id}`, { state: { type: post.type } })}
     >
-      {/* 작성자/작성일 */}
-      <div className="flex items-center gap-2">
-        <AuthorInfo author={author} />
-        <span className="text-xs text-primary-500">{formattedDate}</span>
+      <div className="text-xs text-primary-500 flex items-center gap-2">
+        <AuthorInfo author={post.author} />
+        <span className="ml-2">{formattedDate}</span>
       </div>
 
-      {/* 제목 */}
-      <div className="flex items-center justify-between">
-        <h2
-          className={`text-lg font-semibold ${
-            post.type === 'notice' ? 'text-accent-red' : 'text-gray-800'
-          }`}
-        >
-          {title}
-        </h2>
-        {isPinned && (
-          <IconWrapper
-            icon={Pin}
-            size={20}
-            fill="#151d4a"
-            color="#151d4a"
-            className="rotate-45"
-          />
-        )}
-      </div>
-
-      {/* 이미지 */}
-      {imageUrl && (
-        <div
-          className="w-full bg-gray-300 flex items-center justify-center rounded-md overflow-hidden"
-          style={{ maxHeight: '400px' }}
-        >
-          <img
-            src={imageUrl}
-            alt="본문 이미지"
-            className="object-contain w-full max-h-[400px]"
-          />
+      {viewType === 'list' ? (
+        <div className="flex gap-4 items-start">
+          <div className="flex flex-col flex-1 gap-2">
+            <h2 className="text-base font-semibold text-gray-800 line-clamp-1">{post.title}</h2>
+            <p className="text-gray-700 text-sm line-clamp-2">{post.content}</p>
+          </div>
+          {post.imageUrl && (
+            <div className="flex-shrink-0 rounded-md overflow-hidden w-[100px] h-[100px]">
+              <img src={post.imageUrl} alt="게시글 이미지" className="w-full h-full object-cover" />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-2">
+          <h2 className="text-base font-semibold text-gray-800 line-clamp-1">{post.title}</h2>
+          {post.imageUrl && (
+            <div className="rounded-md overflow-hidden w-full">
+              <img src={post.imageUrl} alt="게시글 이미지" className="w-full object-contain max-h-[400px]" />
+            </div>
+          )}
+          <p className="text-gray-700 text-sm line-clamp-2">{post.content}</p>
         </div>
       )}
 
-      {/* 내용 */}
-      <p className="text-gray-700 text-sm line-clamp-2">{content}</p>
-
-      {/* 좋아요/댓글/조회수 */}
-      <div className="flex items-center justify-between text-gray-400 text-xs mt-4">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
-            <LikeButton size={14} onToggle={onLikeToggle} />
-            <span className="text-primary-500">{likes}</span>
-          </div>
+      <div className="flex items-center gap-4 text-xs text-primary-500 mt-2">
+        <div className="flex items-center gap-1">
+          <LikeButton isLiked={isLiked} likes={likes} onClick={toggleLike} />
+        </div>
+        {!isNotice && (
           <div className="flex items-center gap-1">
             <CommentButton size={14} onClick={onCommentClick} />
-            <span className="text-primary-500">{comments}</span>
-          </div>
-        </div>
-        {isInDetailPage && (
-          <div className="flex items-center gap-1 text-gray-400 cursor-default select-none">
-            <IconWrapper icon={Eye} size={14} className="pointer-events-none" />
-            <span className="text-primary-500">{views}</span>
+            <span>{post.comments}</span>
           </div>
         )}
+        <div className="flex items-center gap-1 ml-auto text-gray-400">
+          <IconWrapper icon={Eye} size={14} />
+          <span>{post.views}</span>
+        </div>
       </div>
     </div>
   );

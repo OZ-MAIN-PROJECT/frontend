@@ -1,6 +1,6 @@
 import { END_POINT } from '@/constants/route';
 import api from './api';
-import { User } from '@/types/auth';
+import { MyPostType, User } from '@/types/auth';
 import { useAuthStore } from '@/stores/useAuthStore';
 
 // 로그인
@@ -57,6 +57,17 @@ export const signup = async (payload: SignupPayload): Promise<SignupResponse> =>
   return response.data;
 };
 
+// 이메일&닉네임 중복 확인
+export const emailDuplicateCheck = async (email: string) => {
+  const response = await api.get(END_POINT.USERS_DUPLICATE_CHECK, { params: { email } });
+  return response.data;
+};
+
+export const nicknameDuplicateCheck = async (nickname: string) => {
+  const response = await api.get(END_POINT.USERS_DUPLICATE_CHECK, { params: { nickname } });
+  return response.data;
+};
+
 // refresh 토큰 재발급 요청
 export const getRefreshToken = async () => {
   const refresh_token = useAuthStore.getState().refresh_token;
@@ -87,13 +98,41 @@ export const updatePassword = async (currentPassword: string, newPassword: strin
 };
 
 // 내 포스트 조회
-export const getMyPosts = async () => {
-  const response = await api.get(END_POINT.MYPAGE_POSTS);
+export interface MyPostListPayload {
+  type: MyPostType;
+  page: number;
+  size: number;
+}
+
+export const getMyPosts = async ({ type, page, size }: MyPostListPayload) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const params: any = { page, size };
+  if (type === 'liked') params.filter = 'liked';
+
+  const response = await api.get(END_POINT.MYPAGE_POSTS, { params });
+  return response.data;
+};
+
+
+// 비밀번호 찾기
+export interface FindPasswordPayload {
+  email: string;
+  question: string;
+  answer: string;
+}
+
+export const findPassword = async (payload: FindPasswordPayload) => {
+  const response = await api.post(END_POINT.USERS_FIND_PASSWORD, payload);
   console.log(response.data);
   return response.data;
 };
 
-// 비밀번호 찾기
+// 비밀번호 초기화
+export const resetPassword = async (email: string, newPassword: string) => {
+  const response = await api.post(END_POINT.USERS_RESET_PASSWORD, { email, new_password: newPassword });
+  console.log(response.data);
+  return response.data;
+};
 
 // 회원 탈퇴
 export const deleteUser = async (password: string) => {

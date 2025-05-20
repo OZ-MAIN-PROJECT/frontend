@@ -31,7 +31,7 @@ const BaseModal = ({ isOpen, onClose, children }: BaseModalProps) => {
 
       {/* 모달 콘텐츠 */}
       <div
-        className="modal-wrapper relative bg-white rounded-2xl shadow-xl w-[620px] p-[60px] pt-[150px]"
+        className="modal-wrapper relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-[350px] sm:w-[620px] p-4 sm:p-[60px] pt-[50px] sm:pt-[150px]"
         onClick={e => e.stopPropagation()} // 모달 내부 클릭은 닫히지 않게 막기
       >
         <CloseButton onClick={onClose} />

@@ -5,7 +5,7 @@ import YearlyLineChart from "./components/YearlyLineChart";
 import EmotionCategoryPieChart from "./components/EmotionCategoryPieChart";
 import SummarySwiper from "./components/SummarySwiper";
 import WalletList from "../Wallet/components/WalletList";
-import { sampleListData } from "@/data/wallet";
+import { useStatisticsData } from "@/hooks/useStatisticData";
 
 const StatisticsPage = () => {
 
@@ -16,9 +16,14 @@ const StatisticsPage = () => {
 
   const monthLabel = `${selectedMonth + 1}`.padStart(2, "0");
 
+  const { isLoading, isError, statistic, list } = useStatisticsData(selectedYear, selectedMonth + 1);
+
+  if (isLoading) return <p className="text-center py-10">통계를 불러오는 중...</p>;
+  if (isError) return <p className="text-center py-10 text-red-500">데이터를 불러오는 데 실패했습니다.</p>;
+  
   return (
     <div className="space-y-4">
-      <div className="flex items-center text-2xl text-primary-900 font-bold">
+      <div className="flex items-center text-2xl text-primary-900 dark:text-white font-bold">
       <YearMonthDropdown
         year={selectedYear}
         month={selectedMonth}
@@ -34,29 +39,27 @@ const StatisticsPage = () => {
       </div>
       {/* 상단 요약 영역 */}
       <div className="w-full">
-        <SummarySwiper
-          month={selectedMonth}
-        />
+      {statistic &&
+        <SummarySwiper month={selectedMonth} stat={statistic} />
+      }
       </div>
 
       {/* 중단 차트 영역 */}
       <div className="grid gap-4 2xl:grid-cols-[3fr_2fr]">
-        <Frame className="bg-white px-0">
-          <h2 className="text-lg font-semibold mb-4 mx-7">{selectedYear}년 월별 소비</h2>
-          <YearlyLineChart />
+        <Frame className="bg-white dark:bg-white/10 px-0">
+          <h2 className="text-lg font-semibold mb-4 mx-7 dark:text-white">{selectedYear}년 월별 소비</h2>
+          <YearlyLineChart year={selectedYear} month={selectedMonth} />
         </Frame>
-        <Frame className="bg-white px-0">
-          <EmotionCategoryPieChart />
+        <Frame className="bg-white dark:bg-white/10 px-0">
+          <EmotionCategoryPieChart year={selectedYear} month={selectedMonth + 1}  />
         </Frame>
       </div>
 
       {/* 하단 리스트 영역 */}
       <Frame>
-        <h2 className="text-lg font-semibold mb-4">{monthLabel}월 소비 내역</h2>
-        <div className="overflow-x-auto">
-          <WalletList
-            data={sampleListData}
-          />
+        <h2 className="text-lg font-semibold mb-4 dark:text-white">{monthLabel}월 소비 내역</h2>
+        <div className="overflow-x-auto lg:max-h-[300px]">
+          <WalletList data={list.data?.list.flatMap(day => day.entries) ?? []} />
         </div>
       </Frame>
     </div>

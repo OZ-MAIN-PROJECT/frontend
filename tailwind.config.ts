@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -40,6 +41,11 @@ export default {
         'emotion-satisfaction': '#16DBCC',
         'emotion-exhaustion': '#686C80',
         'emotion-anticipation': '#FF9243',
+
+        'dark-900': '#1E1F21',
+        'dark-800': '#2C2D30',
+        'dark-500': '#AAAAAA',
+        'dark-200': '#CCCCCC',
       },
       fontFamily: {
         pretendard: ['Pretendard', 'sans-serif'],

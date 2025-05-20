@@ -10,6 +10,7 @@ import PasswordConfirm from './PasswordConfirm';
 import { usePasswordValidation } from '@/hooks/auth/usePasswordValidation';
 import { useSignup } from '@/hooks/auth/useSignup';
 import { useNavigate } from 'react-router-dom';
+import { useDuplicateCheck } from '@/hooks/auth/useDuplicateCheck';
 
 const SignupForm = () => {
   const [userInfo, setUserInfo] = useState({
@@ -30,6 +31,25 @@ const SignupForm = () => {
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isNicknameChecked, SetIsNicknameChecked] = useState(false);
 
+  const emailCheck = useDuplicateCheck();
+  const nicknameCheck = useDuplicateCheck();
+
+  const checkEmail = async (value: string) => {
+    const result = await emailCheck.check('email', value);
+    setIsEmailChecked(!result);
+    return result;
+  };
+  const checkNickname = async (value: string) => {
+    const result = await nicknameCheck.check('nickname', value);
+    SetIsNicknameChecked(!result);
+    return result;
+  };
+
+  // 이메일 유효성 검사
+  const handleEmailChange = (value: string) => {
+    return isValidEmail(value) ? null : '올바른 이메일 형식이 아닙니다.';
+  };
+
   // 회원가입 완료 안내 모달
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,31 +69,6 @@ const SignupForm = () => {
     validatePassword(updated.password, updated.passwordConfirm);
   };
 
-  // 이메일 유효성 검사
-  const handleEmailChange = (value: string) => {
-    return isValidEmail(value) ? null : '올바른 이메일 형식이 아닙니다.';
-  };
-
-  // 이메일 중복검사
-  const checkEmailAvailability = async (email: string) => {
-    if (email === 'test@mail.com') {
-      setIsEmailChecked(false);
-      return '이미 사용 중인 이메일입니다.';
-    }
-    setIsEmailChecked(true);
-    return null;
-  };
-
-  // 닉네임 중복검사
-  const checkNicknameAvailability = async (nickname: string) => {
-    if (nickname === 'test') {
-      SetIsNicknameChecked(false);
-      return '이미 사용 중인 닉네임입니다.';
-    }
-    SetIsNicknameChecked(true);
-    return null;
-  };
-
   // 제출 전 검사
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -88,7 +83,7 @@ const SignupForm = () => {
     if (!isEmailChecked) return setFormError('이메일 중복 확인을 완료해주세요.');
     if (!isNicknameChecked) return setFormError('닉네임 중복 확인을 완료해주세요.');
     if (userInfo.password !== userInfo.passwordConfirm) return setFormError('비밀번호가 일치하지 않습니다.');
-    if (passwordError) return setFormError(passwordError)
+    if (passwordError) return setFormError(passwordError);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordConfirm: _omit, ...signupPayload } = userInfo;
@@ -99,13 +94,13 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (success) setIsModalOpen(true);
-  }, [success])
+  }, [success]);
 
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
     <>
-      <form className="w-[500px] mb-20" onSubmit={handleSubmit}>
+      <form className='w-[300px] sm:w-[500px] mb-20' onSubmit={handleSubmit}>
         {/* 이름 */}
         <Input placeholder="이름" value={userInfo.name} onChange={handleChange('name')} className="h-[60px] w-full" />
 
@@ -113,8 +108,13 @@ const SignupForm = () => {
         <InputWithCheckButton
           placeholder="닉네임"
           value={userInfo.nickname}
-          onChange={value => setUserInfo(prev => ({ ...prev, nickname: value }))}
-          checkAvailability={checkNicknameAvailability}
+          filed="nickname"
+          onChange={value => {
+            setUserInfo(prev => ({ ...prev, nickname: value }));
+            SetIsNicknameChecked(false);
+            nicknameCheck.reset();
+          }}
+          checkAvailability={checkNickname}
           successMessage="사용 가능한 닉네임입니다."
           duplicateMessage="이미 사용중인 닉네임입니다."
         />
@@ -124,9 +124,14 @@ const SignupForm = () => {
           placeholder="이메일"
           type="email"
           value={userInfo.email}
-          onChange={value => setUserInfo(prev => ({ ...prev, email: value }))}
+          filed="email"
+          onChange={value => {
+            setUserInfo(prev => ({ ...prev, email: value }));
+            setIsEmailChecked(false);
+            emailCheck.reset();
+          }}
           validate={handleEmailChange}
-          checkAvailability={checkEmailAvailability}
+          checkAvailability={checkEmail}
           successMessage="사용 가능한 이메일입니다."
           duplicateMessage="이미 사용중인 이메일입니다."
         />

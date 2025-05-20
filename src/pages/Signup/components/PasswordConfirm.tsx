@@ -8,7 +8,7 @@ interface PasswordConfirmProps {
 }
 const PasswordConfirm = ({ password, passwordConfirm, onChange, error }: PasswordConfirmProps) => {
   return (
-    <div className='w-[500px]'>
+    <div className='w-full'>
       <Input
         placeholder="비밀번호"
         type="password"

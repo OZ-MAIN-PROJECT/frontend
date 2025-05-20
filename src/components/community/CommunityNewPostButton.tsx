@@ -14,13 +14,7 @@ const CommunityNewPostButton = ({ to, postType }: CommunityNewPostProps) => {
     navigate(to, { state: { type: postType } });
   };
 
-  return (
-    <IconButton
-      icon={PenLine}
-      onClick={handleClick}
-      ariaLabel="커뮤니티 글 작성하기"
-    />
-  );
+  return <IconButton icon={PenLine} onClick={handleClick} ariaLabel="커뮤니티 글 작성하기" />;
 };
 
 export default CommunityNewPostButton;
