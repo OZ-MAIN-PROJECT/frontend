@@ -13,11 +13,13 @@ import CommentList from './CommentList';
 import PostMoreButton from './PostMoreButton';
 import CommunityTitle from './CommunityTitle';
 import CommunityNewPostButton from '@/components/community/CommunityNewPostButton';
+import { useLike } from '@/hooks/useLike';
 
 const PostDetail = () => {
   const { postId, type } = useParams<{ postId: string; type: PostType }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   const { user } = useAuthStore();
 
   const {
@@ -30,10 +32,12 @@ const PostDetail = () => {
     enabled: !!postId,
   });
 
+  const { isLiked, likes, toggleLike } = useLike(post?.isLiked ?? false, post?.likes ?? 0, post?.id ?? '');
+
   if (isLoading) return <p className="p-4">로딩 중...</p>;
   if (isError || !post) return <p className="p-4">게시글을 찾을 수 없습니다.</p>;
 
-  const { id, title, imageUrl, content, createdAt, likes, comments, views, author } = post;
+  const { id, title, imageUrl, content, createdAt, comments, views, author } = post;
   const isOwner = post.isOwner || user?.nickname === author.nickname;
   const formattedDate = format(new Date(createdAt), 'yyyy.MM.dd HH:mm');
 
@@ -87,8 +91,7 @@ const PostDetail = () => {
         <div className="flex items-center justify-between text-gray-400 text-xs mt-4">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
-              <LikeButton size={14} onToggle={() => {}} />
-              <span className="text-primary-500">{likes}</span>
+              <LikeButton isLiked={isLiked} likes={likes} onClick={toggleLike} />
             </div>
             {type !== 'notice' && (
               <div className="flex items-center gap-1">

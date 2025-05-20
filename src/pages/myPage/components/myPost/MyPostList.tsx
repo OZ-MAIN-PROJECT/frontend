@@ -30,7 +30,6 @@ const MyPostList = ({ type, controls }: MyPostListProps) => {
               key={post.id}
               post={post}
               viewType={controls.viewType}
-              onLikeToggle={() => {}}
               onCommentClick={() => {}}
             />
           ))}

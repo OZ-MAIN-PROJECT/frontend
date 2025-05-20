@@ -15,7 +15,7 @@ const PostList = ({ posts, viewType }: PostListProps) => {
   return (
     <div className={viewType === 'grid' ? 'grid grid-cols-1 gap-2' : 'flex flex-col gap-2'}>
       {posts.map(post => (
-        <PostCard key={post.id} post={post} viewType={viewType} onLikeToggle={() => {}} onCommentClick={() => {}} />
+        <PostCard key={post.id} post={post} viewType={viewType} onCommentClick={() => {}} />
       ))}
     </div>
   );
