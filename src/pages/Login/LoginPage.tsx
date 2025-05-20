@@ -21,7 +21,7 @@ const LoginPage = () => {
             </div>
         </div>
         {/* 오른쪽 이미지 영역 */}
-        <div className="hidden xl:block">
+        <div className="hidden xl:block bg-transparent">
           <img className='max-w-[650px]' src={Welcome} />
         </div>
       </div>

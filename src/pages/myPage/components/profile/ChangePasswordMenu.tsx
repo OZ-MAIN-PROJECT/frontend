@@ -13,7 +13,7 @@ function ChangePasswordMenu() {
         className="flex justify-between py-4 border-b-2 border-t-2 cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
-        <div className="flex gap-2 items-center text-gray-300">
+        <div className="flex gap-2 items-center text-black dark:text-gray-300">
           <Lock size={16} />
           <span>비밀번호 변경</span>
         </div>

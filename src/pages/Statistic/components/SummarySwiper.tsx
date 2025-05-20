@@ -45,9 +45,9 @@ const SummarySwiper = ({ month, stat }:SummarySwiperProps) => {
     >
       <SwiperSlide>
         <Frame className="bg-accent-blue space-y-3 text-white h-full">
-          <h2 className="text-lg font-medium">{monthLabel}월 소비 금액</h2>
-          <p className="text-2xl font-semibold">총 {formatAmount(stat.totalExpenseAmount)}</p>
-          <p className="opacity-50 text-sm">지난달 보다 {stat.increaseRate.toFixed(0)}% {stat.increaseAmount >= 0 ? " 증가" : " 감소"}어요!</p>
+          <h2 className="text-lg font-medium text-white">{monthLabel}월 소비 금액</h2>
+          <p className="text-2xl font-semibold text-white">총 {formatAmount(stat.totalExpenseAmount)}</p>
+          <p className="opacity-50 text-sm text-white">지난달 보다 {stat.increaseRate.toFixed(0)}% {stat.increaseAmount >= 0 ? " 증가" : " 감소"}했어요!</p>
         </Frame>
       </SwiperSlide>
       <SwiperSlide>
