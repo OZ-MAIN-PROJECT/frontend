@@ -50,7 +50,7 @@ function App() {
         {/* 게시글 관련 페이지 */}
         <Route path="/community/:type/:postId" element={<MainLayout><PostDetail /></MainLayout>} /> {/* 게시글 상세 먼저! */}
         <Route path="/community/:type" element={<MainLayout><CommunityList /></MainLayout>} /> {/* 게시판 리스트 */}
-        <Route path="/community/write" element={<MainLayout><PostWrite /></MainLayout>} />
+        <Route path="/community/:type/write" element={<MainLayout><PostWrite /></MainLayout>} />
 
         {/* 404 처리 라우트 추가 */}
         <Route path="*" element={<NotFoundPage />} />
