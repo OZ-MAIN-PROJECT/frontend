@@ -1,5 +1,5 @@
-import ChangePasswordMenu from './userMenu/ChangePasswordMenu';
-import WithdrawMenu from './userMenu/WithdrawMenu';
+import ChangePasswordMenu from './ChangePasswordMenu';
+import WithdrawMenu from './WithdrawMenu';
 
 const UserMenu = () => {
 

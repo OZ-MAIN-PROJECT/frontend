@@ -1,11 +1,11 @@
-import InformationCard from './components/InformationCard';
-import UserMenu from './components/UserMenu';
+import InformationCard from './components/profile/InformationCard';
+import UserMenu from './components/profile/UserMenu';
 import { useEffect, useState } from 'react';
 import { getMyInfo } from '@/apis/authApi';
 import { User } from '@/types/auth';
 import { BookHeart, UserPen } from 'lucide-react';
 import { useAuthStore } from '@/stores/useAuthStore';
-import MyPostCard from './components/MyPostsCard';
+import MyPostCard from './components/myPost/MyPostsCard';
 
 const MyPage = () => {
   const [myProfile, setMyProfile] = useState<User | null>(null);

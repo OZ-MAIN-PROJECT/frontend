@@ -1,5 +1,5 @@
-import CommunityTitle from './CommunityTitle';
-import ViewToggleButton from './ViewToggleButton';
+import CommunityTitle from '../../../../components/community/CommunityTitle';
+import ViewToggleButton from '../../../../components/community/ViewToggleButton';
 import { SortType, ViewType } from '@/types/Post';
 
 interface Props {

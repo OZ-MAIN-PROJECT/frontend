@@ -1,6 +1,6 @@
-import CommunityListHeader from '@/components/community/CommunityListHeader';
+import CommunityListHeader from '@/pages/myPage/components/myPost/CommunityListHeader';
 import { useNavigate, useParams } from 'react-router-dom';
-import MyPostList from './components/MyPostList';
+import MyPostList from './components/myPost/MyPostList';
 import { MyPostType } from '@/types/auth';
 import { useState } from 'react';
 import { SortType, ViewType } from '@/types/Post';
