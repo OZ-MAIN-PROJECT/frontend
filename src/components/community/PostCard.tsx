@@ -6,7 +6,8 @@ import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
 import AuthorInfo from './AuthorInfo';
 import { Eye } from 'lucide-react';
-import { useLike } from '@/hooks/useLike';
+import { usePostStatsStore } from '@/stores/usePostStatsStore';
+
 
 interface ExtendedProps extends PostCardProps {
   viewType: 'list' | 'grid';
@@ -20,7 +21,9 @@ const PostCard = ({ post, viewType, onCommentClick }: ExtendedProps) => {
   const formattedDate = format(new Date(post.createdAt), 'yyyy.MM.dd HH:mm');
   const isNotice = post.type === 'notice';
 
-  const { isLiked, likes, toggleLike } = useLike(post?.isLiked ?? false, post?.likes ?? 0, post?.id ?? '');
+  const postStats = usePostStatsStore(state => state.postStats[post.id]);
+  const views = postStats?.views ?? 0;
+  const comments = postStats?.comments ?? 0;
 
   return (
     <div
@@ -65,12 +68,12 @@ const PostCard = ({ post, viewType, onCommentClick }: ExtendedProps) => {
         {!isNotice && (
           <div className="flex items-center gap-1">
             <CommentButton size={14} onClick={onCommentClick} />
-            <span>{post.comments}</span>
+            <span>{comments}</span>
           </div>
         )}
         <div className="flex items-center gap-1 ml-auto text-gray-400">
           <IconWrapper icon={Eye} size={14} />
-          <span>{post.views}</span>
+          <span>{views}</span>
         </div>
       </div>
     </div>
