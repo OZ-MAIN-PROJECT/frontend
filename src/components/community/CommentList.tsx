@@ -9,12 +9,25 @@ import IconWrapper from './IconWrapper';
 import { CornerDownRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { usePostStatsStore } from '@/stores/usePostStatsStore';
 
 const CommentList = ({ communityUuid }: { communityUuid: string }) => {
   const queryClient = useQueryClient();
   const { user } = useAuthStore();
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [replyTargetId, setReplyTargetId] = useState<number | null>(null);
+
+  const handleCommentCreated = () => {
+    usePostStatsStore.getState().incrementComment(communityUuid);
+  };
+
+  const handleReplyDeleted = () => {
+    usePostStatsStore.getState().decrementComment(communityUuid);
+  };
+
+  const handleRootCommentDeleted = (childCount: number) => {
+    usePostStatsStore.getState().decrementComment(communityUuid, 1 + childCount);
+  };
 
   const { data: comments = [], isLoading } = useQuery<Comment[]>({
     queryKey: ['comments', communityUuid],
@@ -24,8 +37,9 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
   const createMutation = useMutation({
     mutationFn: ({ content, parentCommentId }: { content: string; parentCommentId?: number | null }) =>
       createComment({ communityUuid, content, parentCommentId }),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['comments', communityUuid] });
+      handleCommentCreated();
     },
   });
 
@@ -40,8 +54,15 @@ const CommentList = ({ communityUuid }: { communityUuid: string }) => {
 
   const deleteMutation = useMutation({
     mutationFn: (commentId: number) => deleteComment({ communityUuid, commentId }),
-    onSuccess: () => {
+    onSuccess: (_, commentId) => {
       queryClient.invalidateQueries({ queryKey: ['comments', communityUuid] });
+      const isRoot = comments.find(c => c.id === commentId);
+      if (isRoot) {
+        const childCount = isRoot.children?.length ?? 0;
+        handleRootCommentDeleted(childCount);
+      } else {
+        handleReplyDeleted();
+      }
     },
   });
 
