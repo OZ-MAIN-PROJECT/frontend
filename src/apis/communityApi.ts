@@ -58,6 +58,11 @@ export const createCommunityPost = async (data: CommunityCreateRequest): Promise
   return { id };
 };
 
+// export const createCommunityPost = async(data : CommunityCreateRequest) =>{
+//   const response = await api.post(END_POINT.COMMUNITY, {data}) 
+//   return response.data
+// }
+
 export const updateCommunityPost = async (communityUuid: string, data: CommunityCreateRequest): Promise<void> => {
   const formData = new FormData();
   formData.append('title', data.title);

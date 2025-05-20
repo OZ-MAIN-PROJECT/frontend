@@ -86,14 +86,14 @@ const PostWrite = () => {
       <div className="relative w-full max-w-[800px] mx-auto px-4 sm:px-6">
         <CommunityTitle title={isEdit ? '게시글 수정' : '게시글 작성'} />
 
-        <div className="border bg-white rounded-lg p-6 shadow-sm">
+        <div className="border bg-white dark:bg-gray-700 rounded-lg p-6 shadow-sm">
           <div className="mb-4">
             <div className="relative inline-block w-full">
               <select
                 value={selectedCategory}
                 onChange={e => setSelectedCategory(e.target.value as PostType)}
                 disabled={isEdit}
-                className={`appearance-none w-full text-lg font-semibold text-primary-800 border-b-2 border-primary-800 bg-transparent focus:outline-none pl-2 pr-8 py-2 ${isEdit ? 'cursor-not-allowed opacity-70' : ''}`}
+                className={`appearance-none w-full text-lg font-semibold text-primary-800 dark:text-gray-300 border-b-2 border-primary-800 bg-transparent focus:outline-none pl-2 pr-8 py-2 ${isEdit ? 'cursor-not-allowed opacity-70' : ''}`}
               >
                 {categoryOptions.map(option => (
                   <option key={option.value} value={option.value}>
