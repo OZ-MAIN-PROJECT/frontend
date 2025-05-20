@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 
-interface PostCardProps {
+interface MyPostCardProps {
   title : string;
   icon : React.ReactNode;
   count : number;
   type : "written" | "liked";
 }
 
-const PostCard = ({title, icon, count, type} : PostCardProps) => {
+const MyPostCard = ({title, icon, count, type} : MyPostCardProps) => {
 
   return (
   <div className="bg-white rounded-md w-full sm:w-60 p-4">
@@ -21,4 +21,4 @@ const PostCard = ({title, icon, count, type} : PostCardProps) => {
 );
 };
 
-export default PostCard;
+export default MyPostCard;

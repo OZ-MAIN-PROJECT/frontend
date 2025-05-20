@@ -26,7 +26,7 @@ export const END_POINT = {
   USERS_LOGIN: '/api/users/login/',
   USERS_MYPAGE: '/api/users/mypage/',
   USERS_LOGOUT: '/api/users/logout/',
-  MYPAGE_POSTS: '/api/mypage/posts/',
+  MYPAGE_POSTS: '/api/users/mypage/posts/',
   USERS_FIND_PASSWORD: '/api/users/find-password/',
   USERS_CHANGE_PASSWORD : '/api/users/mypage/change-password/',
   USERS_RESET_PASSWORD : '/api/users/reset-password/',

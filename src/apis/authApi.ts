@@ -98,10 +98,12 @@ export const updatePassword = async (currentPassword: string, newPassword: strin
 };
 
 // 내 포스트 조회
-export const getMyPosts = async () => {
-  const response = await api.get(END_POINT.MYPAGE_POSTS);
+export const getMyPosts = async (type : 'written' | 'liked') => {
+  const response = await api.get(END_POINT.MYPAGE_POSTS, { 
+    params : type === 'liked' ? {filter : 'liked'} : undefined,
+  });
   console.log(response.data);
-  return response.data;
+  return response.data.results;
 };
 
 // 비밀번호 찾기
