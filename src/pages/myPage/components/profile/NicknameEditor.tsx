@@ -1,7 +1,7 @@
 import { Edit } from 'lucide-react';
 import { useState } from 'react';
 import { useDuplicateCheck } from '@/hooks/auth/useDuplicateCheck';
-import { useUpdateNickname } from '@/hooks/auth/useUpdateProfile';
+import { useUpdateNickname } from '@/hooks/myPage/useUpdateProfile';
 import { useAuthStore } from '@/stores/useAuthStore';
 
 interface NicknameEditorProps {

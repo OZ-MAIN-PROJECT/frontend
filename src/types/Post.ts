@@ -91,3 +91,6 @@ export interface PostCardProps {
   post: Post;
   onClick?: (postId: string) => void;
 }
+
+export type ViewType = 'grid' | 'list';
+export type SortType = 'recent' | 'popular';

@@ -27,6 +27,7 @@ const CommunityList = () => {
     queryKey: ['communityList', type, sortType],
     queryFn: ({ pageParam = 1 }) => getCommunityList({ type: toServerPostType(type), page: pageParam, size: 5 }),
     getNextPageParam: lastPage => (lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined),
+    initialPageParam: 1,
   });
 
   const posts = data?.pages.flatMap(page => page.results) ?? [];
