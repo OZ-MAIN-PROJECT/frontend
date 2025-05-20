@@ -25,12 +25,12 @@ const PostCard = ({ post, viewType, onCommentClick }: ExtendedProps) => {
 
   return (
     <div
-      className={`w-full bg-white rounded-lg border p-5 shadow-sm cursor-pointer ${
+      className={`w-full bg-white dark:bg-gray-700 dark:border-gray-600 rounded-lg border p-5 shadow-sm cursor-pointer ${
         viewType === 'list' ? 'flex flex-col gap-2' : 'flex flex-col gap-4'
       }`}
       onClick={() => navigate(`/community/${post.type}/${post.id}`, { state: { type: post.type } })}
     >
-      <div className="text-xs text-primary-500 flex items-center gap-2">
+      <div className="text-xs text-primary-500 dark:text-gray-300 flex items-center gap-2">
         <AuthorInfo author={post.author} />
         <span className="ml-2">{formattedDate}</span>
       </div>

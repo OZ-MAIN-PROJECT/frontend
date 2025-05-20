@@ -13,4 +13,18 @@
     display: flex;
     flex-direction: column;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-primary-800 dark:text-white;
+  }
+
+  p {
+    @apply text-gray-800 dark:text-gray-200;
+  }
+
+  input, textarea {
+    @apply text-gray-800 dark:text-gray-200;
+    @apply bg-white dark:bg-gray-700;
+    outline: none;
+  }
 }

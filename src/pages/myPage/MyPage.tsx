@@ -31,7 +31,7 @@ const MyPage = () => {
     <>
       <div className="flex flex-col min-h-screen items-center">
         <div className="w-[320px] sm:w-[500px]">
-          <h2 className="text-2xl font-bold mb-6 dark:text-gray-200">내정보</h2>
+          <h2 className="text-2xl font-bold mb-6">내정보</h2>
           {!myProfile ? (
             <ProfileSkeleton />
           ) : (

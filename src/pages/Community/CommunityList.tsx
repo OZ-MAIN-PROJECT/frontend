@@ -68,14 +68,14 @@ const CommunityList = () => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-sm text-primary-500">
           <button
-            className={`${sortType === 'recent' ? 'font-semibold text-primary-800' : ''}`}
+            className={`${sortType === 'recent' ? 'font-semibold text-primary-800 dark:text-primary-300' : ''}`}
             onClick={() => setSortType('recent')}
           >
             최신순
           </button>
           <span className="text-gray-400">·</span>
           <button
-            className={`${sortType === 'popular' ? 'font-semibold text-primary-800' : ''}`}
+            className={`${sortType === 'popular' ? 'font-semibold text-primary-800 dark:text-primary-300' : ''}`}
             onClick={() => setSortType('popular')}
           >
             인기순
@@ -90,8 +90,8 @@ const CommunityList = () => {
         <PostList posts={sortedPosts} viewType={viewType} boardType={type} />
       )}
 
-      <div ref={observerRef} className="h-12" />
-      {isFetchingNextPage && <p className="text-center text-sm text-gray-400">불러오는 중...</p>}
+      <div ref={observerRef} />
+      {isFetchingNextPage && <PostCardSkeleton viewType={viewType} />}
 
       <div className="fixed bottom-8 right-8 z-50">
         <CommunityNewPostButton to={`/community/${type}/write`} postType={type} />

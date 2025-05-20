@@ -70,7 +70,7 @@ const PostDetail = () => {
     <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6">
       <CommunityTitle title={getPostTypeLabel(type!)} />
 
-      <div className="border bg-white rounded-lg p-[30px] shadow-sm">
+      <div className="border bg-white dark:bg-gray-700 rounded-lg p-[30px] shadow-sm">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <AuthorInfo author={author} />

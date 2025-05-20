@@ -17,7 +17,7 @@ const WithdrawMenu = () => {
       <div className="flex justify-between py-4 border-b-2 cursor-pointer">
         <div className="flex gap-2 items-center text-accent-red" onClick={() => setIsWithdrawOpen(true)}>
           <Ban size={16} />
-          <span className="">회원탈퇴</span>
+          <span className='text-accent-red'>회원탈퇴</span>
         </div>
         <span>&gt;</span>
       </div>
