@@ -56,6 +56,7 @@ const PostDetail = () => {
       queryClient.invalidateQueries({ queryKey: ['communityList'] });
       navigate(`/community/${type}`);
     } catch (error) {
+      console.error(error);
       alert('게시글 삭제 중 오류가 발생했습니다.');
     }
   };

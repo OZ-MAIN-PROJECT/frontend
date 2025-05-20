@@ -37,27 +37,22 @@ export interface CommentRaw {
   userUuid?: string;
   nickname: string;
   profileImage?: string;
+  children?: CommentRaw[];
   commentReplies?: CommentRaw[];
 }
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////
 // 📝 게시글 관련 API
-/////////////////////////////////////////////////
+//////////////////////////////////////////////
 
 export const createCommunityPost = async (data: CommunityCreateRequest): Promise<{ id: string }> => {
   const formData = new FormData();
   formData.append('title', data.title);
   formData.append('content', data.content);
-  formData.append('type', data.type); // 이미 ServerPostType
+  formData.append('type', data.type);
   if (data.image) formData.append('image', data.image);
 
-  for (const pair of formData.entries()) {
-    console.log('FormData Entry:', pair[0], pair[1]);
-  }
-
   const response = await api.post(END_POINT.COMMUNITY, formData);
-  console.log('[게시글 등록 응답]', response);
-
   const id = response.data?.communityUuid || response.data?.id;
   if (!id) throw new Error('게시글 ID가 응답에 없습니다.');
   return { id };
@@ -70,8 +65,7 @@ export const updateCommunityPost = async (communityUuid: string, data: Community
   formData.append('type', data.type);
   if (data.image) formData.append('image', data.image);
 
-  const response = await api.patch(END_POINT.COMMUNITY_DETAIL(communityUuid), formData);
-  console.log('[게시글 수정 응답]', response.data);
+  await api.patch(END_POINT.COMMUNITY_DETAIL(communityUuid), formData);
 };
 
 export const deleteCommunityPost = async (communityUuid: string) => {
@@ -151,9 +145,9 @@ export const unlikeCommunityPost = async (communityUuid: string) => {
   await api.delete(END_POINT.COMMUNITY_LIKE(communityUuid));
 };
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////
 // 💬 댓글 관련 API
-/////////////////////////////////////////////////
+//////////////////////////////////////////////
 
 export const createComment = async ({
   communityUuid,
@@ -174,13 +168,17 @@ export const createComment = async ({
 
 export const getComments = async (communityUuid: string): Promise<Comment[]> => {
   const response = await api.get(END_POINT.COMMENT(communityUuid));
-  const flatCommentResponses: CommentRaw[] = response.data.results || [];
+  const flatCommentResponses: CommentRaw[] = response.data.commentReplies || [];
 
   return flatCommentResponses.map((parent: CommentRaw) => {
     const parentComment = mapCommentResponse(parent);
+
     if (parent.commentReplies && Array.isArray(parent.commentReplies)) {
       parentComment.children = parent.commentReplies.map(mapCommentResponse);
+    } else {
+      parentComment.children = [];
     }
+
     return parentComment;
   });
 };
@@ -204,17 +202,15 @@ export const deleteComment = async ({ communityUuid, commentId }: { communityUui
 
 const mapCommentResponse = (data: CommentRaw): Comment => ({
   id: data.commentId,
-  parentId: data.parentCommentId ?? null,
+  parentCommentId: data.parentCommentId ?? null,
   content: data.content,
   createdAt: data.createdAt,
   updatedAt: data.updatedAt,
   deletedAt: data.deletedAt ?? null,
-  isOwner: data.isOwner,
-  isLiked: data.isLiked ?? false,
-  likes: data.likes ?? 0,
   author: {
     id: data.userUuid ?? '',
     nickname: data.nickname,
     profileImage: data.profileImage ?? '',
   },
+  children: [],
 });

@@ -54,9 +54,9 @@ export interface Post {
   author: Author;
   isOwner: boolean;
   likes: number;
-  comments?: number;
+  comments: number;
   views: number;
-  isLiked?: boolean;
+  isLiked: boolean;
 }
 
 // 게시글 생성용
@@ -76,34 +76,15 @@ export interface CommunityListResponse {
   totalElements: number;
 }
 
-// 게시글 타입
-export interface Post {
-  id: string; // communityUuid
-  type: PostType;
-  title: string;
-  content: string;
-  imageUrl?: string;
-  createdAt: string;
-  updatedAt: string;
-  author: Author;
-  isOwner: boolean;
-  likes: number;
-  comments?: number;
-  views: number;
-  isLiked?: boolean;
-}
 export interface Comment {
   id: number;
-  parentId: number | null;
+  author: Author;
+  parentCommentId: number | null;
   content: string;
   createdAt: string;
   updatedAt?: string;
   deletedAt?: string | null;
-  isOwner: boolean;
-  isLiked?: boolean;
-  likes?: number;
-  author: Author & { nickname: string };
-  children?: Comment[];
+  children: Comment[];
 }
 
 export interface PostCardProps {
