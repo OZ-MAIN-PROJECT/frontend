@@ -6,9 +6,10 @@ import IconButton from '../components/common/IconButton';
 import { BanknoteArrowDown, BanknoteArrowUp, Plus } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import SelectLayer from '../components/common/SelectLayer';
-import AddWalletModal from '@/components/wallet/AddWalletModal';
-import WalletDetailModal from '@/components/wallet/WalletDetailModal';
-import WalletFormModal from '@/components/wallet/WalletFormModal';
+import WalletFormModal from '@/components/wallet/walletModal/WalletFormModal';
+import { useModalStore } from '@/stores/useModalStore';
+import WalletDetailModal from '@/components/wallet/walletModal/WalletDetailModal';
+import ThemeSettingModal from '@/components/layout/ThemeSettingModal';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
@@ -19,13 +20,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const currentPath = location.pathname;
   const showWalletButton = !currentPath.includes('/community');
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [type, setType] = useState<'INCOME' | 'EXPENSE' | null>(null);
-
-  const openModal = (type: 'INCOME' | 'EXPENSE') => {
-    setType(type);
-    setIsOpen(true);
-  };
+  const {openModal} = useModalStore();
 
   // 화면 크기에 따라 사이드바의 초기 상태 설정
   useEffect(() => {
@@ -50,7 +45,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="flex bg-gray-200 justify-end">
+    <div className="flex bg-gray-200 dark:bg-dark-900 justify-end">
       <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
       <div className="w-full lg:w-[calc(100%-250px)] flex flex-col min-h-screen">
         <Header toggleSidebar={toggleSidebar} />
@@ -66,7 +61,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                   icon: BanknoteArrowUp,
                   label: '수입 추가',
                   onClick: () => {
-                    openModal('INCOME');
+                    openModal('walletForm', { type: 'INCOME' });
                   },
                   className: 'text-primary-500 hover:text-accent-blue',
                 },
@@ -74,7 +69,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                   icon: BanknoteArrowDown,
                   label: '지출 추가',
                   onClick: () => {
-                    openModal('EXPENSE');
+                    openModal('walletForm', { type: 'EXPENSE' });
                   },
                   className: 'text-primary-500 hover:text-accent-red',
                 },
@@ -90,22 +85,11 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
             onClick={() => setLayerOpen(!layerOpen)}
             className="bg-accent-blue hover:bg-primary-800"
           />
-          {type && isOpen ? (
-            <AddWalletModal
-              type={type}
-              isOpen={isOpen}
-              onClose={() => {
-                setIsOpen(false);
-                setType(null);
-              }}
-            />
-          ) : (
-            ''
-          )}
         </div>
       )}
       <WalletDetailModal />
       <WalletFormModal />
+      <ThemeSettingModal />
     </div>
   );
 };

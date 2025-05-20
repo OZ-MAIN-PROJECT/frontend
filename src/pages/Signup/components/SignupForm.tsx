@@ -10,7 +10,7 @@ import PasswordConfirm from './PasswordConfirm';
 import { usePasswordValidation } from '@/hooks/auth/usePasswordValidation';
 import { useSignup } from '@/hooks/auth/useSignup';
 import { useNavigate } from 'react-router-dom';
-import { useDuplicateCheck } from '@/hooks/auth/useCheckDuplicate';
+import { useDuplicateCheck } from '@/hooks/auth/useDuplicateCheck';
 
 const SignupForm = () => {
   const [userInfo, setUserInfo] = useState({
@@ -100,7 +100,7 @@ const SignupForm = () => {
 
   return (
     <>
-      <form className="w-[500px] mb-20" onSubmit={handleSubmit}>
+      <form className='w-[300px] sm:w-[500px] mb-20' onSubmit={handleSubmit}>
         {/* 이름 */}
         <Input placeholder="이름" value={userInfo.name} onChange={handleChange('name')} className="h-[60px] w-full" />
 

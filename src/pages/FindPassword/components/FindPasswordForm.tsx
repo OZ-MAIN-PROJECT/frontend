@@ -6,7 +6,7 @@ import SecurityQuestion from '@/pages/Signup/components/SecurityQuestion';
 import { isValidEmail } from '@/utils/validators';
 import { useState } from 'react';
 
-const FindPasswordForm = ({onVerified} : {onVerified : () => void}) => {
+const FindPasswordForm = ({onVerified} : {onVerified : (email : string) => void}) => {
   const [email, setEmail] = useState('');
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
@@ -33,16 +33,16 @@ const FindPasswordForm = ({onVerified} : {onVerified : () => void}) => {
     // TODO 서버에 검증 요청
     try {
       await findPassword({email, question, answer});
-      onVerified();
+      onVerified(email);
     } catch (err) {
       console.log('본인 확인 싶패', err);
-      setFormError('등록된 회원 정보를 찾을 수 없습니다.')
+      setFormError('등록된 회원 정보를 찾을 수 없습니다.');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-[500px]">
-      <Input className="w-full h-[60px]" placeholder="이메일" value={email} onChange={handleEmailChange} />
+    <form onSubmit={handleSubmit} className="w-[300px] sm:w-[500px]">
+      <Input className="h-[60px]" placeholder="이메일" value={email} onChange={handleEmailChange} />
       {emailError && <p className="text-sm text-accent-red">{emailError}</p>}
       {/* 본인확인용 질문 */}
       <SecurityQuestion

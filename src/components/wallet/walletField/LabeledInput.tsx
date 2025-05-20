@@ -8,7 +8,7 @@ const LabeledInput = ({ value, onChange, disabled }: walletFormProps<string>) =>
 
   return (
     <input 
-      className="outline-none text-xl w-full disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+      className="outline-none text-lg lg:text-xl w-full disabled:bg-transparent dark:bg-white/0 dark:text-white disabled:text-gray-600 disabled:cursor-not-allowed"
       placeholder="타이틀을 입력하세요."
       value={value}
       onChange={handleChange}

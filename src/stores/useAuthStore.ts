@@ -8,6 +8,7 @@ interface AuthState {
   user: SimpleUser | null;
   setAuth: (token: string, refresh : string, user: SimpleUser) => void;
   setLogout: () => void;
+  setNickname : (nickname : string) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -25,6 +26,10 @@ export const useAuthStore = create<AuthState>()(
         set({ access_token: null, refresh_token: null, user: null })
         console.log('로그아웃 요청')
       },
+      setNickname: (nickname) => 
+        set((state) => ({
+          user : state.user ? {...state.user, nickname} : null,
+        }))
     }),
     {
       name: 'auth-storage',

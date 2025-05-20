@@ -13,8 +13,8 @@ const HomePage = () => {
 
   const today = new Date();
 
-  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
-  const [selectedMonth, setSelectedMonth] = useState(today.getMonth()); // 0-based
+  const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth()); // 0-based
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -35,8 +35,8 @@ const HomePage = () => {
         {/* 보기 모드 전환 버튼 */}
         <div className="flex gap-2 items-center mb-2 justify-end">
           <button
-            className={`p-0 bg-white ${
-              viewMode === "calendar" ? "text-primary-800" : "text-gray-500"
+            className={`p-0dark:bg-none ${
+              viewMode === "calendar" ? "text-primary-800 dark:text-white" : "text-gray-500 dark:text-gray-600"
             }`}
             onClick={() => setViewMode("calendar")}
           >
@@ -44,8 +44,8 @@ const HomePage = () => {
           </button>
           <span className="border-gray-500 border rounded-full h-5"></span>
           <button
-            className={`p-0 bg-white ${
-              viewMode === "list" ? "text-primary-800" : "text-gray-500"
+            className={`p-0 ${
+              viewMode === "list" ? "text-primary-800 dark:text-white" : "text-gray-500 dark:text-gray-600"
             }`}
             onClick={() => setViewMode("list")}
           >
@@ -55,11 +55,11 @@ const HomePage = () => {
         <div className="mx-auto w-full sm:w-3/4">
             <div className="relative w-fit mx-auto">
                 <div
-                    className="flex gap-2 items-center text-2xl sm:text-4xl font-bold cursor-pointer justify-center text-primary-800"
+                    className="flex gap-2 items-center text-2xl sm:text-4xl font-bold cursor-pointer justify-center text-primary-800 dark:text-white" 
                     onClick={() => setPickerOpen(!pickerOpen)}
                 >
                     {selectedYear}.{(selectedMonth + 1).toString().padStart(2, "0")}{" "}
-                    <Triangle className="transform rotate-180 fill-current text-primary-800 w-4 h-4 sm:w-6 sm:h-6" />
+                    <Triangle className="transform rotate-180 fill-current text-primary-800 dark:text-white w-4 h-4 sm:w-6 sm:h-6" />
                 </div>
 
                 {pickerOpen && (
@@ -103,16 +103,16 @@ const HomePage = () => {
       {/* 오른쪽 사이드 */}
       <aside className="flex flex-col gap-4">
         {/* 해당 월 총 수입/지출 */}
-        <Frame className="bg-white space-y-5">
+        <Frame className="bg-white dark:bg-white/10 space-y-5">
             <div className="flex justify-between">
-                <h3 className="flex gap-1"><BanknoteArrowUp />총 수입</h3>
+                <h3 className="flex gap-1 dark:text-white"><BanknoteArrowUp />총 수입</h3>
                 <p className="text-accent-blue text-lg font-medium">
                   {totalData?.income?.toLocaleString() || 0}원
                 </p>
             </div>
             <div className="border-b"></div>
             <div className="flex justify-between">
-                <h3 className="flex gap-1"><BanknoteArrowDown />총 지출</h3>
+                <h3 className="flex gap-1 dark:text-white"><BanknoteArrowDown />총 지출</h3>
                 <p className="text-accent-red text-lg font-medium">
                   -{totalData?.expense?.toLocaleString() || 0}원
                 </p>
@@ -121,7 +121,7 @@ const HomePage = () => {
 
         {/* 선택된 날짜 및 상세 내역 */}
         <Frame>
-          <h3 className="font-semibold text-gray-700 mb-2">
+          <h3 className="font-semibold text-gray-700 dark:text-dark-200 mb-2">
             {selectedDate
               ? `${selectedDate.getFullYear()}년 ${
                   selectedDate.getMonth() + 1
@@ -136,8 +136,8 @@ const HomePage = () => {
                   <div className="flex font-medium gap-2 items-center h-10">
                   <span className={`w-5 h-5 rounded-md ${getEmotionBgClass(entry.emotion)}`}></span>
                     <span>{entry.title}</span>
-                        <span className={`ml-auto ${entry.type == "income" ? "text-accent-blue" : "text-accent-red"}`}>
-                        {(entry.type === "income" ? entry.amount : -entry.amount).toLocaleString()}원
+                        <span className={`ml-auto ${entry.type == "INCOME" ? "text-accent-blue" : "text-accent-red"}`}>
+                        {(entry.type === "INCOME" ? entry.amount : -entry.amount).toLocaleString()}원
                     </span>
 
                   </div>
