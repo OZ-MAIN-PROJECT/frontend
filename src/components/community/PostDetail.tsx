@@ -5,7 +5,6 @@ import { Eye } from 'lucide-react';
 import { deleteCommunityPost, getCommunityDetail } from '@/apis/communityApi';
 import { PostType, getPostTypeLabel } from '@/types/Post';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { usePostStatsStore } from '@/stores/usePostStatsStore';
 import AuthorInfo from './AuthorInfo';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
@@ -14,7 +13,7 @@ import CommentList from './CommentList';
 import PostMoreButton from './PostMoreButton';
 import CommunityTitle from './CommunityTitle';
 import CommunityNewPostButton from '@/components/community/CommunityNewPostButton';
-import { useEffect } from 'react';
+import { useLike } from '@/hooks/useLike';
 
 const PostDetail = () => {
   const { postId, type } = useParams<{ postId: string; type: PostType }>();
@@ -33,31 +32,12 @@ const PostDetail = () => {
     enabled: !!postId,
   });
 
-  const postStats = usePostStatsStore(state =>
-    postId && state.postStats[postId] ? state.postStats[postId] : undefined,
-  );
-  const views = Math.max(0, (postStats?.views ?? 0) - 1);
-  const comments = postStats?.comments ?? 0;
-
-  useEffect(() => {
-    let called = false;
-
-    if (postId && !called) {
-      usePostStatsStore.getState().incrementView(postId);
-      called = true;
-    }
-  }, [postId]);
-
-  useEffect(() => {
-    if (postId && typeof post?.comments === 'number') {
-      usePostStatsStore.getState().setComments(postId, post.comments);
-    }
-  }, [postId, post?.comments]);
+  const { isLiked, likes, toggleLike } = useLike(post?.isLiked ?? false, post?.likes ?? 0, post?.id ?? '');
 
   if (isLoading) return <p className="p-4">로딩 중...</p>;
   if (isError || !post) return <p className="p-4">게시글을 찾을 수 없습니다.</p>;
 
-  const { id, title, imageUrl, content, createdAt, likes, author } = post;
+  const { id, title, imageUrl, content, createdAt, comments, views, author } = post;
   const isOwner = post.isOwner || user?.nickname === author.nickname;
   const formattedDate = format(new Date(createdAt), 'yyyy.MM.dd HH:mm');
 
@@ -80,6 +60,7 @@ const PostDetail = () => {
       queryClient.invalidateQueries({ queryKey: ['communityList'] });
       navigate(`/community/${type}`);
     } catch (error) {
+      console.error(error);
       alert('게시글 삭제 중 오류가 발생했습니다.');
     }
   };

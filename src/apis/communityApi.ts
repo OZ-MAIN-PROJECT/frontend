@@ -134,6 +134,15 @@ export const getCommunityDetail = async (communityUuid: string): Promise<Post> =
   };
 };
 
+export const likeCommunityPost = async (communityUuid: string) => {
+  const response = await api.post(END_POINT.COMMUNITY_LIKE(communityUuid));
+  return response.data;
+};
+
+export const unlikeCommunityPost = async (communityUuid: string) => {
+  await api.delete(END_POINT.COMMUNITY_LIKE(communityUuid));
+};
+
 //////////////////////////////////////////////
 // 💬 댓글 관련 API
 //////////////////////////////////////////////
@@ -162,8 +171,8 @@ export const getComments = async (communityUuid: string): Promise<Comment[]> => 
   return flatCommentResponses.map((parent: CommentRaw) => {
     const parentComment = mapCommentResponse(parent);
 
-    if (parent.children && Array.isArray(parent.children)) {
-      parentComment.children = parent.children.map(mapCommentResponse);
+    if (parent.commentReplies && Array.isArray(parent.commentReplies)) {
+      parentComment.children = parent.commentReplies.map(mapCommentResponse);
     } else {
       parentComment.children = [];
     }
@@ -192,7 +201,7 @@ export const deleteComment = async ({ communityUuid, commentId }: { communityUui
 const mapCommentResponse = (data: CommentRaw): Comment => ({
   id: data.commentId,
   parentCommentId: data.parentCommentId ?? null,
-  content: data.deletedAt ? '작성자가 삭제한 댓글입니다.' : data.content,
+  content: data.content,
   createdAt: data.createdAt,
   updatedAt: data.updatedAt,
   deletedAt: data.deletedAt ?? null,
