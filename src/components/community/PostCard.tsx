@@ -8,15 +8,15 @@ import AuthorInfo from './AuthorInfo';
 import { Eye } from 'lucide-react';
 import { usePostStatsStore } from '@/stores/usePostStatsStore';
 
+
 interface ExtendedProps extends PostCardProps {
   viewType: 'list' | 'grid';
-  onLikeToggle?: () => void;
   onCommentClick?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
-const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProps) => {
+const PostCard = ({ post, viewType, onCommentClick }: ExtendedProps) => {
   const navigate = useNavigate();
   const formattedDate = format(new Date(post.createdAt), 'yyyy.MM.dd HH:mm');
   const isNotice = post.type === 'notice';
@@ -63,8 +63,7 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
 
       <div className="flex items-center gap-4 text-xs text-primary-500 mt-2">
         <div className="flex items-center gap-1">
-          <LikeButton size={14} onToggle={onLikeToggle} />
-          <span>{post.likes}</span>
+          <LikeButton isLiked={isLiked} likes={likes} onClick={toggleLike} />
         </div>
         {!isNotice && (
           <div className="flex items-center gap-1">

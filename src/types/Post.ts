@@ -40,7 +40,8 @@ export const getPostTypeLabel = (type: PostType): string => {
 };
 
 // 작성자 정보 타입 (사용자 정보 중 일부만 사용)
-export type Author = Pick<User, 'id' | 'nickname' | 'profileImage'>;
+export type Author = Pick<User, 'nickname' | 'profileImage'>;
+
 
 // 게시글 타입
 export interface Post {
@@ -91,3 +92,6 @@ export interface PostCardProps {
   post: Post;
   onClick?: (postId: string) => void;
 }
+
+export type ViewType = 'grid' | 'list';
+export type SortType = 'recent' | 'popular';

@@ -1,18 +1,23 @@
-import { useState } from 'react';
-import CommunityTitle from './CommunityTitle';
-import ViewToggleButton from './ViewToggleButton';
+import CommunityTitle from '../../../../components/community/CommunityTitle';
+import ViewToggleButton from '../../../../components/community/ViewToggleButton';
+import { SortType, ViewType } from '@/types/Post';
 
 interface Props {
   title: string;
+  controls : {
+    viewType : ViewType;
+    sortType : SortType;
+  }
+  onViewTypeChange : (v : ViewType) => void;
+  onSortTypeChange : (v : SortType) => void
 }
 
-const CommunityListHeader = ({ title }: Props) => {
-  const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
-  const [sortType, setSortType] = useState<'recent' | 'popular'>('recent');
+const CommunityListHeader = ({ title, controls, onViewTypeChange, onSortTypeChange }: Props) => {
+  const {viewType, sortType} = controls;
 
   return (
     <>
-      <div className="relative w-full max-w-[800px] mx-auto px-4 sm:px-6">
+      <div>
         <CommunityTitle title={title} />
 
         {/* 정렬 및 뷰토글 */}
@@ -20,20 +25,20 @@ const CommunityListHeader = ({ title }: Props) => {
           <div className="flex items-center gap-2 text-sm text-primary-500">
             <button
               className={`${sortType === 'recent' ? 'font-semibold text-primary-800' : ''}`}
-              onClick={() => setSortType('recent')}
+              onClick={() => onSortTypeChange('recent')}
             >
               최신순
             </button>
             <span className="text-gray-400">·</span>
             <button
               className={`${sortType === 'popular' ? 'font-semibold text-primary-800' : ''}`}
-              onClick={() => setSortType('popular')}
+              onClick={() => onSortTypeChange('popular')}
             >
               인기순
             </button>
           </div>
 
-          <ViewToggleButton viewType={viewType} onChange={setViewType} />
+          <ViewToggleButton viewType={viewType} onChange={onViewTypeChange} />
         </div>
       </div>
     </>

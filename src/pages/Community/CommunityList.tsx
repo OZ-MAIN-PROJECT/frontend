@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useState, useRef, useEffect } from 'react';
 import { getCommunityList } from '@/apis/communityApi';
@@ -11,22 +11,29 @@ import CommunityNewPostButton from '@/components/community/CommunityNewPostButto
 const VALID_TYPES: PostType[] = ['emotion', 'notice', 'question'];
 
 const CommunityList = () => {
-  const { type } = useParams<{ type: PostType }>();
+  const { type: rawType } = useParams<{ type: PostType }>();
   const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
   const [sortType, setSortType] = useState<'recent' | 'popular'>('recent');
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  if (!type || !VALID_TYPES.includes(type)) {
-    return <p className="text-center pt-10 text-red-500">잘못된 게시판 접근입니다.</p>;
-  }
+  const type = VALID_TYPES.includes(rawType as PostType) ? (rawType as PostType) : null;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!type) navigate('/*');
+  }, [type, navigate]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery<
     CommunityListResponse,
     Error
   >({
     queryKey: ['communityList', type, sortType],
-    queryFn: ({ pageParam = 1 }) => getCommunityList({ type: toServerPostType(type), page: pageParam, size: 5 }),
+    queryFn: ({ pageParam = 1 }) =>
+      getCommunityList({ type: toServerPostType(type ?? 'emotion'), page: pageParam as number, size: 5 }),
     getNextPageParam: lastPage => (lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined),
+    initialPageParam: 1,
+    enabled: !!type,
   });
 
   const posts = data?.pages.flatMap(page => page.results) ?? [];
@@ -50,6 +57,8 @@ const CommunityList = () => {
     if (observerRef.current) observer.observe(observerRef.current);
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  if (!type) return null;
 
   return (
     <div className="relative w-full max-w-[800px] mx-auto px-4 sm:px-6">

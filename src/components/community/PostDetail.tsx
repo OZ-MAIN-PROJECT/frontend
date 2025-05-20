@@ -20,6 +20,7 @@ const PostDetail = () => {
   const { postId, type } = useParams<{ postId: string; type: PostType }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   const { user } = useAuthStore();
 
   const {
@@ -109,8 +110,7 @@ const PostDetail = () => {
         <div className="flex items-center justify-between text-gray-400 text-xs mt-4">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
-              <LikeButton size={14} onToggle={() => {}} />
-              <span className="text-primary-500">{likes}</span>
+              <LikeButton isLiked={isLiked} likes={likes} onClick={toggleLike} />
             </div>
             {type !== 'notice' && (
               <div className="flex items-center gap-1">
