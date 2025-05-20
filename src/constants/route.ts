@@ -37,7 +37,7 @@ export const END_POINT = {
   COMMUNITY_LIST: ({ type, page, size }: { type: string; page: number; size: number }) =>
     `/api/community?type=${type}&page=${page}&size=${size}`,
   COMMUNITY_DETAIL: (communityUuid: string) => `/api/community/${communityUuid}/`,
-  COMMUNITY_LIKE: (communityUuid: string) => `/api/community/${communityUuid}/like`,
+  COMMUNITY_LIKE: (communityUuid: string) => `/api/community/${communityUuid}/like/`,
 
   // comment : 커뮤니티 댓글 관련 api
   COMMENT: (communityUuid: string) => `/api/community/${communityUuid}/comment/`,

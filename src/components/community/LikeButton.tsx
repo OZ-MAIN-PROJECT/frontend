@@ -1,30 +1,25 @@
 import { Heart } from 'lucide-react';
-import { useState } from 'react';
-import IconWrapper from './IconWrapper';
 
 interface LikeButtonProps {
-  defaultLiked?: boolean;
-  onToggle?: (liked: boolean) => void;
-  size?: number;
+  isLiked: boolean;
+  likes: number;
+  onClick?: () => void;
 }
 
-const LikeButton = ({ defaultLiked = false, onToggle, size = 20 }: LikeButtonProps) => {
-  const [isLiked, setIsLiked] = useState(defaultLiked);
-  const handleClick = () => {
-    const next = !isLiked;
-    setIsLiked(next);
-    onToggle?.(next);
-  };
-
+const LikeButton = ({ isLiked, likes, onClick }: LikeButtonProps) => {
   return (
-    <IconWrapper
-      icon={Heart}
-      size={size}
-      fill={isLiked ? '#ef4444' : '#9ca3af'}
-      color="none"
-      onClick={handleClick}
-      ariaLabel="좋아요"
-    />
+    <>
+      <Heart
+        size={20}
+        stroke="none"
+        fill={isLiked ? '#ef4444' : '#9ca3af'}
+        onClick={e => {
+          e.stopPropagation();
+          onClick?.();
+        }}
+      />
+      <span className="text-primary-500">{likes}</span>
+    </>
   );
 };
 

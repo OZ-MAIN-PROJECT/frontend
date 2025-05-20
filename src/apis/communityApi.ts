@@ -211,3 +211,13 @@ const mapCommentResponse = (data: CommentRaw): Comment => ({
   },
   children: [],
 });
+
+export const postLike = async ({ communityUuid }: { communityUuid: string }) => {
+  const response = await api.post(END_POINT.COMMUNITY_LIKE(communityUuid));
+  return response.data;
+};
+
+export const deleteLike = async ({ communityUuid }: { communityUuid: string }) => {
+  const response = await api.delete(END_POINT.COMMUNITY_LIKE(communityUuid));
+  return response.data;
+};
