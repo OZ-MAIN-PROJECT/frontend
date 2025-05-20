@@ -11,8 +11,14 @@ export const formatDate = (value: string | Date): string => {
     // 유효한 날짜인지 체크
     if (isNaN(date.getTime())) return 'Invalid Date';
   
-    return date.toISOString().split('T')[0]; // YYYY-MM-DD 형식
+    // 로컬(KST) 기준으로 YYYY-MM-DD 포맷
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
   };
+  
 /**
  * 숫자 회계형식 포맷팅 함수
  * @param data - 숫자 값
