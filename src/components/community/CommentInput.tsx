@@ -43,7 +43,7 @@ const CommentInput = ({
         className={`w-full text-sm px-4 py-2 resize-none overflow-hidden
           ${isEditMode
             ? 'border border-gray-300 focus:border-gray-300 focus:ring-0 rounded-none' 
-            : 'border-none focus:ring-1 focus:ring-primary-400'
+            : 'border-none focus:ring-1 focus:ring-primary-400 dark:bg-white/10 dark:text-white'
           }
         `}
         rows={1}

@@ -35,7 +35,7 @@ const ChangePasswordModal = ({ isOpen, onClose, isFromFindPassword = false, emai
     <>
       <BlankModal isOpen={isOpen} onClose={handleClose}>
         <div className="flex flex-col justify-center items-center w-[500px]">
-          <h2 className="text-2xl font-semibold mb-10">비밀번호 변경</h2>
+          <h2 className="text-2xl font-semibold mb-10 dark:text-white">비밀번호 변경</h2>
           <ChangePasswordForm onSubmit={handleChangePassword} isFromFindPassword={isFromFindPassword} email={email} />
         </div>
       </BlankModal>

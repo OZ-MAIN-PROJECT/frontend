@@ -8,11 +8,11 @@ const FindPasswordPage = () => {
   const [email, setEmail] = useState('');
 
   return (
-    <div className="flex flex-col items-center h-full min-h-screen bg-gray-200">
+    <div className="flex flex-col items-center h-full min-h-screen bg-gray-200 dark:bg-dark-900">
       <div className="my-10 flex flex-col items-center w-[350px] sm:min-w-[700px] border-b-2 border-gr">
         <Logo />
-        <h2 className='text-center font-semibold text-xl sm:text-3xl'>비밀번호 찾기</h2>
-        <p className='my-8 text-center text-gray-800 text-sm sm:text-xl'>가입 시 등록한 정보를 입력해 주세요. <br/>
+        <h2 className='text-center font-semibold text-xl sm:text-3xl dark:text-white'>비밀번호 찾기</h2>
+        <p className='my-8 text-center text-gray-800 text-sm sm:text-xl dark:text-dark-200'>가입 시 등록한 정보를 입력해 주세요. <br/>
         입력하신 정보를 확인한 후, 비밀번호 재설정 안내를 드립니다.</p>
       </div>
       <div className="felx felx-col h-full justify-center">

@@ -63,14 +63,14 @@ const CommunityList = () => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-sm text-primary-500">
           <button
-            className={`${sortType === 'recent' ? 'font-semibold text-primary-800' : ''}`}
+            className={`${sortType === 'recent' ? 'font-semibold text-primary-800 dark:text-white' : ''}`}
             onClick={() => setSortType('recent')}
           >
             최신순
           </button>
           <span className="text-gray-400">·</span>
           <button
-            className={`${sortType === 'popular' ? 'font-semibold text-primary-800' : ''}`}
+            className={`${sortType === 'popular' ? 'font-semibold text-primary-800 dark:text-white' : ''}`}
             onClick={() => setSortType('popular')}
           >
             인기순

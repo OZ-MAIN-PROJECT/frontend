@@ -51,7 +51,7 @@ const ChangePasswordForm = ({ onSubmit, isFromFindPassword, email }: Props) => {
     <form className="flex flex-col items-center gap-4 w-full mb-10">
       {!isFromFindPassword && (
         <>
-          <p className="text-gray-600 ">현재 비밀번호 입력</p>
+          <p className="text-gray-600 dark:text-dark-200">현재 비밀번호 입력</p>
           <Input
             className="h-[60px] w-[500px]"
             type="password"
@@ -61,7 +61,7 @@ const ChangePasswordForm = ({ onSubmit, isFromFindPassword, email }: Props) => {
           />
         </>
       )}
-      <p className="text-gray-600 ">새로운 비밀번호 입력</p>
+      <p className="text-gray-600 dark:text-dark-200">새로운 비밀번호 입력</p>
       <PasswordConfirm
         password={newPassword}
         passwordConfirm={confirm}

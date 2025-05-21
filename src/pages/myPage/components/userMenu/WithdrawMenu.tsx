@@ -19,7 +19,7 @@ const WithdrawMenu = () => {
           <Ban size={16} />
           <span className="">회원탈퇴</span>
         </div>
-        <span>&gt;</span>
+        <span className="dark:text-white">&gt;</span>
       </div>
       {/* 탈퇴 모달 */}
       <BlankModal

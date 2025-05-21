@@ -14,7 +14,7 @@ interface DropdownProps<T extends string> {
 const getWrapperClass = (style: 'outline' | 'underline') => {
   return style === 'underline'
     ? 'border-b-2 border-primary-800 rounded-none bg-transparent'
-    : 'border border-gray-300 rounded-md bg-white';
+    : 'border border-gray-300 rounded-md bg-white dark:bg-white/10 dark:border-none';
 };
 
 const DropdownInput = <T extends string>({ items, selected, style, placeholder, onSelect, className, disabled }: DropdownProps<T>) => {

@@ -57,13 +57,13 @@ const InputWithCheckButton = ({
 
   return (
     <div className="w-full mb-4">
-      <div className="flex p-1 border h-[60px] items-center border-gray-300 bg-white rounded-md overflow-hidden">
+      <div className="flex p-1 border h-[60px] items-center border-gray-300 bg-white dark:bg-white/10 dark:border-none rounded-md overflow-hidden">
         <input
           type={type}
           value={value}
           placeholder={placeholder}
           onChange={handleChange}
-          className="flex-1 px-4 py-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none"
+          className="flex-1 px-4 py-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none dark:text-white dark:bg-white/0"
         />
         <Button
           className="mr-1 font-normal"

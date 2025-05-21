@@ -30,7 +30,7 @@ const MyPage = () => {
     <>
         <div className="flex flex-col min-h-screen items-center">
           <div className='w-[320px] sm:w-[500px]'>
-            <h2 className="text-2xl font-bold mb-6">내정보</h2>
+            <h2 className="text-2xl font-bold mb-6 dark:text-white">내정보</h2>
             {!myProfile ? (
               <div className="flex justify-center items-center">
                 <p className='my-4 text-gray-500'>로딩 중...</p>

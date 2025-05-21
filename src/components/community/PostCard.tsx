@@ -32,15 +32,15 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
     // 리스트 뷰
     return (
       <div
-        className="w-full bg-white rounded-lg border p-5 shadow-sm flex justify-between items-center gap-4 cursor-pointer"
+        className="w-full bg-white dark:bg-white/10 dark:border-none rounded-lg border p-5 shadow-sm flex justify-between items-center gap-4 cursor-pointer"
         onClick={handleClick}
       >
         {/* 왼쪽 텍스트 */}
         <div className="flex flex-col flex-1">
           <AuthorInfo author={author} />
-          <h2 className="text-base font-semibold text-gray-800 mt-2 line-clamp-1">{title}</h2>
+          <h2 className="text-base font-semibold text-gray-800 dark:text-white mt-2 line-clamp-1">{title}</h2>
           <p className="text-gray-600 text-sm mt-1 line-clamp-2">{content}</p>
-          <div className="flex items-center gap-6 text-primary-500 text-xs mt-3">
+          <div className="flex items-center gap-6 text-primary-500 dark:text-dark-500 text-xs mt-3">
             <div className="flex items-center gap-1">
               <LikeButton size={14} onToggle={onLikeToggle} />
               <span>{likes}</span>
@@ -71,20 +71,20 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
   // 피드 뷰
   return (
     <div
-      className="w-full bg-white rounded-lg border p-5 shadow-sm flex flex-col gap-4 cursor-pointer"
+      className="w-full bg-white dark:bg-white/10 dark:border-none rounded-lg border p-5 shadow-sm flex flex-col gap-4 cursor-pointer"
       onClick={handleClick}
     >
       {/* 작성자/작성일 */}
       <div className="flex items-center gap-2">
         <AuthorInfo author={author} />
-        <span className="text-xs text-primary-500">{formattedDate}</span>
+        <span className="text-xs text-primary-500 dark:text-dark-500">{formattedDate}</span>
       </div>
 
       {/* 제목 */}
       <div className="flex items-center justify-between">
         <h2
           className={`text-lg font-semibold ${
-            post.type === 'notice' ? 'text-accent-red' : 'text-gray-800'
+            post.type === 'notice' ? 'text-accent-red' : 'text-gray-800 dark:text-white'
           }`}
         >
           {title}
@@ -103,7 +103,7 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
       {/* 이미지 */}
       {imageUrl && (
         <div
-          className="w-full bg-gray-300 flex items-center justify-center rounded-md overflow-hidden"
+          className="w-full bg-gray-300 dark:bg-black flex items-center justify-center rounded-md overflow-hidden"
           style={{ maxHeight: '400px' }}
         >
           <img
@@ -115,7 +115,7 @@ const PostCard = ({ post, viewType, onLikeToggle, onCommentClick }: ExtendedProp
       )}
 
       {/* 내용 */}
-      <p className="text-gray-700 text-sm line-clamp-2">{content}</p>
+      <p className="text-gray-700 dark:text-dark-500 text-sm line-clamp-2">{content}</p>
 
       {/* 좋아요/댓글/조회수 */}
       <div className="flex items-center justify-between text-gray-400 text-xs mt-4">

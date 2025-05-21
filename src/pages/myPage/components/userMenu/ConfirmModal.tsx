@@ -25,7 +25,7 @@ const ConfirmModal = ({ onConfirm }: { onConfirm: () => void }) => {
   return (
     <div className="flex justify-center w-[300px] sm:w-[500px] flex-col items-center text-center mb-10">
       <Lock size={60} color="#2D60FF" />
-      <h2 className="text-xl text-gray-800 mt-[34px] flex flex-wrap justify-center">
+      <h2 className="text-xl text-gray-800 dark:text-white mt-[34px] flex flex-wrap justify-center">
         본인 확인을 위해<br className="sm:hidden" /> 비밀번호를 입력해주세요.
       </h2>
       <div className="min-h-[20px] mt-[14px] text-accent-red flex flex-wrap justify-center">

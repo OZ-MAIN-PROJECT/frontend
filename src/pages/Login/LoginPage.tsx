@@ -6,11 +6,11 @@ import Logo from '@/components/common/Logo';
 const LoginPage = () => {
   return (
     <>
-      <div className="flex justify-center items-center h-screen gap-20">
+      <div className="flex justify-center items-center h-screen gap-20 dark:bg-dark-900">
         {/* 왼쪽 로그인 영역 */}
         <div className='flex flex-col gap-4 text-center items-center'>
           <div className='mb-5 sm:mb-20'>
-            <h2 className='text-xl sm:text-4xl'>감정 가계부</h2>
+            <h2 className='text-xl sm:text-4xl dark:text-white'>감정 가계부</h2>
             <Logo />
           </div>
           <LoginForm />

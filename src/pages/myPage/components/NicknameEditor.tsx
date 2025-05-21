@@ -44,7 +44,7 @@ const NicknameEditor = ({ currentNickname, onUpdated }: NicknameEditorProps) => 
           {isEditing ? (
             <>
               <input
-                className="bg-transparent border-b-2 outline-none"
+                className="bg-transparent border-b-2 outline-none dark:text-white"
                 value={nickname}
                 onChange={e => {
                   setNickname(e.target.value);
@@ -57,7 +57,7 @@ const NicknameEditor = ({ currentNickname, onUpdated }: NicknameEditorProps) => 
             </>
           ) : (
             <>
-              <p className="font-semibold text-lg">{nickname}</p>
+              <p className="font-semibold text-lg dark:text-white">{nickname}</p>
               <Edit
                 color="#c3c3c3"
                 size={16}

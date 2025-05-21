@@ -18,7 +18,7 @@ const AuthorProfileImage = ({ profileImageUrl, altText, size = 30 }: AuthorProfi
       className="rounded-full object-cover bg-gray-200"
     />
   ) : (
-    <UserRound size={size} className="rounded-full text-gray-400 bg-primary-500 p-1" />
+    <UserRound size={size} className="rounded-full text-gray-400 bg-primary-500 dark:bg-white/20 p-1" />
   );
 };
 

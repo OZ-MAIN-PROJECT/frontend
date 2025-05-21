@@ -124,9 +124,9 @@ const CommentList = () => {
                   author={root.author}
                   size={24}
                   fontSize="text-xs"
-                  textColor="text-gray-800"
+                  textColor="text-gray-80 dark:text-dark-200"
                 />
-                <span className="text-[10px] text-gray-400">{root.createdAt}</span>
+                <span className="text-[10px] text-gray-400 dark:text-dark-500">{root.createdAt}</span>
               </div>
               {root.isMine && editingCommentId !== root.id && (
                 <div
@@ -152,7 +152,7 @@ const CommentList = () => {
                 />
               </div>
             ) : (
-              <p className="text-sm text-gray-700 mt-1 ml-[34px] whitespace-pre-line">{root.content}</p>
+              <p className="text-sm text-gray-700 dark:text-dark-500 mt-1 ml-[34px] whitespace-pre-line">{root.content}</p>
             )}
           </div>
 

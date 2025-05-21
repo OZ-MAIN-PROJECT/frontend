@@ -8,7 +8,7 @@ interface AuthorInfoProps {
   textColor?: string;
 }
 
-const AuthorInfo = ({ author, size = 30, fontSize = 'text-sm', textColor = 'text-primary-800' }: AuthorInfoProps) => {
+const AuthorInfo = ({ author, size = 30, fontSize = 'text-sm', textColor = 'text-primary-800 dark:text-white' }: AuthorInfoProps) => {
   const { profileImageUrl, nickname } = author;
 
   return (
