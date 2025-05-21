@@ -49,11 +49,11 @@ const PostCard = ({ post, viewType, onCommentClick }: ExtendedProps) => {
       ) : (
         <div className="flex flex-col gap-2">
           <h2 className="text-base font-semibold text-gray-800 line-clamp-1">{post.title}</h2>
-          {post.imageUrl && (
+          {/* {post.imageUrl && (
             <div className="rounded-md overflow-hidden w-full">
               <img src={post.imageUrl} alt="게시글 이미지" className="w-full object-contain max-h-[400px]" />
             </div>
-          )}
+          )} */}
           <p className="text-gray-700 text-sm line-clamp-2">{post.content}</p>
         </div>
       )}
