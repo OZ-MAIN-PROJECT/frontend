@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { postLike, deleteLike } from '@/apis/communityApi';
 
 export const useLike = (initialLiked: boolean, initialCount: number, postId: string) => {
   const [isLiked, setIsLiked] = useState(initialLiked);
   const [likes, setLikes] = useState(initialCount);
+
+  useEffect(() => {
+    setIsLiked(initialLiked);
+    setLikes(initialCount);
+  }, [initialLiked, initialCount])
 
   // 안전 가드: postId가 유효하지 않으면 noop 반환
   if (!postId) return { isLiked: false, likes: 0, toggleLike: async () => {} };
